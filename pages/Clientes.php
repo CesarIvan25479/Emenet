@@ -342,38 +342,62 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- /.col-md-6 -->
-          <div class="col-md-5">
+          <div class="col-md-5 col-sm-12">
+            <!-- Default box -->
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Filtrar: </h3>
               </div>
-              <!-- /.card-header -->
               <div class="card-body">
-                Aqui se muestran lo clientes
+              <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <button type="button" class="btn btn-danger">Buscar</button>
+                  </div>
+                  <!-- /btn-group -->
+                  <input type="text" class="form-control" id="buscarCliente">
+                </div>
+                <br>
+                <div id="tablaClientes">
+                
+                </div>
+
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                Footer
+              </div>
+              <!-- /.card-footer-->
             </div>
             <!-- /.card -->
           </div>
-          <!-- /.col-md-6 -->
             
-            <!-- /.col-md-6 -->
-          <div class="col-md-7">
+        
+          <div class="col-md-7 col-sm-12">
+            <!-- Default box -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Información</h3>
+                <h3 class="card-title">Title</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
               </div>
-              <!-- /.card-header -->
               <div class="card-body">
-                Formulario Informacion Cliente
+                Start creating your amazing application!
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                Footer
+              </div>
+              <!-- /.card-footer-->
             </div>
             <!-- /.card -->
           </div>
-          <!-- /.col-md-6 -->
-            
             
         </div>
         <!-- /.row -->
@@ -413,10 +437,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
+<script src="../js/clientes.js"></script>
 </body>
 </html>
