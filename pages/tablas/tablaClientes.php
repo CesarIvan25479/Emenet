@@ -12,7 +12,7 @@
                 <tbody>
                 <?php
                 set_time_limit(0);
-                include '../php/ConexionSQL.php';
+                include '../../php/ConexionSQL.php';
                 $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE CLIENTE LIKE '%02376%'";
                 $resultado = sqlsrv_query($Conn, $consulta);
                 while ($datos = sqlsrv_fetch_array($resultado)){
