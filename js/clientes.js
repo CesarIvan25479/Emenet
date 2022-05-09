@@ -1,7 +1,7 @@
 document.getElementById("buscarCliente").addEventListener('keydown', ()=>{
     let tecla = event.keyCode;
-    if(tecla == 40){
-        alert("daf")
-        $('#tablaClientes').load('../pages/tablas/tablaClientes.php');
-    }
+    tecla == 40 ? $('#tablaClientes').load('../pages/tablas/tablaClientes.php') : '' ;
 }); 
+document.getElementById("btnBuscarCliente").addEventListener('click',() =>{
+    alert("Boton");
+});

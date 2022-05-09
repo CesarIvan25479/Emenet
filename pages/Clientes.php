@@ -15,8 +15,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="icon" href="../dist/img/Logosinfondo.svg">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -30,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="#" class="nav-link">Reporte pagos</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Clientes</a>
+        <a href="#" class="nav-link">Administración</a>
       </li>
     </ul>
 
@@ -54,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../index.html" class="brand-link">
+    <a href="../" class="brand-link">
       <img src="../dist/img/Logosinfondo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-5" style="opacity: .8">
       <span class="brand-text font-weight-light">Emenet Comunica...</span>
     </a>
@@ -74,7 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Buscar" aria-label="Search">
           <div class="input-group-append">
             <button class="btn btn-sidebar">
               <i class="fas fa-search fa-fw"></i>
@@ -88,7 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-              <li class="nav-item menu-open">
+              <li class="nav-item">
                 <a href="../index.html" class="nav-link active">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
@@ -106,7 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item menu-open">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-solid fa-users"></i>
                   <p>
@@ -116,7 +117,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./Clientes.php" class="nav-link">
+                    <a href="./Clientes.php" class="nav-link active">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Clientes</p>
                     </a>
@@ -139,13 +140,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Reporte Pagos</p>
+                      <p>Reporte Ventas</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="./OrdenesInstalacion.php" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ordenes Instalación</p>
                     </a>
@@ -292,7 +293,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="../index.html" class="nav-link">
                   <i class="nav-icon fas fa-archive"></i>
                   <p>
-                    AdminOLT
+                    Almacen
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -351,7 +352,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-body">
               <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
-                    <button type="button" class="btn btn-danger">Buscar</button>
+                    <button type="button" class="btn btn-danger" id="btnBuscarCliente">Buscar</button>
                   </div>
                   <!-- /btn-group -->
                   <input type="text" class="form-control" id="buscarCliente">
@@ -388,7 +389,73 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
               </div>
               <div class="card-body">
-                Start creating your amazing application!
+                  <div id="forminfo">
+                      <form>
+                          <div class="form-row">
+                              <div class="form-group col-md-3">
+                                  <label for="">Clave</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="CLIENTE" id="clave" name="clave" readonly>
+                              </div>
+                              <div class="form-group col-md-9">
+                                  <label for="">Nombre del cliente</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="NOMBRE" id="nombre" name="nombre" readonly>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-4">
+                                  <label for="">Estado</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="ESTADO" id="estado" name="estado" readonly>
+                              </div>
+                              <div class="form-group col-md-3">
+                                  <label for="">Código Postal</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="C. POSTAL" id="cp" name="cp" readonly>
+      
+                              </div>
+                              <div class="form-group col-md-5">
+                                  <label for="">Población</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="POBLACIÓN" id="poblacion" name="poblacion" readonly>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="">Colonia</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="COLONIA" id="colonia" name="colonia" readonly>
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="">Calle</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="CALLE" id="calle" name="calle" readonly>
+                              </div>
+                              <div class="form-group col-md-2">
+                                  <label for="">N. Exterior</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="NÚMERO EXTERIOR" id="numero" name="numero" readonly>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-8">
+                                  <label for="">Teléfono</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="TELÉFONO" id="telefono" name="telefono" readonly>
+                              </div>
+                              <div class="form-group col-md-2">
+                                  <label for="">Clasificacíon</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="CLASIFICACIÓN" id="clasificacion" name="clasificacion" readonly>
+                              </div>
+                              <div class="form-group col-md-2">
+                                  <label for="">Zona</label>
+                                  <input type="text" class="form-control form-control-sm" placeholder="ZONA" id="zon" name="zon" readonly>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                                    <div class="form-group col-md-2">
+                                        <label for="">L. Precio</label>
+                                        <input type="text" class="form-control form-control-sm" placeholder="PRECIO" id="precio" name="precio" readonly>
+                                    </div>
+                                    <div class="form-group col-md-10">
+                                        <label for="">Observaciones</label>
+                                        <textarea  name='observaciones' rows="4" cols="50" style="min-width: 100%" readonly id="obsr"></textarea>
+                                    </div>
+                                </div>
+                      </form>
+                  </div>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
@@ -407,6 +474,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
 
+  <div class="modal fade bs-example-modal-sm" id="IntFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <form name="PasarFecha" action="./ReportePagos.php" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Fecha Inicio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?php
+                    $FechaActual = date("Y-m-01");
+                    $fechaAnterior = date("Y-m-d",strtotime($FechaActual."- 5 month"));
+                    ?>
+                    <input class="form-control" type="date" name="FechaRep" value="<?php echo $fechaAnterior; ?>">
+                    <div class="mt-3" id='respuesta1'>
+                      <!--Muestra Cliente-->          
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Generar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -429,7 +524,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       ...
     </div>
     <!-- Default to the left -->
-    <strong>Emenet Comunicaciones <a href="https://adminlte.io"> m-net.mx</a>.</strong>
+    <strong>Emenet Comunicaciones <a href="https://m-net.mx"> m-net.mx</a>.</strong>
   </footer>
 </div>
 <!-- ./wrapper -->

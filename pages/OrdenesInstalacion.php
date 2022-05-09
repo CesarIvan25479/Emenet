@@ -1,6 +1,3 @@
-<?php
-$_POST["FechaRep"] ? $FechaReporte = $_POST["FechaRep"] : header("location:../index.php");
-?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -10,15 +7,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reporte Ventas</title>
+  <title>Ordenes Instalación</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
-  <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
@@ -146,13 +140,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link active" data-toggle="modal" data-target="#IntFecha">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Reporte Ventas</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./OrdenesInstalacion.php" class="nav-link">
+                    <a href="./OrdenesInstalacion.php" class="nav-link active">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ordenes Instalación</p>
                     </a>
@@ -337,8 +331,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-8">
-            <h3 class="m-0">Reporte de ventas por cliente <small>Desde el día <?php echo $FechaReporte; ?></small></h3>
+          <div class="col-sm-6">
+            <h1 class="m-0">Clientes Punto de Venta</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -349,55 +343,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
+          
+            
+        
           <div class="col-md-12 col-sm-12">
             <!-- Default box -->
             <div class="card">
               <div class="card-header">
-                  <div class="form-row align-items-center">
-                      <div class="col-sm-3 my-1">
-                          <select class="form-control form-control-sm select2" style="width: 100%;">
-                              <option value="cesar">Cesar Ivan Rivera Castro</option>
-                              <option>Maria de los angeles Dionicio guerreo</option>
-                              <option>Dana sherlyn Beltran Sosa</option>
-                              <option>Isaac Fuentes Diaz</option>
-                              <option>Jordi Adrian Gonzalez Mora</option>
-                              <option>Maria del carmen Dionicio hernandez</option>
-                          </select>
-                      </div>
-                                                
-                      <div class="col-sm-3 my-1">
-                          <input class="form-control form-control-sm" type="date" id="FechaIn" name="FechaCliente" value="<?php echo $FechaReporte ?>">
-                      </div>
-                                                
-                      <div class="col-sm-2 my-1">
-                          <select name="opcion" class="form-control form-control-sm" id="opcion">
-                              <option>Mostrar</option>
-                              <option>Mostrar y Activar</option>  
-                          </select>
-                      </div>
-                      <div class="col-auto my-1">
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="TodasFechas" id="TodasFechas">
-                              <label class="form-check-label" for="TodasFechas">
-                                  Todas
-                              </label>
-                          </div>
-                      </div>
-                      <div class="col-sm-1 my-1">
-                          <select name="opcion" class="form-control form-control-sm" id="opcion">
-                              <option>RI</option>
-                              <option>RT</option>  
-                          </select>
-                      </div>
-                      <div class="col-auto my-1">
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="TodasFechas" id="TodasFechas">
-                              <label class="form-check-label" for="TodasFechas">
-                                  Todas
-                              </label>
-                          </div>
-                      </div>  
-                  </div>
+                <h3 class="card-title">Title</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
               </div>
               <div class="card-body">
                 Start creating your amazing application!
@@ -410,6 +372,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <!-- /.card -->
           </div>
+            
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -434,6 +397,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $fechaAnterior = date("Y-m-d",strtotime($FechaActual."- 5 month"));
                     ?>
                     <input class="form-control" type="date" name="FechaRep" value="<?php echo $fechaAnterior; ?>">
+                    <div class="mt-3" id='respuesta1'>
+                      <!--Muestra Cliente-->          
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -443,7 +409,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </form>
     </div>
 </div>
-
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -474,26 +439,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Select2 -->
-<script src="../plugins/select2/js/select2.full.min.js"></script>
-
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
-<!-- Page specific script -->
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-  })
-  
-</script>
+<script src="../js/clientes.js"></script>
 </body>
 </html>
