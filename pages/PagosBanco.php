@@ -7,16 +7,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home</title>
+  <title>Pagos Banco</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <link rel="icon" href="./dist/img/Logosinfondo.svg">
-
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="icon" href="../dist/img/Logosinfondo.svg">
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
 <div class="wrapper">
@@ -32,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="#" class="nav-link">Reporte pagos</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="Clientes" class="nav-link">Administración</a>
+        <a href="#" class="nav-link">Administración</a>
       </li>
     </ul>
 
@@ -56,8 +55,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="./" class="brand-link">
-      <img src="./dist/img/Logosinfondo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-5" style="opacity: .8">
+    <a href="../" class="brand-link">
+      <img src="../dist/img/Logosinfondo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-5" style="opacity: .8">
       <span class="brand-text font-weight-light">Emenet Comunica...</span>
     </a>
 
@@ -66,10 +65,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/profile-user.png" class="img-circle elevation-2" alt="User Image">
+          <img src="../dist/img/profile-user.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">El Cesar Ivan</a>
+          <a href="#" class="d-block">Isaac fuentes Nalgon</a>
         </div>
       </div>
 
@@ -90,10 +89,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-              <li class="nav-item menu-open">
+              <li class="nav-item">
                 <a href="../index.html" class="nav-link active">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <i class="fa-solid "></i>
                   <p>
                     Dashboard
                     <i class="right fas fa-angle-left"></i>
@@ -101,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Administración</p>
                     </a>
@@ -119,7 +117,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./pages/Clientes.php" class="nav-link">
+                    <a href="./Clientes.php" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Clientes</p>
                     </a>
@@ -148,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./pages/OrdenesInstalacion.php" class="nav-link">
+                    <a href="./OrdenesInstalacion.php" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ordenes Instalación</p>
                     </a>
@@ -156,7 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item menu-open">
                 <a href="../index.html" class="nav-link">
                   <i class="nav-icon fas fa-chart-line"></i>
                   <p>
@@ -166,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./pages/PagosBanco.php" class="nav-link">
+                    <a href="./PagosBanco.php" class="nav-link active">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Pagos Banco</p>
                     </a>
@@ -334,7 +332,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Starter Page</h1>
+            <h1 class="m-0">Lista de pagos por Banco</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -345,9 +343,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- /.col-md-6 -->
-          
-          <!-- /.col-md-6 -->
+          <div class="col-md-12 col-sm-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <div class="form-row align-items-center">
+                      <div class="col-sm-3 my-1">
+                          <select class="form-control form-control-sm" style="width: 100%;">
+                              <option>PENDIENTE</option>
+                              <option>REGISTRADOS</option>
+                              <option>FINALIZADO</option>
+                              <option>TODOS</option>
+                          </select>
+                      </div>                      
+                      <div class="col-sm-3 my-1">
+                          <select class="form-control form-control-sm" style="width: 100%;">
+                              <option>MAY 2022</option>
+                              <option>ENE 2022</option>
+                              <option>FEB 2022</option>
+                              <option>MAR 2022</option>
+                              <option>ABR 2022</option>
+                              <option>MAY 2022</option>
+                              <option>JUN 2022</option>
+                              <option>JUL 2022</option>
+                          </select>
+                      </div>
+                      <div class="col-auto my-1">
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="TodasFechas" id="TodasFechas">
+                              <label class="form-check-label" for="TodasFechas">
+                                  Todos los registros
+                              </label>
+                          </div>
+                      </div>  
+                  </div>
+              </div>
+              <div class="card-body">
+                Start creating your amazing application!
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                Footer
+              </div>
+              <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+          </div>
+            
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -358,7 +400,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <div class="modal fade bs-example-modal-sm" id="IntFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
-        <form name="PasarFecha" action="./pages/ReportePagos.php" method="POST">
+        <form name="PasarFecha" action="./ReportePagos.php" method="POST">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Fecha Inicio</h5>
@@ -369,7 +411,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="modal-body">
                     <?php
                     $FechaActual = date("Y-m-01");
-                    $fechaAnterior = date("Y-m-d",strtotime($FechaActual."- 6 month"));
+                    $fechaAnterior = date("Y-m-d",strtotime($FechaActual."- 5 month"));
                     ?>
                     <input class="form-control" type="date" name="FechaRep" value="<?=$fechaAnterior?>">
                     <div class="mt-3" id='respuesta1'>
@@ -384,7 +426,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </form>
     </div>
 </div>
-  
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -415,10 +456,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+<script src="../dist/js/adminlte.min.js"></script>
 </body>
 </html>
