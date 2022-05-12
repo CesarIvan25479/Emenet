@@ -1,3 +1,10 @@
+<?php
+include '../../php/ConexionSQL.php';
+$cliente = $_GET['cliente'];
+$consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente'";
+$resultado = sqlsrv_query($Conn, $consulta);
+?>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card-box table-responsive">
@@ -10,19 +17,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-                set_time_limit(0);
-                include '../../php/ConexionSQL.php';
-                $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE CLIENTE LIKE '%02376%'";
-                $resultado = sqlsrv_query($Conn, $consulta);
-                while ($datos = sqlsrv_fetch_array($resultado)){
-                ?>
+                <?php while ($datos = sqlsrv_fetch_array($resultado)): ?>
                     <tr>
-                        <th scope="row"><?php echo $datos['CLIENTE']?></th>
-                        <td><?php echo $datos['NOMBRE']?></td>
-                        <td><?php echo $datos['TIPO']?></td>
+                        <th scope="row" onclick="InfoCliente('<?=$datos['CLIENTE']?>')"><?=$datos['CLIENTE']?></th>
+                        <td onclick="InfoCliente('<?=$datos['CLIENTE']?>')"><?=$datos['NOMBRE']?></td>
+                        <td>
+                            <?php if($datos['TIPO'] == "BAJA"):?>
+                            <?php else: ?>
+                                <button class="btn btn-block btn-outline-success btn-xs" onclick="activar('<?=$datos['CLIENTE']?>')"><span class="fa fa-power-off"></span></button>
+                                <button class="btn btn-block btn-outline-danger btn-xs" onclick="desactivar('<?=$datos['CLIENTE']?>')"><span class="fa fa-power-off"></span></button>
+                            <?php endif;?>
+                        </td>
+                        
                     </tr>
-                <?php } ?>
+                <?php endwhile;?>
                 </tbody>
             </table>
         </div>

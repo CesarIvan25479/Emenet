@@ -365,7 +365,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                Footer
+               
               </div>
               <!-- /.card-footer-->
             </div>
@@ -377,7 +377,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Default box -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Title</h3>
+                <h3 class="card-title">Información Cliente</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -459,7 +459,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                Footer
+                <div id="menActivar"></div>
               </div>
               <!-- /.card-footer-->
             </div>
