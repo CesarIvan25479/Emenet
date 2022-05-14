@@ -332,7 +332,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Clientes Punto de Venta</h1>
+            <h1 class="m-0">Ordenes de Instalación</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -350,23 +350,117 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Default box -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Title</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
+                <div class="form-row align-items-center">
+                      <div class="col-sm-3 my-1">
+                          <input class="form-control form-control-sm" type="date" id="FechaIn" name="FechaCliente" value="<?php echo $FechaReporte ?>">
+                      </div>
+                                                
+                      <div class="col-sm-2 my-1">
+                          <select name="opcion" class="form-control form-control-sm" id="opcion">
+                              <option>Mostrar</option>
+                              <option>Mostrar y Activar</option>  
+                          </select>
+                      </div>
+                      <div class="col-sm-1 my-1">
+                        <label for="">dfd
+                        
+                        </label>
+                        <select name="opcion" class="form-control form-control-sm" id="opcion">
+                              <option>RI</option>
+                              <option>RT</option>  
+                          </select>
+                      </div>  
+                  </div>
               </div>
               <div class="card-body">
-                Start creating your amazing application!
+              <div class="row">
+                      <div class="col-sm-12">
+                          <div class="col-md-12">
+                            <h4>Cesar Ivan Rivera Castro<small> Santiago Tilapa121123 IFO</small></h4>
+                          </div>
+                          <div class="card-box table-responsive">
+                              <table class="table table-sm">
+                                  <thead class="thead-dark">
+                                      <tr>
+                                          <th>DOC</th>
+                                          <th>F. EM</th>
+                                          <th>MES-AÑO</th>            
+                                          <th>CLAVE</th>
+                                          <th>DESC.</th>
+                                          <th>TOTAL</th>            
+                                      </tr>
+                                  </thead>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                                  <tr class="table-primary">
+                                      <td>REM3232</td>
+                                      <td>2018-02-02</td>
+                                      <td>MAY 2021</td>
+                                      <td>RI</td>
+                                      <td>no se que </td>
+                                      <td>250</td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                Footer
               </div>
               <!-- /.card-footer-->
             </div>

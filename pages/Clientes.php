@@ -15,9 +15,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini sidebar-collapse dark-mode">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -352,10 +354,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-body">
               <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
-                    <button type="button" class="btn btn-danger" id="btnBuscarCliente">Buscar</button>
+                    <button type="button" class="btn btn-danger" id="btnBuscarCliente">Buscar <i class="fas fa-caret-square-down"></i></button>
                   </div>
                   <!-- /btn-group -->
-                  <input type="text" class="form-control" id="buscarCliente">
+                  <input type="text" class="form-control" id="buscarCliente" placeholder="Presiona flecha abajo o da clic en el boton buscar">
                 </div>
                 <br>
                 <div id="tablaClientes">
@@ -451,7 +453,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     <div class="form-group col-md-10">
                                         <label for="">Observaciones</label>
-                                        <textarea  name='observaciones' rows="4" cols="50" style="min-width: 100%" readonly id="obsr"></textarea>
+                                        <textarea  name='observaciones' rows="4"  style="min-width: 100%;background-color:#343a40;color:#fff" readonly id="obsr"></textarea>
                                     </div>
                                 </div>
                       </form>
@@ -535,6 +537,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <script src="../js/clientes.js"></script>

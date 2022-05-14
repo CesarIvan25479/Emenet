@@ -1,5 +1,23 @@
 <?php
 $_POST["FechaRep"] ? $FechaReporte = $_POST["FechaRep"] : header("location:../index.php");
+$fecha = explode("-",$FechaReporte);
+
+
+$FechaAnt = str_replace('-','',$FechaReporte);
+include '../php/ConexionSQL.php';
+date_default_timezone_set('America/Mexico_City');
+$fechaActualFormato = date('d-m-Y');
+$FechaActual=date('Ymd');
+
+
+$consulta = "SELECT DISTINCT C.NOMBRE, C.CLIENTE FROM 
+clients C INNER JOIN ventas V ON C.CLIENTE=V.CLIENTE INNER JOIN partvta P ON V.VENTA=P.VENTA 
+WHERE V.F_EMISION BETWEEN '$FechaAnt' AND '$FechaActual'";
+
+$resultado = sqlsrv_query($Conn, $consulta);
+
+
+
 ?>
 <!DOCTYPE html>
 <!--
@@ -338,7 +356,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-8">
-            <h3 class="m-0">Reporte de ventas por cliente <small>Desde el día <?php echo $FechaReporte; ?></small></h3>
+            <h3 class="m-0">Reporte de ventas por cliente 
+              <small>Desde el día <?=$fecha[2],"-",$fecha[1],"-",$fecha[0]?> al <?=$fechaActualFormato?></small></h3>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -353,20 +372,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Default box -->
             <div class="card">
               <div class="card-header">
+                  <form id="ActulizarReporte" method="post">
                   <div class="form-row align-items-center">
-                      <div class="col-sm-3 my-1">
-                          <select class="form-control form-control-sm select2" style="width: 100%;">
-                              <option value="cesar">Cesar Ivan Rivera Castro</option>
-                              <option>Maria de los angeles Dionicio guerreo</option>
-                              <option>Dana sherlyn Beltran Sosa</option>
-                              <option>Isaac Fuentes Diaz</option>
-                              <option>Jordi Adrian Gonzalez Mora</option>
-                              <option>Maria del carmen Dionicio hernandez</option>
+                      <div class="col-sm-3 my-1" id="oprime">
+                          <select class="form-control form-control-sm select2" style="width: 100%;" id="cliente" name="cliente">
+                              <option></option>
+                              <?php while ($clientes = sqlsrv_fetch_array($resultado)):?> 
+                              <option value="<?=$clientes['CLIENTE']?>"><?=$clientes['NOMBRE']?></option>
+                              <?php endwhile; ?>
                           </select>
                       </div>
                                                 
                       <div class="col-sm-3 my-1">
-                          <input class="form-control form-control-sm" type="date" id="FechaIn" name="FechaCliente" value="<?php echo $FechaReporte ?>">
+                          <input class="form-control form-control-sm" type="date" id="FechaIn" name="fechaReporte" value="<?php echo $FechaReporte ?>">
                       </div>
                                                 
                       <div class="col-sm-2 my-1">
@@ -377,114 +395,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                       <div class="col-auto my-1">
                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="TodasFechas" id="TodasFechas">
-                              <label class="form-check-label" for="TodasFechas">
+                              <input class="form-check-input" type="checkbox" name="todasFechas" id="todasFechas">
+                              <label class="form-check-label" for="todasFechas">
                                   Todas
                               </label>
                           </div>
                       </div>
-                      <div class="col-sm-1 my-1">
-                          <select name="opcion" class="form-control form-control-sm" id="opcion">
-                              <option>RI</option>
-                              <option>RT</option>  
-                          </select>
-                      </div>
                       <div class="col-auto my-1">
                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="TodasFechas" id="TodasFechas">
-                              <label class="form-check-label" for="TodasFechas">
-                                  Todas
+                              <input class="form-check-input" type="checkbox" name="todosConceptos" id="todosConceptos">
+                              <label class="form-check-label" for="todosConceptos">
+                                  Todas las ventas
                               </label>
                           </div>
                       </div>  
                   </div>
+                    </form>
               </div>
               <div class="card-body">
-                  <div class="row">
-                      <div class="col-sm-12">
-                          <div class="col-md-12">
-                            <h4>Cesar Ivan Rivera Castro<small> Santiago Tilapa121123 IFO</small></h4>
-                          </div>
-                          <div class="card-box table-responsive">
-                              <table class="table table-sm">
-                                  <thead class="thead-dark">
-                                      <tr>
-                                          <th>DOC</th>
-                                          <th>F. EM</th>
-                                          <th>MES-AÑO</th>            
-                                          <th>CLAVE</th>
-                                          <th>DESC.</th>
-                                          <th>TOTAL</th>            
-                                      </tr>
-                                  </thead>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
+                  <div id="tablaInternet"></div>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
@@ -567,6 +496,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- Page specific script -->
+<script src="../js/reportesPagos.js"></script>
 <script>
   $(function () {
     //Initialize Select2 Elements

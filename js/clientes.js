@@ -1,3 +1,5 @@
+
+
 document.getElementById("buscarCliente").addEventListener('keydown', ()=>{
     let tecla = event.keyCode;
     if (tecla == 40 ){
@@ -39,21 +41,27 @@ function desactivar(datos){
             let cliente = data.infoCliente;
             let router = data.infoRouter.Nombre;
             if(data.estado == "errorrouter"){
-                let mensaje = document.getElementById('menActivar');
-                let texto = `<div class="alert alert-warning alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h5><i class="icon fas fa-exclamation-triangle"></i> Sin conexión</h5>
-                Verifica el API del router ${router}
-              </div>`;
-                mensaje.innerHTML = texto;
+                let Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 20000
+                });
+                Toast.fire({
+                icon: 'warning',
+                    title: `Sin conexión Verifica el API del router ${router}`
+                })
             }else{
-                let mensaje = document.getElementById('menActivar');
-                let texto = `<div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h5><i class="icon fas fa-ban"></i> Cliente ${cliente} desactivado </h5>
-                Router ${router} Plan 1K/1K 
-              </div>`;
-                mensaje.innerHTML = texto;
+                Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 4000
+                });
+                Toast.fire({
+                icon: 'error',
+                    title: `Cliente ${cliente} desactivado router ${router} plan 1K/1K`
+                })
             }
         }
     });
