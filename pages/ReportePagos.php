@@ -37,6 +37,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Select2 -->
   <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
@@ -375,7 +377,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <form id="ActulizarReporte" method="post">
                   <div class="form-row align-items-center">
                       <div class="col-sm-3 my-1" id="oprime">
-                          <select class="form-control form-control-sm select2" style="width: 100%;" id="cliente" name="cliente">
+                          <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="cliente" name="cliente">
                               <option></option>
                               <?php while ($clientes = sqlsrv_fetch_array($resultado)):?> 
                               <option value="<?=$clientes['CLIENTE']?>"><?=$clientes['NOMBRE']?></option>
@@ -414,10 +416,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <div class="card-body">
                   <div id="tablaInternet"></div>
+                  <div id="tablaCamara"></div>
+                  <div id="tablaTelefono"></div>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                Footer
+                
               </div>
               <!-- /.card-footer-->
             </div>
@@ -492,7 +496,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Select2 -->
 <script src="../plugins/select2/js/select2.full.min.js"></script>
-
+<!-- SweetAlert2 -->
+<script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- Page specific script -->

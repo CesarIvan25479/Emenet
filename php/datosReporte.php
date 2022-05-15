@@ -1,11 +1,16 @@
 <?php
 include '../php/ConexionSQL.php';
-//se obtiene las variables del formulario
+//se obtiene las variables del formulario y se declaran las demas variables
 $cliente = $_POST['cliente'];
 $fechaReporte = $_POST['fechaReporte'];
 $opcion = $_POST['opcion'];
 $todasFechas = $_POST['todasFechas'] ?? false;
 $todosConceptos = $_POST['todosConceptos'] ?? false;
+
+setlocale(LC_TIME, "spanish");
+$MesActual = strftime('%b %Y');
+$MesActual = str_replace('.','',$MesActual);
+$MesActual = strtoupper($MesActual);
 //*********************** ************************************
 
 //Consulta para sacar plan de internet y servicios por cliente 
@@ -25,29 +30,57 @@ $servicioTel = substr_count($Servicios["DATOS"], "TEL");
 $servicioCam = substr_count($Servicios["DATOS"], "CAM");
 //************************************************************
 
+$data['servicioCamara'] = $servicioCam;
+$data['servicioTelefono'] = $servicioTel;
+
+
 if($opcion == "Mostrar y Activar"){
-    $data['opcion'] = $opcion;
+    //Consulta para revisar pagos hasta el mes actual
     $consulta = "SELECT C.CLIENTE, C.PRECIO, V.comodin, C.ZONA, C.TIPO, C.NOMBRE 
     FROM clients C INNER JOIN ventas V ON C.CLIENTE=V.CLIENTE 
-    WHERE C.CLIENTE='$cliente' and V.comodin='MAY 2023' AND V.TIPO_DOC!='PE'";
+    WHERE C.CLIENTE='$cliente' and V.comodin='$MesActual' AND V.TIPO_DOC!='PE'";
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
     $resultado = sqlsrv_query($Conn, $consulta, $params, $options);
-    $DatosActivar = sqlsrv_fetch_array($resultado);
+    $datosActivar = sqlsrv_fetch_array($resultado);
     $VerificaPago = sqlsrv_num_rows( $resultado);
-    $zona = $DatosActivar['ZONA'];
-    $tipo = $DatosActivar['TIPO'];
-    $data['pago']= $VerificaPago;
+    //************************************************* */
+
+    if($VerificaPago >= 1){
+        include "../php/ConexionMySQL.php";
+        include "../php/apiMikrotik.php";
+        $consulta = "SELECT *FROM router WHERE FIND_IN_SET('{$datosActivar['ZONA']}', Zonas) AND Tipo='{$datosActivar['TIPO']}'";
+        $resultado = mysqli_query($Conexion, $consulta);
+        $datosRouter = mysqli_fetch_array($resultado);
+
+
+        
+        $data['nombreRouter'] = $datosRouter['Nombre'];
+        $data['ipRouter'] = $datosRouter['IP'];
+        $data['estadoReporte'] = "corriente";
+        $data['plan'] = $planInternet[0];
+        $data['estado'] = "mostrarActivar";
+    }else{
+        $data['estadoReporte'] = "adeudo";
+        $data['estado'] = "mostrarActivar";
+    }
+
+    
+    
+}else{
+    $data['estado'] = 'mostrar';
+    
 }
-
-
-
-
-
+$data['todosConceptos'] = $todosConceptos;
+$data['todasFechas'] = $todasFechas;
 $data['cliente'] = $cliente;
-$data['fechaInicio'] = $fechaReporte; 
-$data['estado'] = 'mostrar';
+$data['fechaInicio'] = $fechaReporte;
 echo json_encode($data);
+
+
+
+
+
 
 
     

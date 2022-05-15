@@ -3,24 +3,42 @@ include '../../php/ConexionSQL.php';
 $cliente = $_GET["cliente"];
 $FechaInicio = $_GET["fechaInicio"];
 $FechaInicio = str_replace("-","",$FechaInicio);
+$todasFechas = $_GET['todasFechas'];
+$FechaInicio = $todasFechas == "on" ? "20150101" : $FechaInicio;
+$todosConceptos = $_GET['todasConceptos'] ?? false;
+
 date_default_timezone_set('America/Mexico_City');
 $FechaActual=date('Ymd');
 
 //Consulta para datos del cliente
-$consultaCliente = "SELECT NOMBRE, COLONIA,TELEFONO, TIPO FROM clients WHERE CLIENTE='$cliente'";
+$consultaCliente = "SELECT NOMBRE, COLONIA,TELEFONO, TIPO, CLIENTE FROM clients WHERE CLIENTE='$cliente'";
 $resultadoCliente = sqlsrv_query($Conn, $consultaCliente);
 $datosCliente = sqlsrv_fetch_array($resultadoCliente);
 //*********************************
 
 //Consulta reporte de pagos
-$consulta = "SELECT P.OBSERV ,V.NO_REFEREN, C.NOMBRE, F_EMISION, P.PRECIO, V.TIPO_DOC,
+if($todosConceptos == "on"){
+    $consulta = "SELECT P.OBSERV ,V.NO_REFEREN, C.NOMBRE, F_EMISION, P.PRECIO, V.TIPO_DOC,
+            P.ARTICULO,V.comodin FROM clients C 
+            INNER JOIN ventas V ON 
+            C.CLIENTE=V.CLIENTE INNER JOIN
+            partvta P ON V.VENTA=P.VENTA 
+            WHERE C.CLIENTE='$cliente' AND V.F_EMISION BETWEEN '$FechaInicio' AND '$FechaActual' 
+            AND V.TIPO_DOC!='PE' order by V.F_EMISION  asc";
+            $reporteVentas = sqlsrv_query($Conn , $consulta);
+
+}else{
+    $consulta = "SELECT P.OBSERV ,V.NO_REFEREN, C.NOMBRE, F_EMISION, P.PRECIO, V.TIPO_DOC,
             P.ARTICULO,V.comodin FROM clients C 
             INNER JOIN ventas V ON 
             C.CLIENTE=V.CLIENTE INNER JOIN
             partvta P ON V.VENTA=P.VENTA 
             WHERE C.CLIENTE='$cliente' AND V.F_EMISION BETWEEN '$FechaInicio' AND '$FechaActual' 
             AND ARTICULO='RI' AND V.TIPO_DOC!='PE' order by V.F_EMISION  asc";
-$reporteVentas = sqlsrv_query($Conn , $consulta);
+            $reporteVentas = sqlsrv_query($Conn , $consulta);
+}
+
+
 //*********************************************** */
 
 ?>
@@ -31,7 +49,7 @@ $reporteVentas = sqlsrv_query($Conn , $consulta);
 	<div class="col-sm-12">
         <div class="card-box table-responsive">
             <div class="col-md-12">
-                <h5><?=$datosCliente['NOMBRE']?> 
+                <h5><?=$datosCliente['CLIENTE']?> <?=$datosCliente['NOMBRE']?> 
                 <small><?=$datosCliente['TELEFONO']?> <?=$datosCliente['COLONIA']?> <?=$datosCliente['TIPO']?>
                 </small>
                 </h5>
