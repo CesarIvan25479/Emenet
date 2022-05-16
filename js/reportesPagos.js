@@ -45,7 +45,7 @@ function mostrarReporte(){
                     });
                     Toast.fire({
                         icon: 'warning',
-                            title: `El cliente tiene adeudo 
+                            title: `El cliente ${data.cliente} tiene adeudo 
                             en sus pagos`
                     });
                 }else if(data.estadoReporte == "corriente"){

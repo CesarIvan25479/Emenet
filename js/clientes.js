@@ -13,6 +13,9 @@ document.getElementById("btnBuscarCliente").addEventListener('click',() =>{
 });
 
 function activar(datos){
+    if(confirm(`¿Estas seguro de activar al cliente ${datos}?`)){
+
+    }
     let post = `cliente=${datos}`;
     $.ajax({
         type: 'POST',
@@ -20,25 +23,7 @@ function activar(datos){
         dataType: 'json',
         data: post,
         success: (data) =>{
-            if(data.estado == "si"){
-                console.log("conectado")
-            }else{
-                console.log("no conectado")
-            }
-        }
-    });
-}
-function desactivar(datos){
-    post = 'cliente=' + datos;
-    $.ajax({
-        type: 'POST',
-        url: '../php/desactivarCliente.php',
-        dataType: 'json',
-        data: post,
-        success: (data) => {
-            let cliente = data.infoCliente;
-            let router = data.infoRouter.Nombre;
-            if(data.estado == "errorrouter"){
+            if(data.estado == "activado"){
                 let Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -46,23 +31,63 @@ function desactivar(datos){
                     timer: 20000
                 });
                 Toast.fire({
-                icon: 'warning',
-                    title: `Sin conexión Verifica el API del router ${router}`
-                })
+                    icon: 'success',
+                        title: `Cliente: ${data.cliente} 
+                        Activado plan ${data.plan}
+                        Router ${data.nombreRouter} ${data.ipRputer}`
+                });
             }else{
                 Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 4000
+                    timer: 20000
                 });
                 Toast.fire({
-                icon: 'error',
-                    title: `Cliente ${cliente} desactivado router ${router} plan 1K/1K`
+                    icon: 'warning',
+                    title: `Sin conexión Verifica el API del router ${data.nombreRouter}`
                 })
             }
         }
     });
+}
+function desactivar(datos){
+    if(confirm(`¿Estas seguro de desactivar al cliente ${datos}?`)){
+        post = 'cliente=' + datos;
+        $.ajax({
+            type: 'POST',
+            url: '../php/desactivarCliente.php',
+            dataType: 'json',
+            data: post,
+            success: (data) => {
+                let cliente = data.infoCliente;
+                let router = data.infoRouter.Nombre;
+                if(data.estado == "errorrouter"){
+                    let Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 20000
+                    });
+                    Toast.fire({
+                        icon: 'warning',
+                        title: `Sin conexión Verifica el API del router ${router}`
+                    })
+                }else{
+                    Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000
+                    });
+                    Toast.fire({
+                        icon: 'error',
+                        title: `Cliente ${cliente} desactivado router ${router} plan 1K/1K`
+                    })
+                }
+            }
+        });
+    } 
 }
 function InfoCliente(datos){
     cadena = 'cliente=' + datos;

@@ -18,8 +18,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
+  <style>
+    .scrollTablaClientes{
+      overflow:scroll;
+      width:101%;
+      max-height: 600px;
+      height: auto;
+    }
+     /* .scrollTablaClientes::-webkit-scrollbar {
+      width: 2px;             
+    }
+    .scrollTablaClientes::-webkit-scrollbar-thumb {
+      background-color: gray;     
+    }  */
+  </style>
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse dark-mode">
+<body class="hold-transition sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -360,7 +374,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <input type="text" class="form-control" id="buscarCliente" placeholder="Presiona flecha abajo o da clic en el boton buscar">
                 </div>
                 <br>
-                <div id="tablaClientes">
+                <div id="tablaClientes" class="scrollTablaClientes">
                 
                 </div>
 
@@ -453,7 +467,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     <div class="form-group col-md-10">
                                         <label for="">Observaciones</label>
-                                        <textarea  name='observaciones' rows="4"  style="min-width: 100%;background-color:#343a40;color:#fff" readonly id="obsr"></textarea>
+                                        <textarea  name='observaciones' rows="4"  style="min-width: 100%;background-color:#e9ecef;" readonly id="obsr"></textarea>
                                     </div>
                                 </div>
                       </form>

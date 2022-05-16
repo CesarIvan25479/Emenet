@@ -42,7 +42,7 @@ if($opcion == "Mostrar y Activar"){
     $params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
     $resultado = sqlsrv_query($ConnC, $consulta, $params, $options);
-    $datosDesactivar = sqlsrv_fetch_array($resultado);
+    $datosActivar = sqlsrv_fetch_array($resultado);
     $VerificaPago = sqlsrv_num_rows( $resultado);
     //************************************************* */
 
@@ -51,7 +51,7 @@ if($opcion == "Mostrar y Activar"){
         include "../php/apiMikrotik.php";
 
         //Consulta para saber a que router esta conectado el cliente por zona y tipo
-        $consulta = "SELECT *FROM router WHERE FIND_IN_SET('{$datosDesactivar['ZONA']}', Zonas) AND Tipo='{$datosDesactivar['TIPO']}'";
+        $consulta = "SELECT *FROM router WHERE FIND_IN_SET('{$datosActivar['ZONA']}', Zonas) AND Tipo='{$datosActivar['TIPO']}'";
         $resultado = mysqli_query($Conexion, $consulta);
         $datosRouter = mysqli_fetch_array($resultado);
         //************************************************* */
@@ -68,9 +68,9 @@ if($opcion == "Mostrar y Activar"){
                 $API->write("/system/ident/getall",true);
                 $READ = $API->read(false);
                 $ARRAY = $API->comm("/queue/simple/disable",  
-                array("numbers"=>$datosDesactivar['NOMBRE']));
+                array("numbers"=>$datosActivar['NOMBRE']));
                 $ARRAY = $API->comm("/queue/simple/set",  
-                array("numbers"=>$datosDesactivar['NOMBRE'],"max-limit" =>$planInternet[0]));
+                array("numbers"=>$datosActivar['NOMBRE'],"max-limit" =>$planInternet[0]));
                 $data['estadoReporte'] = "corriente";
             }else{
                 $data['estadoReporte'] = "sinconexion";
@@ -82,7 +82,7 @@ if($opcion == "Mostrar y Activar"){
                 $API->write("/system/ident/getall",true);
                 $READ = $API->read(false);
                 $ARRAY = $API->comm("/queue/simple/set",  
-                array("numbers"=>$datosDesactivar['NOMBRE'],"max-limit" =>$planInternet[0]));
+                array("numbers"=>$datosActivar['NOMBRE'],"max-limit" =>$planInternet[0]));
                 $data['estadoReporte'] = "corriente";
             }else{
                 $data['estadoReporte'] = "sinconexion";
