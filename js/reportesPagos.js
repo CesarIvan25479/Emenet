@@ -34,7 +34,6 @@ function mostrarReporte(){
             }
 
             if(data.estado === 'mostrar' ){
-                console.log(data)
                 $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
             }else if(data.estado == "mostrarActivar"){
                 if(data.estadoReporte == "adeudo"){
@@ -49,7 +48,7 @@ function mostrarReporte(){
                             title: `El cliente tiene adeudo 
                             en sus pagos`
                     });
-                }else{
+                }else if(data.estadoReporte == "corriente"){
                     Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
@@ -62,14 +61,23 @@ function mostrarReporte(){
                             Activado plan ${data.plan}
                             Router ${data.nombreRouter} ${data.ipRouter}`
                     });
+                }else if(data.estadoReporte == "sinconexion"){
+                    Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 20000
+                    });
+                    Toast.fire({
+                        icon: 'error',
+                            title: `Sin Conexión verifica el API del router ${data.nombreRouter}`
+                    });
                 }
-                console.log(data)
                 $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
 
             }
         }else{
             $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}&todasConceptos=${data.todosConceptos}`);
-            console.log(data)
         }
     })
 }
