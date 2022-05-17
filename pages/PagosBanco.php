@@ -1,3 +1,14 @@
+<?php
+set_time_limit(0);
+include '../php/ConexionSQL.php'; 
+date_default_timezone_set('America/Mexico_City');
+$fecha=date('Y-m-d');
+$consulta = "SELECT NOMBRE, CLIENTE FROM clients";
+$resultadoClientes = sqlsrv_query($Conn , $consulta); 
+
+?>
+
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -376,10 +387,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </label>
                           </div>
                       </div>  
+                    <div class="col-sm-2 my-1">
+                      
+                      <button type="button" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#AgregarPago">
+                          <i class="fa fa-plus"></i> Agregar Pago</button>
+                    </div>
                   </div>
               </div>
               <div class="card-body">
-                Start creating your amazing application!
+                <div id="tablaPagosBanco">
+                <div class="row">
+	<div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>CLIENTE</th>
+                        <th>FECHA</th>            
+                        <th>MES</th>
+                        <th>N.OPE</th>
+                        <th>IMPORTE</th> 
+                        <th>FO. PAGO</th>       
+                        <th>OBSERVACION</th>     
+                    </tr>
+                </thead>
+                <tr class="table-info">
+                    <td>DAD</td>
+                    <td>DASSA</td>
+                    <td>DADS</td>
+                    <td>DADSA</td>
+                    <td>DADSA</td>
+                    <td>DAD</td>
+                    <td>DADSA</td>
+                    <td>DAD</td>
+                </tr>       
+                 
+        </table>
+            </div>
+    </div>
+</div>
+                </div>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
@@ -426,6 +474,95 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </form>
     </div>
 </div>
+    
+    
+      <div class="modal fade" id="AgregarPago">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <form id="agregarPago">
+            <div class="modal-header">
+              <h4 class="modal-title">Información pago</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="col-form-label" for="nombre">Cliente:</label>
+                            <input list="listaClientes" class="form-control form-control-sm" name="liCliente" id="liCliente">
+                            <datalist id="listaClientes">
+                                <?php while($listaClientes = sqlsrv_fetch_array($resultadoClientes)): ?>
+                                <option value="<?=$listaClientes["CLIENTE"]?>"><?=$listaClientes["NOMBRE"]?></option>
+                                <?php endwhile;?>
+                            </datalist>
+                        </div>
+                        <div class="col-9">
+                            <label class="col-form-label" for="nombre"><i class="fas fas fa-user"></i> Nombre:</label>
+                            <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" readonly>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="numerooperacion"><i class="fas fa-key"></i> Numero de operación:</label>
+                    <input class="form-control form-control-sm" type="text" placeholder="" id="numeroOperacion" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="col-form-label" for="mesPago"><i class="fas fa-calendar"></i> Mes:</label>
+                            <select class="form-control form-control-sm" id="mesPago" name="mesPago">
+                              <option>MAY 2022</option>
+                              <option>ENE 2022</option>
+                              <option>FEB 2022</option>
+                              <option>MAR 2022</option>
+                              <option>ABR 2022</option>
+                              <option>MAY 2022</option>
+                              <option>JUN 2022</option>
+                              <option>JUL 2022</option>
+                          </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="col-form-label" for="pago"><i class="fas fa-dollar-sign"></i> Pago:</label>
+                            <input type="number" class="form-control form-control-sm" placeholder="$0.00" name="pago" id="pago">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="col-form-label" for="formaPago"><i class="fas fa-comment-dollar"></i> Forma de pago:</label>
+                            <select class="form-control form-control-sm" id="formaPago" name="formaPago"> 
+                              <option>Deposito</option>
+                              <option>Transferanicia </option>
+                              <option>Efectivo</option>
+                          </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="col-form-label" for="fechaDeposito"><i class="fas fa-calendar-day"></i> Fecha deposito:</label>
+                            <input type="date" class="form-control form-control-sm" name="fechaDeposito" id="fechaDeposito" value="<?=$fecha?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="observacion"><i class="fas fa-eye"></i> Observaciones:</label>
+                    <textarea class="form-control" rows="2" placeholder="..." name="observacion" id="observacion" ></textarea>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Guradar</button>
+            </div>
+              </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -461,5 +598,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
+<script src="../js/pagosBanco.js"></script>
 </body>
 </html>

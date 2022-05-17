@@ -25,12 +25,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       max-height: 600px;
       height: auto;
     }
-     /* .scrollTablaClientes::-webkit-scrollbar {
+      .scrollTablaClientes::-webkit-scrollbar {
       width: 2px;             
     }
     .scrollTablaClientes::-webkit-scrollbar-thumb {
       background-color: gray;     
-    }  */
+    }  
   </style>
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">

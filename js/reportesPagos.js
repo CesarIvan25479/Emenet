@@ -36,6 +36,7 @@ function mostrarReporte(){
             if(data.estado === 'mostrar' ){
                 $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
             }else if(data.estado == "mostrarActivar"){
+                $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
                 if(data.estadoReporte == "adeudo"){
                     Toast = Swal.mixin({
                         toast: true,
@@ -73,8 +74,6 @@ function mostrarReporte(){
                             title: `Sin Conexión verifica el API del router ${data.nombreRouter}`
                     });
                 }
-                $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
-
             }
         }else{
             $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}&todasConceptos=${data.todosConceptos}`);
