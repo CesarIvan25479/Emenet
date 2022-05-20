@@ -6,6 +6,10 @@ $fecha=date('Y-m-d');
 $consulta = "SELECT NOMBRE, CLIENTE FROM clients";
 $resultadoClientes = sqlsrv_query($Conn , $consulta); 
 
+include '../php/ConexionMySQL.php';
+$consulta = "SELECT *FROM pagosazteca WHERE Estado='PENDIENTE'";
+$pagosPendiente = mysqli_query($Conexion, $consulta);
+
 ?>
 
 
@@ -26,6 +30,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -389,44 +395,61 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>  
                     <div class="col-sm-2 my-1">
                       
-                      <button type="button" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#AgregarPago">
+                      <button type="button" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#modalAgregarPago">
                           <i class="fa fa-plus"></i> Agregar Pago</button>
                     </div>
                   </div>
               </div>
               <div class="card-body">
+                <div class="form-row align-items-center">
+                    <div class="col-sm-5 my-1">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <button type="button" class="btn btn-danger" id="btnBuscarCliente">Buscar <i class="fas fa-caret-square-down"></i></button>
+                              </div>
+                              <!-- /btn-group -->
+                              <input type="text" class="form-control" id="buscarCliente" placeholder="Presiona flecha abajo o da clic en el boton buscar">
+                        </div>
+                    </div>
+                  </div>
                 <div id="tablaPagosBanco">
-                <div class="row">
-	<div class="col-sm-12">
-        <div class="card-box table-responsive">
-            <table class="table table-sm">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>CLIENTE</th>
-                        <th>FECHA</th>            
-                        <th>MES</th>
-                        <th>N.OPE</th>
-                        <th>IMPORTE</th> 
-                        <th>FO. PAGO</th>       
-                        <th>OBSERVACION</th>     
-                    </tr>
-                </thead>
-                <tr class="table-info">
-                    <td>DAD</td>
-                    <td>DASSA</td>
-                    <td>DADS</td>
-                    <td>DADSA</td>
-                    <td>DADSA</td>
-                    <td>DAD</td>
-                    <td>DADSA</td>
-                    <td>DAD</td>
-                </tr>       
-                 
-        </table>
-            </div>
-    </div>
-</div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>CLIENTE</th>
+                                            <th>FECHA</th>
+                                            <th>MES</th>            
+                                            <th>N. OPE</th>
+                                            <th>IMPORTE</th>
+                                            <th>FO. PAGO.</th>
+                                            <th>OBSERVACION</th>
+                                            <th>MOV.</th>   
+                                        </tr>
+                                    </thead>
+                                    <?php
+                                    $count = 0; 
+                                    while($datosPago = mysqli_fetch_array($pagosPendiente)):
+                                      $count += 1;?>
+                                    <tr class="table-danger">
+                                        <th scope="row"><?=$count?></th>
+                                        <td><?=$datosPago['Nombre']?></td>
+                                        <td><?=$datosPago['FechaPago']?></td>
+                                        <td><?=$datosPago['Mes']?></td>
+                                        <td><?=$datosPago['NumOperacion']?></td>
+                                        <td><?=$datosPago['Importe']?></td>
+                                        <td><?=$datosPago['FormaPago']?></td>
+                                        <td><?=$datosPago['Observacion']?></td>
+                                        <td>DAD</td>
+                                    </tr>       
+                                    <?php endwhile?>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
               </div>
               <!-- /.card-body -->
@@ -476,7 +499,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
     
     
-      <div class="modal fade" id="AgregarPago">
+      <div class="modal fade" id="modalAgregarPago">
         <div class="modal-dialog">
           <div class="modal-content">
               <form id="agregarPago">
@@ -501,13 +524,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-9">
                             <label class="col-form-label" for="nombre"><i class="fas fas fa-user"></i> Nombre:</label>
                             <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" readonly>
+                            <input type="hidden" class="form-control form-control-sm" name="telefono" id="telefono" readonly>
+                            <input type="hidden" class="form-control form-control-sm" name="poblacion" id="poblacion" readonly>
                         </div>
                     </div>
                     
                 </div>
                 <div class="form-group">
                     <label class="col-form-label" for="numerooperacion"><i class="fas fa-key"></i> Numero de operación:</label>
-                    <input class="form-control form-control-sm" type="text" placeholder="" id="numeroOperacion" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                    <input class="form-control form-control-sm" type="text" placeholder="" id="numeroOperacion" name="numeroOperacion" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                 </div>
                 <div class="form-group">
                     <div class="row">
@@ -521,12 +546,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <option>ABR 2022</option>
                               <option>MAY 2022</option>
                               <option>JUN 2022</option>
-                              <option>JUL 2022</option>
+                              <option>OTRO</option>
                           </select>
                         </div>
                         <div class="col-6">
                             <label class="col-form-label" for="pago"><i class="fas fa-dollar-sign"></i> Pago:</label>
-                            <input type="number" class="form-control form-control-sm" placeholder="$0.00" name="pago" id="pago">
+                            <input type="number" class="form-control form-control-sm" placeholder="$0.00" name="pago" id="pago" required>
                         </div>
                     </div>
                 </div>
@@ -535,9 +560,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-6">
                             <label class="col-form-label" for="formaPago"><i class="fas fa-comment-dollar"></i> Forma de pago:</label>
                             <select class="form-control form-control-sm" id="formaPago" name="formaPago"> 
-                              <option>Deposito</option>
-                              <option>Transferanicia </option>
-                              <option>Efectivo</option>
+                                <option id="dep">Deposito</option>
+                                <option id="tran">Transferencia</option>
+                                <option id="efe">Efectivo Almoloya</option>
                           </select>
                         </div>
                         <div class="col-6">
@@ -598,6 +623,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="../js/pagosBanco.js"></script>
 </body>
 </html>
