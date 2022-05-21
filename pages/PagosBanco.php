@@ -6,11 +6,6 @@ date_default_timezone_set('America/Mexico_City');
 $fecha=date('Y-m-d');
 $consulta = "SELECT NOMBRE, CLIENTE FROM clients";
 $resultadoClientes = sqlsrv_query($Conn , $consulta); 
-
-include '../php/ConexionMySQL.php';
-$consulta = "SELECT *FROM pagosazteca WHERE Estado='PENDIENTE' AND Mes = '{$mes[0]}'";
-$pagosPendiente = mysqli_query($Conexion, $consulta);
-
 ?>
 
 
@@ -421,43 +416,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                   </div>
                 <div id="tablaPagosBanco">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                                <table class="table table-bordered table-sm">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>CLIENTE</th>
-                                            <th>FECHA</th>
-                                            <th>MES</th>            
-                                            <th>N. OPE</th>
-                                            <th>IMPORTE</th>
-                                            <th>FO. PAGO.</th>
-                                            <th>OBSERVACION</th>
-                                            <th>MOV.</th>   
-                                        </tr>
-                                    </thead>
-                                    <?php
-                                    $count = 0; 
-                                    while($datosPago = mysqli_fetch_array($pagosPendiente)):
-                                      $count += 1;?>
-                                    <tr class="table-danger">
-                                        <th scope="row"><?=$count?></th>
-                                        <td><?=$datosPago['Nombre']?></td>
-                                        <td><?=$datosPago['FechaPago']?></td>
-                                        <td><?=$datosPago['Mes']?></td>
-                                        <td><?=$datosPago['NumOperacion']?></td>
-                                        <td><?=$datosPago['Importe']?></td>
-                                        <td><?=$datosPago['FormaPago']?></td>
-                                        <td><?=$datosPago['Observacion']?></td>
-                                        <td>DAD</td>
-                                    </tr>       
-                                    <?php endwhile?>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
               </div>
               <!-- /.card-body -->
@@ -547,20 +506,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-6">
                             <label class="col-form-label" for="mesPago"><i class="fas fa-calendar"></i> Mes:</label>
                             <select class="form-control form-control-sm" id="mesPago" name="mesPago">
-                                <option id="mes"><?=$mes[0];?></option>
-                                <option><?=$mes[1];?></option>
-                                <option><?=$mes[2];?></option>
-                                <option><?=$mes[3];?></option>
-                                <option><?=$mes[4];?></option>
-                                <option><?=$mes[5];?></option>
-                                <option><?=$mes[6];?></option>
-                                <option><?=$mes[7];?></option>
-                                <option><?=$mes[8];?></option>
-                                <option><?=$mes[9];?></option>
-                                <option><?=$mes[10];?></option>
-                                <option><?=$mes[11];?></option>
-                                <option><?=$mes[12];?></option>
-                                <option><?=$mes[13];?></option>
+                                <option id="mes"><?=$mes[0]?></option>
+                                <option><?=$mes[1]?></option>
+                                <option><?=$mes[2]?></option>
+                                <option><?=$mes[3]?></option>
+                                <option><?=$mes[4]?></option>
+                                <option><?=$mes[5]?></option>
+                                <option><?=$mes[6]?></option>
+                                <option><?=$mes[7]?></option>
+                                <option><?=$mes[8]?></option>
+                                <option><?=$mes[9]?></option>
+                                <option><?=$mes[10]?></option>
+                                <option><?=$mes[11]?></option>
+                                <option><?=$mes[12]?></option>
+                                <option><?=$mes[13]?></option>
                                 <option >OTRO</option>
                           </select>
                         </div>
@@ -641,5 +600,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- SweetAlert2 -->
 <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="../js/pagosBanco.js"></script>
+<script>
+  $(document).ready(() =>{
+    let  mes = "<?=$mes[0]?>";
+    mes = mes.replace(" ", "%20");
+    $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=PENDIENTE&mes=MAY%202022&todosreg=off");
+  });
+</script>
 </body>
 </html>
