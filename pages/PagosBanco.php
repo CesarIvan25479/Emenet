@@ -1,13 +1,14 @@
 <?php
 set_time_limit(0);
 include '../php/ConexionSQL.php'; 
+include '../php/meses.php';
 date_default_timezone_set('America/Mexico_City');
 $fecha=date('Y-m-d');
 $consulta = "SELECT NOMBRE, CLIENTE FROM clients";
 $resultadoClientes = sqlsrv_query($Conn , $consulta); 
 
 include '../php/ConexionMySQL.php';
-$consulta = "SELECT *FROM pagosazteca WHERE Estado='PENDIENTE'";
+$consulta = "SELECT *FROM pagosazteca WHERE Estado='PENDIENTE' AND Mes = '{$mes[0]}'";
 $pagosPendiente = mysqli_query($Conexion, $consulta);
 
 ?>
@@ -366,7 +367,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-header">
                 <div class="form-row align-items-center">
                       <div class="col-sm-3 my-1">
-                          <select class="form-control form-control-sm" style="width: 100%;">
+                          <select class="form-control form-control-sm" style="width: 100%;" id="mosEsatado">
                               <option>PENDIENTE</option>
                               <option>REGISTRADOS</option>
                               <option>FINALIZADO</option>
@@ -374,21 +375,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </select>
                       </div>                      
                       <div class="col-sm-3 my-1">
-                          <select class="form-control form-control-sm" style="width: 100%;">
-                              <option>MAY 2022</option>
-                              <option>ENE 2022</option>
-                              <option>FEB 2022</option>
-                              <option>MAR 2022</option>
-                              <option>ABR 2022</option>
-                              <option>MAY 2022</option>
-                              <option>JUN 2022</option>
-                              <option>JUL 2022</option>
+                          <select class="form-control form-control-sm" style="width: 100%;" id="mosMes">
+                              <option><?=$mes[0];?></option>
+                              <option><?=$mes[1];?></option>
+                              <option><?=$mes[2];?></option>
+                              <option><?=$mes[3];?></option>
+                              <option><?=$mes[4];?></option>
+                              <option><?=$mes[5];?></option>
+                              <option><?=$mes[6];?></option>
+                              <option><?=$mes[7];?></option>
+                              <option><?=$mes[8];?></option>
+                              <option><?=$mes[9];?></option>
+                              <option><?=$mes[10];?></option>
+                              <option><?=$mes[11];?></option>
+                              <option><?=$mes[12];?></option>
+                              <option><?=$mes[13];?></option>
+                              <option >OTRO</option>
                           </select>
                       </div>
                       <div class="col-auto my-1">
                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="TodasFechas" id="TodasFechas">
-                              <label class="form-check-label" for="TodasFechas">
+                              <input class="form-check-input" type="checkbox" name="todosRegistros" id="todosRegistros">
+                              <label class="form-check-label" for="todosRegistros">
                                   Todos los registros
                               </label>
                           </div>
@@ -416,7 +424,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card-box table-responsive">
-                                <table class="table table-sm">
+                                <table class="table table-bordered table-sm">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>#</th>
@@ -539,14 +547,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-6">
                             <label class="col-form-label" for="mesPago"><i class="fas fa-calendar"></i> Mes:</label>
                             <select class="form-control form-control-sm" id="mesPago" name="mesPago">
-                              <option>MAY 2022</option>
-                              <option>ENE 2022</option>
-                              <option>FEB 2022</option>
-                              <option>MAR 2022</option>
-                              <option>ABR 2022</option>
-                              <option>MAY 2022</option>
-                              <option>JUN 2022</option>
-                              <option>OTRO</option>
+                                <option id="mes"><?=$mes[0];?></option>
+                                <option><?=$mes[1];?></option>
+                                <option><?=$mes[2];?></option>
+                                <option><?=$mes[3];?></option>
+                                <option><?=$mes[4];?></option>
+                                <option><?=$mes[5];?></option>
+                                <option><?=$mes[6];?></option>
+                                <option><?=$mes[7];?></option>
+                                <option><?=$mes[8];?></option>
+                                <option><?=$mes[9];?></option>
+                                <option><?=$mes[10];?></option>
+                                <option><?=$mes[11];?></option>
+                                <option><?=$mes[12];?></option>
+                                <option><?=$mes[13];?></option>
+                                <option >OTRO</option>
                           </select>
                         </div>
                         <div class="col-6">

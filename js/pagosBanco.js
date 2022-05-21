@@ -16,7 +16,8 @@ agregarPago.addEventListener('submit',(e) =>{
     .then(res => res.json())
     .then(data => {
         if(data.estado == "Agregado"){
-            $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php");
+            let mes = data.mes.replace(" ", "%20");
+            $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?mes=" + mes);
             Toast.fire({
                 icon: 'success',
                 title: `Pago registrado
@@ -80,6 +81,20 @@ $(document).ready(() =>{
         let concepto = document.getElementById("mesPago").value;
         $('#observacion').removeAttr("required");
         concepto == "OTRO" ? $("#observacion").prop('required',true) : "";
-    })
+    });
 
+
+    $("#mosEsatado").on("change", mostrarTablaPagosBanco);
+    $("#mosMes").on("change", mostrarTablaPagosBanco);
+    $("#todosRegistros").on("click", mostrarTablaPagosBanco);
 })
+
+function mostrarTablaPagosBanco(){
+    let estado = document.getElementById("mosEsatado").value;
+    let mes = document.getElementById("mosMes").value;
+    mes = mes.replace(" ", "%20");
+    let todosReg = document.getElementById("todosRegistros").checked ? "on" : "off";
+    console.log(mes)
+    $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg);
+}
+
