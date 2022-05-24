@@ -32,7 +32,7 @@ function validaCampos(){
 
 
 
-include "../php/ConexionMySQL.php";
+include "../../php/ConexionMySQL.php";
 $nombre = $_POST["nombre"];
 $fechaDeposito = $_POST["fechaDeposito"];
 $formaPago = $_POST["formaPago"];
@@ -75,7 +75,7 @@ if($formaPago == "Efectivo Almoloya"){
         if(empty($pago) || empty($nombre) || empty($numOperacion) || empty($observacion)){
             $data['estado'] = "llenaCampos";
         }else{
-            $data['estado'] = validarMesPago($nombre, $fechaDeposito, $mesPago, $pago, $numOperacion, $formaPago, $observacion, $telefono, $poblacion, $Conexion);
+            $data['estado'] = agregaRegistroPago($nombre, $fechaDeposito, $mesPago, $pago, $numOperacion, $formaPago, $observacion, $telefono, $poblacion, $Conexion);
         }
     }
 }

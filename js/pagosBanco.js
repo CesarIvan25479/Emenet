@@ -1,4 +1,4 @@
-var costos = ["",450,400,350,300,250,200,150,500,450,600];
+var costos = [0,450,400,350,300,250,200,150,500,450,600];
 let Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -9,7 +9,7 @@ let agregarPago = document.getElementById("agregarPago");
 agregarPago.addEventListener('submit',(e) =>{
     e.preventDefault();
     var datosPago = new FormData(agregarPago);
-    fetch('../php/agregarPago.php',{
+    fetch('../php/pagosBanco/agregarPago.php',{
         method: "POST",
         body: datosPago
     })
@@ -17,7 +17,7 @@ agregarPago.addEventListener('submit',(e) =>{
     .then(data => {
         if(data.estado == "Agregado"){
             let mes = data.mes.replace(" ", "%20");
-            $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?mes=" + mes);
+            $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=PENDIENTE&mes=" + mes +"&todosreg=off");
             Toast.fire({
                 icon: 'success',
                 title: `Pago registrado
@@ -82,8 +82,21 @@ $(document).ready(() =>{
         $('#observacion').removeAttr("required");
         concepto == "OTRO" ? $("#observacion").prop('required',true) : "";
     });
-
-
+    
+    $("#AformaPago").on("change", ()=>{
+        let pago = document.getElementById("AformaPago").value;
+        $("#AnumeroOperacion").removeAttr('readonly');
+        if(pago == "Efectivo Almoloya"){
+            $("#AnumeroOperacion").attr('readonly','readonly');
+            $('#AnumeroOperacion').val('');
+        }
+    });
+    $("#AmesPago").on("change", ()=>{
+        let concepto = document.getElementById("AmesPago").value;
+        $('#Aobservacion').removeAttr("required");
+        concepto == "OTRO" ? $("#Aobservacion").prop('required',true) : "";
+    });
+    
     $("#mosEsatado").on("change", mostrarTablaPagosBanco);
     $("#mosMes").on("change", mostrarTablaPagosBanco);
     $("#todosRegistros").on("click", mostrarTablaPagosBanco);
@@ -92,9 +105,107 @@ $(document).ready(() =>{
 function mostrarTablaPagosBanco(){
     let estado = document.getElementById("mosEsatado").value;
     let mes = document.getElementById("mosMes").value;
+    document.getElementById("buscarClientePago").value = "";
     mes = mes.replace(" ", "%20");
+
     let todosReg = document.getElementById("todosRegistros").checked ? "on" : "off";
-    console.log(mes)
     $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg);
 }
 
+function mostrarTablaPagosBancoCliente(){
+    let estado = document.getElementById("mosEsatado").value;
+    let mes = document.getElementById("mosMes").value;
+    let nombre = document.getElementById("buscarClientePago").value;
+    nombre = nombre.replaceAll(" ", "%20");
+    mes = mes.replace(" ", "%20");
+    let todosReg = document.getElementById("todosRegistros").checked ? "on" : "off";
+    $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg + "&nombre=" + nombre);
+}
+function pagoRegistrado(datos){
+    $.ajax({
+        type: "POST",
+        url: "../php/pagosBanco/pagoRegistrado.php",
+        dataType: "json",
+        data: "cliente=" + datos,
+        success:function(data){
+            if(data.estado == "Actualizado"){
+                mostrarTablaPagosBanco();
+                Toast.fire({
+                    icon: 'success',
+                    title: `Pago registrado correctamente`
+                })
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se pudo actualizar el registro`
+                })
+            }
+        }
+    })
+}
+function pagoFinalizado(datos){
+    $.ajax({
+        type: "POST",
+        url: "../php/pagosBanco/pagoFinalizado.php", 
+        dataType: "json",
+        data: "cliente=" + datos,
+        success: (data) =>{
+            if(data.estado == "Actualizado"){
+                mostrarTablaPagosBanco();
+                Toast.fire({
+                    icon: 'success',
+                    title: `Pago Finalizado correctamente`
+                })
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se pudo actualizar el registro`
+                })
+            }
+        }
+    });
+}
+document.getElementById("buscarClientePago").addEventListener('keydown', ()=>{
+    let tecla = event.keyCode;
+    if (tecla == 40 ){
+        mostrarTablaPagosBancoCliente();
+    }
+}); 
+
+
+const mostrarDatosPagos = (datos) =>{
+    $.ajax({
+        type: "POST",
+        url: "../php/pagosBanco/mostrarDatosPago.php",
+        dataType: "json",
+        data: "cliente=" + datos,
+        success: (data) =>{
+            if(data == "error"){
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se tiene comunicacion con
+                    la base de datos`
+                })
+            }else{
+                console.log(data);
+                document.getElementById("Anombre").value = data.info.Nombre;
+                document.getElementById("AnumeroOperacion").value = data.info.NumOperacion;
+                document.getElementById("AmesPago").value = data.info.Mes;
+                document.getElementById("Apago").value = data.info.Importe;
+                document.getElementById("AformaPago").value = data.info.FormaPago;
+                document.getElementById("AfechaDeposito").value = data.info.FechaPago;
+                document.getElementById("Aobservacion").value = data.info.Observacion;
+                let pago = document.getElementById("AformaPago").value;
+                $("#AnumeroOperacion").removeAttr('readonly');
+                if(pago == "Efectivo Almoloya"){
+                    $("#AnumeroOperacion").attr('readonly','readonly');
+                    $('#AnumeroOperacion').val('');
+                }
+                let concepto = document.getElementById("AmesPago").value;
+                $('#Aobservacion').removeAttr("required");
+                concepto == "OTRO" ? $("#Aobservacion").prop('required',true) : "";
+                $("#modalActualizarPago").modal("show");
+            }
+        }
+    })
+}

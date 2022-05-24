@@ -11,11 +11,31 @@ function registrosTodos($estado, $Conexion){
     $pagosEstado = mysqli_query($Conexion, $consulta);
     return $pagosEstado;
 }
+function registrosMesCliente($estado, $mes, $nombre, $Conexion){
+    $consulta = "SELECT *FROM pagosazteca 
+    WHERE Estado='$estado' AND Mes = '$mes' AND Nombre LIKE '%$nombre%' OR NumOperacion LIKE '%$nombre%' OR FechaPago LIKE '%$nombre%'";
+    $pagosEstado = mysqli_query($Conexion, $consulta);
+    return $pagosEstado;
+}
+
+function registrosTodosCliente($estado, $nombre, $Conexion){
+    $consulta = "SELECT *FROM pagosazteca WHERE Estado='$estado' AND Nombre LIKE '%$nombre%' OR NumOperacion LIKE '%$nombre%' OR FechaPago LIKE '%$nombre%'";
+    $pagosEstado = mysqli_query($Conexion, $consulta);
+    return $pagosEstado;
+}
 include '../../php/ConexionMySQL.php';
 $estado = $_GET["estado"] ?? null;
 $mes = $_GET["mes"] ?? null;
 $todosReg = $_GET["todosreg"] ?? null;
-$todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pagosEstado = registrosTodos($estado, $Conexion);
+
+if(isset($_GET["nombre"])){
+    $nombre = $_GET["nombre"];
+    $todosReg == "off" ? $pagosEstado = registrosMesCliente($estado, $mes, $nombre, $Conexion) : $pagosEstado = registrosTodosCliente($estado, $nombre, $Conexion);
+}else{
+    $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pagosEstado = registrosTodos($estado, $Conexion);
+}
+
+$count = 0; 
 
 ?>
 <div class="row">
@@ -66,16 +86,16 @@ $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pa
                     while($datosPago = mysqli_fetch_array($pagosEstado)):
                     $count += 1;?>
                         <tr class="table-danger">
-                            <th scope="row"><?=$count?></th>
-                            <td><?=$datosPago['Nombre']?></td>
-                            <td><?=$datosPago['FechaPago']?></td>
-                            <td><?=$datosPago['Mes']?></td>
-                            <td><?=$datosPago['NumOperacion']?></td>
-                            <td><?=$datosPago['Importe']?></td>
-                            <td><?=$datosPago['FormaPago']?></td>
-                            <td><?=$datosPago['Observacion']?></td>
+                            <th scope="row" onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$count?></th>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Nombre']?></td>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['FechaPago']?></td>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Mes']?></td>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['NumOperacion']?></td>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Importe']?></td>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['FormaPago']?></td>
+                            <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Observacion']?></td>
                             <td><button type="submit" class="btn btn-link" id="GenerarPgos" 
-                                        onclick=""><img src="./asset/verify.png" width="25px"></button></td>
+                                        onclick="pagoRegistrado('<?=$datosPago['id']?>')"><img src="./asset/verify.png" width="25px"></button></td>
                         </tr>       
                 <?php endwhile?>
                 <?php elseif($estado == "REGISTRADOS"):?>
@@ -84,14 +104,14 @@ $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pa
                     while($datosPago = mysqli_fetch_array($pagosEstado)):
                     $count += 1;?>
                     <tr class="table-warning">
-                        <th scope="row"><?=$count?></th>
-                        <td><?=$datosPago['Nombre']?></td>
-                        <td><?=$datosPago['Mes']?></td>
-                        <td><?=$datosPago['Importe']?></td>
-                        <td><?=$datosPago['NumOperacion']?></td>
-                        <td><?=$datosPago['FormaPago']?></td>
+                        <th scope="row" onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$count?></th>
+                        <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Nombre']?></td>
+                        <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Mes']?></td>
+                        <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['Importe']?></td>
+                        <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['NumOperacion']?></td>
+                        <td onclick="mostrarDatosPagos('<?=$datosPago['id']?>')"><?=$datosPago['FormaPago']?></td>
                         <td><button type="submit" class="btn btn-link" id="GenerarPgos" 
-                                    onclick=""><img src="./asset/verify.png" width="25px"></button></td>
+                                    onclick="pagoFinalizado('<?=$datosPago['id']?>')"><img src="./asset/verify.png" width="25px"></button></td>
                     </tr>       
                 <?php endwhile?>
                 <?php elseif($estado == "FINALIZADO"):?>
@@ -99,7 +119,7 @@ $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pa
                     $count = 0; 
                     while($datosPago = mysqli_fetch_array($pagosEstado)):
                     $count += 1;?>
-                    <tr class="table-success">
+                    <tr class="table-success" onclick="mostrarDatosPagos('<?=$datosPago['id']?>')">
                         <th scope="row"><?=$count?></th>
                         <td><?=$datosPago['Nombre']?></td>
                         <td><?=$datosPago['FechaPago']?></td>
@@ -115,3 +135,9 @@ $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pa
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(() =>{
+        document.getElementById("text-resultados").innerText = "Numero de resultados: <?=$count?>";
+    });
+</script>
