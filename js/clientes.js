@@ -14,42 +14,41 @@ document.getElementById("btnBuscarCliente").addEventListener('click',() =>{
 
 function activar(datos){
     if(confirm(`¿Estas seguro de activar al cliente ${datos}?`)){
-
-    }
-    let post = `cliente=${datos}`;
-    $.ajax({
-        type: 'POST',
-        url: '../php/activarCliente.php',
-        dataType: 'json',
-        data: post,
-        success: (data) =>{
-            if(data.estado == "activado"){
-                let Toast = Swal.mixin({
+        let post = `cliente=${datos}`;
+        $.ajax({
+            type: 'POST',
+            url: '../php/activarCliente.php',
+            dataType: 'json',
+            data: post,
+            success: (data) =>{
+                if(data.estado == "activado"){
+                    let Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
                     timer: 20000
-                });
-                Toast.fire({
-                    icon: 'success',
+                    });
+                    Toast.fire({
+                        icon: 'success',
                         title: `Cliente: ${data.cliente} 
                         Activado plan ${data.plan}
                         Router ${data.nombreRouter} ${data.ipRputer}`
-                });
-            }else{
-                Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 20000
-                });
-                Toast.fire({
-                    icon: 'warning',
-                    title: `Sin conexión Verifica el API del router ${data.nombreRouter}`
-                })
+                    });
+                }else{
+                    Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 20000
+                    });
+                    Toast.fire({
+                        icon: 'warning',
+                        title: `Sin conexión Verifica el API del router ${data.nombreRouter}`
+                    })
+                }
             }
-        }
-    });
+        });
+    }
 }
 function desactivar(datos){
     if(confirm(`¿Estas seguro de desactivar al cliente ${datos}?`)){

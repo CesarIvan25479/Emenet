@@ -420,7 +420,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="col-sm-5 my-1">
                           <div class="input-group input-group-sm">
                               <div class="input-group-prepend">
-                                  <button type="button" class="btn btn-danger" id="btnBuscarClientePago" onclick="buscarPagoCliente()">Buscar <i class="fas fa-caret-square-down"></i></button>
+                                  <button type="button" class="btn btn-danger" id="btnBuscarClientePago" onclick="mostrarTablaPagosBancoCliente()">Buscar <i class="fas fa-caret-square-down"></i></button>
                               </div>
                               <!-- /btn-group -->
                               <input type="text" class="form-control" id="buscarClientePago" placeholder="Presiona flecha abajo o da clic en el boton buscar">
@@ -565,7 +565,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guradar</button>
+              <button type="submit" class="btn btn-outline-success">Guradar</button>
             </div>
               </form>
           </div>
@@ -578,7 +578,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="modal fade" id="modalActualizarPago">
         <div class="modal-dialog">
           <div class="modal-content">
-              <form id="ActualizarPago">
             <div class="modal-header">
               <h4 class="modal-title">Información pago</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -591,6 +590,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-12">
                             <label class="col-form-label" for="nombre"><i class="fas fas fa-user"></i> Nombre:</label>
                             <input type="text" class="form-control form-control-sm" name="Anombre" id="Anombre" readonly>
+                            <input type="hidden" class="form-control form-control-sm" name="Aid" id="Aid" readonly>
                         </div>
                     </div>
                     
@@ -650,10 +650,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guradar</button>
-              <button type="submit" class="btn btn-primary">Guradar</button>
+              <div>
+                <button type="button" onclick="borrarPago()" class="btn btn-outline-danger">Borrar</button>
+                <button type="button" onclick="actualizarPago()" class="btn btn-outline-warning">Actualizar</button>
+              </div>
+              
             </div>
-              </form>
           </div>
           <!-- /.modal-content -->
         </div>

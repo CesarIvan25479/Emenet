@@ -48,8 +48,6 @@ agregarPago.addEventListener('submit',(e) =>{
         }
     });
 })
-
-
 $(document).ready(() =>{
     $("#liCliente").on('change',()=>{
         let cliente = "cliente=" + document.getElementById("liCliente").value;
@@ -171,8 +169,6 @@ document.getElementById("buscarClientePago").addEventListener('keydown', ()=>{
         mostrarTablaPagosBancoCliente();
     }
 }); 
-
-
 const mostrarDatosPagos = (datos) =>{
     $.ajax({
         type: "POST",
@@ -187,7 +183,7 @@ const mostrarDatosPagos = (datos) =>{
                     la base de datos`
                 })
             }else{
-                console.log(data);
+                document.getElementById("Aid").value = data.info.id;
                 document.getElementById("Anombre").value = data.info.Nombre;
                 document.getElementById("AnumeroOperacion").value = data.info.NumOperacion;
                 document.getElementById("AmesPago").value = data.info.Mes;
@@ -208,4 +204,79 @@ const mostrarDatosPagos = (datos) =>{
             }
         }
     })
+}
+
+const obtenerDatos = ()=>{
+    let id = document.getElementById("Aid").value;
+    let nombre = document.getElementById("Anombre").value;
+    let numeroOperacion = document.getElementById("AnumeroOperacion").value;
+    let mesPago = document.getElementById("AmesPago").value;
+    let pago = document.getElementById("Apago").value;
+    let formaPago = document.getElementById("AformaPago").value;
+    let fechaPago = document.getElementById("AfechaDeposito").value;
+    let observacion = document.getElementById("Aobservacion").value;
+    return `id=${id}&nombre=${nombre}&numOperacion=${numeroOperacion}&mesPago=${mesPago}&pago=${pago}&formaPago=${formaPago}&fechaPago=${fechaPago}&observacion=${observacion}`;
+}
+
+const actualizarPago = () =>{
+    $.ajax({
+        type: "POST",
+        url: "../php/pagosBanco/actualizarPago.php",
+        dataType: "json",
+        data: obtenerDatos(),
+        success: (data)=>{
+            if(data.estado == "Actualizado"){
+                mostrarTablaPagosBanco();
+                $('#modalActualizarPago').modal('hide');
+                Toast.fire({
+                    icon: 'success',
+                    title: `Los datos del pago han sido
+                    actualizados correctamente`
+                })
+            }else if(data.estado == "llenaCampos"){
+                Toast.fire({
+                    icon: 'info',
+                    title: `Verifica la información 
+                    LLena los campos solicitados`
+                })
+            }else if(data.estado == "errormes"){
+                Toast.fire({
+                    icon: 'warning',
+                    title: `El pago del mes ya fue registrado
+                    por favor verifica la información`
+                })
+            }else if(data.estado == "erroroperacion"){
+                Toast.fire({
+                    icon: 'warning',
+                    title: `El Num. de operación ya fue registrado
+                    Por favor verifica la información`
+                })
+            }
+        }
+
+    })
+}
+const borrarPago = () =>{
+     $.ajax({
+         type: "POST",
+         url: "../php/pagosBanco/borrarPago.php",
+         dataType: "json",
+         data: obtenerDatos(),
+         success: (data) =>{
+            if(data.estado == "borrado"){
+                Toast.fire({
+                    icon: 'success',
+                    title: `Pago Borrado con exito
+                    ${data.id} ${data.nombre}`
+                })
+                mostrarTablaPagosBanco();
+                $('#modalActualizarPago').modal('hide');
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: `no se pudo borrar el registro`
+                })
+            }
+         }
+     })
 }
