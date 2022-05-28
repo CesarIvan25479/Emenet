@@ -105,8 +105,8 @@ function mostrarTablaPagosBanco(){
     let mes = document.getElementById("mosMes").value;
     document.getElementById("buscarClientePago").value = "";
     mes = mes.replace(" ", "%20");
-
     let todosReg = document.getElementById("todosRegistros").checked ? "on" : "off";
+    console.log(todosReg)
     $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg);
 }
 
@@ -257,26 +257,28 @@ const actualizarPago = () =>{
     })
 }
 const borrarPago = () =>{
-     $.ajax({
-         type: "POST",
-         url: "../php/pagosBanco/borrarPago.php",
-         dataType: "json",
-         data: obtenerDatos(),
-         success: (data) =>{
-            if(data.estado == "borrado"){
-                Toast.fire({
-                    icon: 'success',
-                    title: `Pago Borrado con exito
-                    ${data.id} ${data.nombre}`
-                })
-                mostrarTablaPagosBanco();
-                $('#modalActualizarPago').modal('hide');
-            }else{
-                Toast.fire({
-                    icon: 'error',
-                    title: `no se pudo borrar el registro`
-                })
+    if(confirm(`¿Estas seguro de Borrar este registro?`)){
+        $.ajax({
+            type: "POST",
+            url: "../php/pagosBanco/borrarPago.php",
+            dataType: "json",
+            data: obtenerDatos(),
+            success: (data) =>{
+                if(data.estado == "borrado"){
+                    Toast.fire({
+                        icon: 'success',
+                        title: `Pago Borrado con exito
+                        ${data.id} ${data.nombre}`
+                    })
+                    mostrarTablaPagosBanco();
+                    $('#modalActualizarPago').modal('hide');
+                }else{
+                    Toast.fire({
+                        icon: 'error',
+                        title: `no se pudo borrar el registro`
+                    })
+                }
             }
-         }
-     })
+        })
+    }
 }

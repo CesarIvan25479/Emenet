@@ -23,16 +23,49 @@ function registrosTodosCliente($estado, $nombre, $Conexion){
     $pagosEstado = mysqli_query($Conexion, $consulta);
     return $pagosEstado;
 }
+//Todo el primer proceso termina aqui
+//******************************* */
+
+function registrosMesTodos($mes, $Conexion){
+    $consulta = "SELECT *FROM pagosazteca WHERE Mes = '$mes'";
+    $pagosEstado = mysqli_query($Conexion, $consulta);
+    return $pagosEstado;
+}
+
+
+function registrosMesClienteTodos($mes, $nombre, $Conexion){
+    $consulta = "SELECT *FROM pagosazteca 
+    WHERE Mes = '$mes' AND Nombre LIKE '%$nombre%' OR NumOperacion LIKE '%$nombre%' OR FechaPago LIKE '%$nombre%'";
+    $pagosEstado = mysqli_query($Conexion, $consulta);
+    return $pagosEstado;
+}
+
+function registrosTodosClienteTodos($nombre, $Conexion){
+    $consulta = "SELECT *FROM pagosazteca WHERE Nombre LIKE '%$nombre%' OR NumOperacion LIKE '%$nombre%' OR FechaPago LIKE '%$nombre%'";
+    $pagosEstado = mysqli_query($Conexion, $consulta);
+    return $pagosEstado;
+}
+
 include '../../php/ConexionMySQL.php';
 $estado = $_GET["estado"] ?? null;
 $mes = $_GET["mes"] ?? null;
 $todosReg = $_GET["todosreg"] ?? null;
 
-if(isset($_GET["nombre"])){
-    $nombre = $_GET["nombre"];
-    $todosReg == "off" ? $pagosEstado = registrosMesCliente($estado, $mes, $nombre, $Conexion) : $pagosEstado = registrosTodosCliente($estado, $nombre, $Conexion);
+
+if($estado != "TODOS"){
+    if(isset($_GET["nombre"])){
+        $nombre = $_GET["nombre"];
+        $todosReg == "off" ? $pagosEstado = registrosMesCliente($estado, $mes, $nombre, $Conexion) : $pagosEstado = registrosTodosCliente($estado, $nombre, $Conexion);
+    }else{
+        $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pagosEstado = registrosTodos($estado, $Conexion);
+    }
 }else{
-    $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pagosEstado = registrosTodos($estado, $Conexion);
+    if(isset($_GET["nombre"])){
+        $nombre = $_GET["nombre"];
+        $todosReg == "off" ? $pagosEstado = registrosMesClienteTodos($mes, $nombre, $Conexion) : $pagosEstado = registrosTodosClienteTodos($nombre, $Conexion);
+    }else{
+        $todosReg == "off" ? $pagosEstado =  registrosMesTodos($mes, $Conexion) : $pagosEstado = registrosMesClienteTodos($mes, $nombre, $Conexion);
+    }
 }
 
 $count = 0; 
@@ -43,6 +76,7 @@ $count = 0;
         <div class="card-box table-responsive">
             <table class="table table-bordered table-sm">
                 <thead class="thead-dark">
+
                     <?php if($estado == "PENDIENTE"):?>
                     <tr>
                         <th>#</th>
@@ -75,6 +109,19 @@ $count = 0;
                         <th>IMPORTE</th>
                         <th>FO. PAGO.</th>
                         <th>OBSERVACION</th> 
+                    </tr>
+                    <?php elseif($estado == "TODOS"):?>
+                        <tr>
+                        <th>#</th>
+                        <th>CLIENTE</th>
+                        <th>FECHA</th>
+                        <th>MES</th>            
+                        <th>N. OPE</th>
+                        <th>IMPORTE</th>
+                        <th>FO. PAGO.</th>
+                        <th>OBSERVACION</th>
+                        <th>POBLACION</th> 
+                        <th>ESTADO</th>
                     </tr>
                     <?php endif;?>
                 </thead>
@@ -114,7 +161,7 @@ $count = 0;
                                     onclick="pagoFinalizado('<?=$datosPago['id']?>')"><img src="./asset/verify.png" width="25px"></button></td>
                     </tr>       
                 <?php endwhile?>
-                <?php elseif($estado == "FINALIZADO"):?>
+                <?php elseif($estado == "FINALIZADO" && $todosReg == "off"):?>
                     <?php
                     $count = 0; 
                     while($datosPago = mysqli_fetch_array($pagosEstado)):
@@ -128,6 +175,58 @@ $count = 0;
                         <td><?=$datosPago['Importe']?></td>
                         <td><?=$datosPago['FormaPago']?></td>
                         <td><?=$datosPago['Observacion']?></td>
+                    </tr>       
+                <?php endwhile?>
+                <?php elseif($estado == "FINALIZADO" && $todosReg == "on" && isset($_GET["nombre"])):?>
+                    <?php
+                    $count = 0; 
+                    while($datosPago = mysqli_fetch_array($pagosEstado)):
+                    $count += 1;?>
+                    <tr class="table-success" onclick="mostrarDatosPagos('<?=$datosPago['id']?>')">
+                        <th scope="row"><?=$count?></th>
+                        <td><?=$datosPago['Nombre']?></td>
+                        <td><?=$datosPago['FechaPago']?></td>
+                        <td><?=$datosPago['Mes']?></td>
+                        <td><?=$datosPago['NumOperacion']?></td>
+                        <td><?=$datosPago['Importe']?></td>
+                        <td><?=$datosPago['FormaPago']?></td>
+                        <td><?=$datosPago['Observacion']?></td>
+                    </tr>       
+                <?php endwhile?>
+                <?php elseif($estado == "TODOS" && $todosReg == "on" && isset($_GET["nombre"])):?>
+                    <?php
+                    $count = 0; 
+                    while($datosPago = mysqli_fetch_array($pagosEstado)):
+                    $count += 1;?>
+                    <tr class="table-success" onclick="mostrarDatosPagos('<?=$datosPago['id']?>')">
+                        <th scope="row"><?=$count?></th>
+                        <td><?=$datosPago['Nombre']?></td>
+                        <td><?=$datosPago['FechaPago']?></td>
+                        <td><?=$datosPago['Mes']?></td>
+                        <td><?=$datosPago['NumOperacion']?></td>
+                        <td><?=$datosPago['Importe']?></td>
+                        <td><?=$datosPago['FormaPago']?></td>
+                        <td><?=$datosPago['Observacion']?></td>
+                        <td><?=$datosPago['Poblacion']?></td>
+                        <td><?=$datosPago['Estado']?></td>
+                    </tr>       
+                <?php endwhile?>
+                <?php elseif($estado == "TODOS" && $todosReg == "off"):?>
+                    <?php
+                    $count = 0; 
+                    while($datosPago = mysqli_fetch_array($pagosEstado)):
+                    $count += 1;?>
+                    <tr class="table-success" onclick="mostrarDatosPagos('<?=$datosPago['id']?>')">
+                        <th scope="row"><?=$count?></th>
+                        <td><?=$datosPago['Nombre']?></td>
+                        <td><?=$datosPago['FechaPago']?></td>
+                        <td><?=$datosPago['Mes']?></td>
+                        <td><?=$datosPago['NumOperacion']?></td>
+                        <td><?=$datosPago['Importe']?></td>
+                        <td><?=$datosPago['FormaPago']?></td>
+                        <td><?=$datosPago['Observacion']?></td>
+                        <td><?=$datosPago['Poblacion']?></td>
+                        <td><?=$datosPago['Estado']?></td>
                     </tr>       
                 <?php endwhile?>
                 <?php endif;?>
