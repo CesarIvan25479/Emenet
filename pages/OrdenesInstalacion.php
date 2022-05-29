@@ -350,27 +350,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Default box -->
             <div class="card">
               <div class="card-header">
-                <div class="form-row align-items-center">
-                      <div class="col-sm-3 my-1">
-                          <input class="form-control form-control-sm" type="date" id="FechaIn" name="FechaCliente" value="<?php echo $FechaReporte ?>">
-                      </div>
-                                                
-                      <div class="col-sm-2 my-1">
-                          <select name="opcion" class="form-control form-control-sm" id="opcion">
-                              <option>Mostrar</option>
-                              <option>Mostrar y Activar</option>  
-                          </select>
-                      </div>
-                      <div class="col-sm-1 my-1">
-                        <label for="">dfd
-                        
-                        </label>
-                        <select name="opcion" class="form-control form-control-sm" id="opcion">
-                              <option>RI</option>
-                              <option>RT</option>  
-                          </select>
-                      </div>  
+                  <div class="form-row align-items-center">
+                  <div class="col-sm-2 my-1">
+                      <label class="col-form-label" for="fechaInicio">Fecha Incio:</label>
+                      <input type="date" class="form-control form-control-sm" name="fechaInicio" id="fechaInicio">
                   </div>
+                  <div class="col-sm-2 my-1">
+                      <label class="col-form-label" for="fechaFin">Fecha Fin:</label>
+                      <input type="date" class="form-control form-control-sm" name="fechaFin" id="fechaFin">
+                  </div>
+                  <div class="col-sm-2 my-1">
+                      <label class="col-form-label" for="filtrotipo">Tipo:</label>
+                      <select name="filtrotipo" class="form-control form-control-sm" id="filtrotipo">
+                          <option>--Selecciona--</option>
+                          <option>Inalámbrico</option>
+                          <option>Fibra óptica</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-2 my-1">
+                      <label class="col-form-label" for="filtroins">Instalación:</label>
+                      <select name="filtroins" class="form-control form-control-sm" id="filtroins">
+                          <option>--Selecciona--</option>
+                          <option>Nueva</option>
+                          <option>Cambio</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-2 my-1">
+                      <label class="col-form-label" for="filtroins"></label>
+                      <button type="button" class="btn btn-block btn-outline-success btn-xs" style="margin-top:12px" data-toggle="modal" data-target="#modalAgregarOrden">
+                          <i class="fa fa-plus"></i> Agregar Orden</button>
+                  </div>
+                </div>
               </div>
               <div class="card-body">
               <div class="row">
@@ -503,6 +513,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </form>
     </div>
 </div>
+    
+    <div class="modal fade" id="modalAgregarOrden">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <form id="agregarOrden">
+            <div class="modal-header">
+              <h4 class="modal-title">Información pago</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-outline-success">Guradar</button>
+            </div>
+              </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
