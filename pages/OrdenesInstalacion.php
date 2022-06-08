@@ -1,8 +1,14 @@
+<?php
+set_time_limit(0);
+include '../php/ConexionSQL.php';
+$consulta = "SELECT NOMBRE, CLIENTE FROM clients";
+$resultadoClientes = sqlsrv_query($Conn , $consulta); 
+
+$textinicio = date("Y-m-01");
+$textfin = date("Y-m-t");
+?>
+
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -16,6 +22,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
+    <!-- Select2 -->
+  <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <!-- Paginar Tabla-->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
 <div class="wrapper">
@@ -343,9 +356,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          
-            
-        
           <div class="col-md-12 col-sm-12">
             <!-- Default box -->
             <div class="card">
@@ -353,16 +363,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="form-row align-items-center">
                   <div class="col-sm-2 my-1">
                       <label class="col-form-label" for="fechaInicio">Fecha Incio:</label>
-                      <input type="date" class="form-control form-control-sm" name="fechaInicio" id="fechaInicio">
+                      <input type="date" class="form-control form-control-sm" name="fechaInicio" id="fechaInicio" value="<?=$textinicio?>">
                   </div>
                   <div class="col-sm-2 my-1">
                       <label class="col-form-label" for="fechaFin">Fecha Fin:</label>
-                      <input type="date" class="form-control form-control-sm" name="fechaFin" id="fechaFin">
+                      <input type="date" class="form-control form-control-sm" name="fechaFin" id="fechaFin" value="<?=$textfin?>">
                   </div>
                   <div class="col-sm-2 my-1">
                       <label class="col-form-label" for="filtrotipo">Tipo:</label>
                       <select name="filtrotipo" class="form-control form-control-sm" id="filtrotipo">
-                          <option>--Selecciona--</option>
+                          <option>-Selecciona-</option>
                           <option>Inalámbrico</option>
                           <option>Fibra óptica</option>
                       </select>
@@ -370,7 +380,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-sm-2 my-1">
                       <label class="col-form-label" for="filtroins">Instalación:</label>
                       <select name="filtroins" class="form-control form-control-sm" id="filtroins">
-                          <option>--Selecciona--</option>
+                          <option>-Selecciona-</option>
                           <option>Nueva</option>
                           <option>Cambio</option>
                       </select>
@@ -383,91 +393,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
               </div>
               <div class="card-body">
-              <div class="row">
-                      <div class="col-sm-12">
-                          <div class="col-md-12">
-                            <h4>Cesar Ivan Rivera Castro<small> Santiago Tilapa121123 IFO</small></h4>
-                          </div>
-                          <div class="card-box table-responsive">
-                              <table class="table table-sm">
-                                  <thead class="thead-dark">
-                                      <tr>
-                                          <th>DOC</th>
-                                          <th>F. EM</th>
-                                          <th>MES-AÑO</th>            
-                                          <th>CLAVE</th>
-                                          <th>DESC.</th>
-                                          <th>TOTAL</th>            
-                                      </tr>
-                                  </thead>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                                  <tr class="table-primary">
-                                      <td>REM3232</td>
-                                      <td>2018-02-02</td>
-                                      <td>MAY 2021</td>
-                                      <td>RI</td>
-                                      <td>no se que </td>
-                                      <td>250</td>
-                                  </tr>
-                              </table>
-                          </div>
-                      </div>
+                  <div id="tablaOrdenes">
+                     
                   </div>
+             
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
@@ -514,22 +443,196 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
 </div>
     
-    <div class="modal fade" id="modalAgregarOrden">
+    <div class="modal fade" id="modalAgregarOrden" >
         <div class="modal-dialog">
           <div class="modal-content">
-              <form id="agregarOrden">
+              <form id="agregarOrden" enctype="multipart/form-data">
             <div class="modal-header">
-              <h4 class="modal-title">Información pago</h4>
+              <h4 class="modal-title">Información Orden</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-                ...
+                <div class="col-12 col-sm-12">
+                    <div class="card card-primary card-outline card-outline-tabs">
+                        <div class="card-header p-0 border-bottom-0">
+                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-     controls="custom-tabs-four-home" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-four-tabContent">
+                                <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                                    <div class="form-group">
+                                        <label for="folioOrden">Folio Orden:</label>
+                                        <input type="number" class="form-control form-control-sm" name="folioOrden" id="folioOrden" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre Cliente:</label>
+                                        <select class="form-control form-control-sm select2" style="width: 100%;" id="nombre" name="nombre">
+                                            <?php while ($clientes = sqlsrv_fetch_array($resultadoClientes)):?> 
+                                            <option value="<?=$clientes['NOMBRE']?>"><?=$clientes['NOMBRE']?></option>
+                                            <?php endwhile; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fechaInst">Fecha de instalación:</label>
+                                        <input type="date" class="form-control form-control-sm" name="fechaInst" id="fechaInst" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="TipoServicio">Tipo de servicio:</label>
+                                        <select class="form-control form-control-sm" style="width: 100%;" id="tipoServicio" name="tipoServicio">
+                                            <option>Inalámbrico</option>
+                                            <option>Fibra óptica</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipoIns">Instalación:</label>
+                                        <select class="form-control form-control-sm " style="width: 100%;" id="tipoIns" name="tipoIns">
+                                            <option>Nueva</option>
+                                            <option>Cambio</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="folioOrden">Imagenes</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imgOrden" name="imgOrden">
+                                                <label class="custom-file-label" for="imgOrden">Imagen Orden</label>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imgCredencial" name="imgCredencial">
+                                                <label class="custom-file-label" for="imgCredencial">Imagen Credencial</label>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imgComp" name="imgComp">
+                                                <label class="custom-file-label" for="imgComp">Imagen Compromiso </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-outline-success">Guradar</button>
+              <div>
+                <button type="button" class="btn btn-default" onclick="reinicar()">Reiniciar</button>
+                <button type="submit" class="btn btn-outline-success">Guradar</button>
+              </div>
+            </div>
+              </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+    
+    <div class="modal fade" id="modalActualizarOrden" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <form id="actualizarOrden" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h4 class="modal-title">Actualizar Orden</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 col-sm-12">
+                    <div class="card card-primary card-outline card-outline-tabs">
+                        <div class="card-header p-0 border-bottom-0">
+                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-     controls="custom-tabs-four-home" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-four-tabContent">
+                                <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                                    <div class="form-group">
+                                        <label for="folioOrden">Folio Orden:</label>
+                                        <input type="number" class="form-control form-control-sm" name="folioOrden" id="folioOrden" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre Cliente:</label>
+                                        <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fechaInst">Fecha de instalación:</label>
+                                        <input type="date" class="form-control form-control-sm" name="fechaInst" id="fechaInst" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="TipoServicio">Tipo de servicio:</label>
+                                        <select class="form-control form-control-sm" style="width: 100%;" id="tipoServicio" name="tipoServicio">
+                                            <option>Inalámbrico</option>
+                                            <option>Fibra óptica</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipoIns">Instalación:</label>
+                                        <select class="form-control form-control-sm " style="width: 100%;" id="tipoIns" name="tipoIns">
+                                            <option>Nueva</option>
+                                            <option>Cambio</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="folioOrden">Imagenes</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imgOrden" name="imgOrden">
+                                                <label class="custom-file-label" for="imgOrden">Imagen Orden</label>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imgCredencial" name="imgCredencial">
+                                                <label class="custom-file-label" for="imgCredencial">Imagen Credencial</label>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imgComp" name="imgComp">
+                                                <label class="custom-file-label" for="imgComp">Imagen Compromiso </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <div>
+                <button type="button" class="btn btn-outline-danger" onclick="borrar()">Borrar</button>
+                <button type="button" class="btn btn-outline-warning" onclick="actualizar()">Actualizar</button>
+              </div>
             </div>
               </form>
           </div>
@@ -571,8 +674,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+<script src="../plugins/select2/js/select2.full.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
-<script src="../js/clientes.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="../js/ordenesServicio.js"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+  $(function () {
+    bsCustomFileInput.init();
+  });
+</script>
 </body>
 </html>
