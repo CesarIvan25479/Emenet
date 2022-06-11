@@ -89,7 +89,7 @@ const actualizar = () =>{
     .then(res => res.json())
     .then(data =>{
         if(data.estado == "Agregado"){
-            console.log("Listo 2")
+            console.log(data)
         }
     })
 }
@@ -102,8 +102,27 @@ const borrar = () =>{
     })
     .then(res => res.json())
     .then(data =>{
-        if(data.estado == "Agregado"){
-            console.log("listo")
+        if(data.estado == "Borrado"){
+            let fechInicio = $("#fechaInicio").val();
+            let fechaFin = $("#fechaFin").val();
+            Toast.fire({
+                icon: 'success',
+                title: `Orden eliminada correctamente
+                Folio Orden: ${data.folio}`
+            })
+            $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
+            $('#modalActualizarOrden').modal('hide');
+            console.log(data)
+        }else{
+            console.log("no se pudo borrar")
         }
     })
+}
+const mostrarDatosAct = (datos) =>{
+    datos = datos.split("||");
+    document.getElementById("actuFolioOrden").value = datos[0];
+    document.getElementById("actuNombre").value = datos[1];
+    document.getElementById("actuFechaInst").value = datos[2];
+    document.getElementById("actuTipoServicio").value = datos[3];
+    document.getElementById("actuTipoIns").value = datos[4];
 }

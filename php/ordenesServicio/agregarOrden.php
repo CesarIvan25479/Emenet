@@ -27,7 +27,8 @@ function guardaImagen(){
     $ordenExt = $folio."orden.".pathinfo($_FILES['imgOrden']['name'], PATHINFO_EXTENSION);
     //Informacion de la imagen de la credencial
     $datosCr = $_FILES['imgCredencial']['tmp_name'];
-    $credExt = $folio."credencial.".pathinfo($_FILES['imgCredencial']['name'], PATHINFO_EXTENSION);
+    $ext = pathinfo($_FILES['imgCredencial']['name'], PATHINFO_EXTENSION);
+    $credExt = $ext != "" ? $folio."credencial.".$ext : "";
     //Informacion de la imagen del Compromiso
     $datosComp = $_FILES['imgComp']['tmp_name'];
     $comExt = $folio."compromiso.".pathinfo($_FILES['imgComp']['name'], PATHINFO_EXTENSION);

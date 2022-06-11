@@ -1,9 +1,8 @@
 <?php
 $fechaInicio = $_GET["fechaInicio"];
 $fechaFin = $_GET["fechaFin"];
-$tipo = $_GET["tipo"];
-$instalacion = $_GET["instalacion"];
-echo $tipo;
+$tipo = $_GET["tipo"] ?? "-Selecciona-";
+$instalacion = $_GET["instalacion"] ?? "-Selecciona-";
 include "../../php/ConexionMySQL.php";
 if($tipo == "-Selecciona-" && $instalacion == "-Selecciona-"){
     $query = "SELECT * FROM ordenes WHERE FechaIns BETWEEN '$fechaInicio' AND '$fechaFin'";
@@ -33,14 +32,21 @@ if($tipo == "-Selecciona-" && $instalacion == "-Selecciona-"){
                         <th>ACCION</th>            
                     </tr>
                 </thead>
-                <?php while($datosOrden = mysqli_fetch_array($result)):?>
+                <?php while($datosOrden = mysqli_fetch_array($result)):
+                    $infoOrden = $datosOrden["Folio"]."||".$datosOrden["Cliente"]."||".$datosOrden["FechaIns"]."||".$datosOrden["Tipo"]."||".$datosOrden["Instalacion"];
+                    ?>
                 <tr>
-                    <td data-toggle="modal" data-target="#modalActualizarOrden"><?=$datosOrden["Folio"]?></td>
-                    <td data-toggle="modal" data-target="#modalActualizarOrden"><?=$datosOrden["Cliente"]?></td>
-                    <td data-toggle="modal" data-target="#modalActualizarOrden"><?=$datosOrden["FechaIns"]?></td>
-                    <td data-toggle="modal" data-target="#modalActualizarOrden"><?=$datosOrden["Tipo"]?></td>
-                    <td data-toggle="modal" data-target="#modalActualizarOrden"><?=$datosOrden["Instalacion"]?></td>
-                    <td>fadsfads</td>
+                    <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Folio"]?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Cliente"]?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["FechaIns"]?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Tipo"]?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Instalacion"]?></td>
+                    <td>
+                        <form action="../../../Emenet/pages/ordenesDocumentos.php" method="post">
+                            <input type="hidden" value="<?=$datosOrden["Folio"]?>" name="folio">
+                            <button class="btn btn-block btn-outline-primary btn-xs" type="submit"><i class="fas fa-images"></i></button>
+                        </form>
+                    </td>
                 </tr> 
                 <?php endwhile;?>    
             </table>

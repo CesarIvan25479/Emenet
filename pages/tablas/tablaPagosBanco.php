@@ -64,6 +64,7 @@ if($estado != "TODOS"){
         $nombre = $_GET["nombre"];
         $todosReg == "off" ? $pagosEstado = registrosMesClienteTodos($mes, $nombre, $Conexion) : $pagosEstado = registrosTodosClienteTodos($nombre, $Conexion);
     }else{
+        $nombre = "";
         $todosReg == "off" ? $pagosEstado =  registrosMesTodos($mes, $Conexion) : $pagosEstado = registrosMesClienteTodos($mes, $nombre, $Conexion);
     }
 }

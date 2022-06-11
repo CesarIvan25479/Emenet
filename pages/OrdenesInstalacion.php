@@ -1,7 +1,11 @@
 <?php
 set_time_limit(0);
 include '../php/ConexionSQL.php';
-$consulta = "SELECT NOMBRE, CLIENTE FROM clients";
+$actual = date("Ymd");
+$anterior = date("Ymd",strtotime($actual."- 3 month"));
+$consulta = "SELECT DISTINCT C.NOMBRE, C.CLIENTE FROM 
+clients C INNER JOIN ventas V ON C.CLIENTE=V.CLIENTE INNER JOIN partvta P ON V.VENTA=P.VENTA 
+WHERE V.F_EMISION BETWEEN '$anterior' AND '$actual'";
 $resultadoClientes = sqlsrv_query($Conn , $consulta); 
 
 $textinicio = date("Y-m-01");
@@ -571,27 +575,27 @@ $textfin = date("Y-m-t");
                             <div class="tab-content" id="custom-tabs-four-tabContent">
                                 <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                                     <div class="form-group">
-                                        <label for="folioOrden">Folio Orden:</label>
-                                        <input type="number" class="form-control form-control-sm" name="folioOrden" id="folioOrden" placeholder="">
+                                        <label for="actuFolioOrden">Folio Orden:</label>
+                                        <input type="number" class="form-control form-control-sm" name="actuFolioOrden" id="actuFolioOrden" placeholder="" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="nombre">Nombre Cliente:</label>
-                                        <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" placeholder="">
+                                        <label for="actuNombre">Nombre Cliente:</label>
+                                        <input type="text" class="form-control form-control-sm" name="actuNombre" id="actuNombre" placeholder="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="fechaInst">Fecha de instalación:</label>
-                                        <input type="date" class="form-control form-control-sm" name="fechaInst" id="fechaInst" placeholder="">
+                                        <label for="actuFechaInst">Fecha de instalación:</label>
+                                        <input type="date" class="form-control form-control-sm" name="actuFechaInst" id="actuFechaInst" placeholder="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="TipoServicio">Tipo de servicio:</label>
-                                        <select class="form-control form-control-sm" style="width: 100%;" id="tipoServicio" name="tipoServicio">
+                                        <label for="actuTipoServicio">Tipo de servicio:</label>
+                                        <select class="form-control form-control-sm" style="width: 100%;" id="actuTipoServicio" name="actuTipoServicio">
                                             <option>Inalámbrico</option>
                                             <option>Fibra óptica</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tipoIns">Instalación:</label>
-                                        <select class="form-control form-control-sm " style="width: 100%;" id="tipoIns" name="tipoIns">
+                                        <label for="actuTipoIns">Instalación:</label>
+                                        <select class="form-control form-control-sm " style="width: 100%;" id="actuTipoIns" name="actuTipoIns">
                                             <option>Nueva</option>
                                             <option>Cambio</option>
                                         </select>
@@ -600,7 +604,7 @@ $textfin = date("Y-m-t");
                                         <label for="folioOrden">Imagenes</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="imgOrden" name="imgOrden">
+                                                <input type="file" class="custom-file-input" id="imgOrden" name="imgOrden" value="1orden.jpeg">
                                                 <label class="custom-file-label" for="imgOrden">Imagen Orden</label>
                                             </div>
                                         </div>
