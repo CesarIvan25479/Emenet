@@ -65,14 +65,12 @@ function CamposCambioMes($id, $nombre, $fechaDeposito, $mesPago, $pago, $numOper
             if(empty($pago) || empty($nombre)){
                 return "llenaCampos";
             }else{
-                $data["prueba"] = "Estoy aqui";
                 return validarMesPago($id, $nombre, $fechaDeposito, $mesPago, $pago, $numOperacion, $formaPago, $observacion, $Conexion);
             }
         }else{
             if(empty($observacion) || empty($pago) || empty($nombre)){
                 return "llenaCampos";
             }else{
-                $data["prueba"] = "Estoy aqui";
                 return actualizarPago($id,$nombre, $fechaDeposito, $mesPago, $pago, $numOperacion, $formaPago, $observacion, $Conexion);
             }
         }
@@ -81,14 +79,12 @@ function CamposCambioMes($id, $nombre, $fechaDeposito, $mesPago, $pago, $numOper
             if(empty($pago) || empty($nombre) || empty($numOperacion)){
                 return "llenaCampos";
             }else{
-                $data["prueba"] = "Estoy aqui";
                 return validarMesPago($id, $nombre, $fechaDeposito, $mesPago, $pago, $numOperacion, $formaPago, $observacion, $Conexion);
             }
         }else{
             if(empty($pago) || empty($nombre) || empty($numOperacion) || empty($observacion)){
                 return "llenaCampos";
             }else{
-                $data["prueba"] = "Estoy aqui";
                 return actualizarPago($id,$nombre, $fechaDeposito, $mesPago, $pago, $numOperacion, $formaPago, $observacion, $Conexion);
             }
         }

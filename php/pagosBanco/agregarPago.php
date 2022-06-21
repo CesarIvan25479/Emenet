@@ -26,9 +26,6 @@ function agregaRegistroPago($nombre, $fechaDeposito, $mesPago, $pago, $numOperac
         return "error";
     }
 }
-function validaCampos(){
-
-}
 
 
 

@@ -36,7 +36,7 @@ agregarOrden.addEventListener('submit', (e) => {
             Toast.fire({
                 icon: 'error',
                 title: `Verifica el tamaño de
-                las imagenes menor 0.5MB`
+                las imagenes menor 0.5Mb`
             })
         }else if(data.estado == "error"){
             Toast.fire({
@@ -88,8 +88,22 @@ const actualizar = () =>{
     })
     .then(res => res.json())
     .then(data =>{
-        if(data.estado == "Agregado"){
-            console.log(data)
+        if(data.estado == "actualizado"){
+            let fechInicio = $("#fechaInicio").val();
+            let fechaFin = $("#fechaFin").val();
+            Toast.fire({
+                icon: 'success',
+                title: `Información Actualizada correctamente
+                Folio Orden: ${data.folio}`
+            })
+            $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
+            $('#modalActualizarOrden').modal('hide');
+        }else{
+            Toast.fire({
+                icon: 'error',
+                title: `No se guardaron los datos
+                verifica la conexión`
+            })
         }
     })
 }
@@ -112,7 +126,6 @@ const borrar = () =>{
             })
             $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
             $('#modalActualizarOrden').modal('hide');
-            console.log(data)
         }else{
             console.log("no se pudo borrar")
         }
