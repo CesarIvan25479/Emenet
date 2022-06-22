@@ -467,16 +467,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $("#documentosImg").load("../pages/tablas/documentosImg.php?folio=" + <?=$folio?>);
     })
     $(function() {
-      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault();
-        $(this).ekkoLightbox({
-          alwaysShowClose: true
-        });
-      });
-    })
-    $(function() {
       bsCustomFileInput.init();
     });
+    $(function() {
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
+    })
   </script>
 </body>
 

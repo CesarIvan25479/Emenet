@@ -57,3 +57,88 @@ $datosImagenes = mysqli_fetch_array($result);
         </div>
     </div>
 </div>
+<!-- bs-custom-file-input -->
+<script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script>
+    
+    $(function() {
+        bsCustomFileInput.init();
+    });
+
+    $(document).ready(() => {
+        const validar = (data) => {
+            if (data.estado == "actualizado") {
+                Toast.fire({
+                    icon: 'success',
+                    title: `Información Guardada Correctamente
+                Folio Orden: ${data.folio}`
+                })
+                $("#documentosImg").load("../pages/tablas/documentosImg.php?folio=" + data.folio);
+            } else if (data.estado == "tamano") {
+                Toast.fire({
+                    icon: 'error',
+                    title: `Verifica el tamaño de las imagenes 
+                tamaño menor a 0.5Mb`
+                })
+            } else if (data.estado == "tipoarchvio") {
+                Toast.fire({
+                    icon: 'error',
+                    title: `Tipo de archvio incorrecto asegurate 
+                de cargar imagenes`
+                })
+            } else if (data.estado == "error") {
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se pudo cargar la imagen
+                porfavor intentalo de nuevo`
+                })
+            } else if (data.estado == "sinconexion") {
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se guardaron los datos
+                verifica la información`
+                })
+            }
+        }
+
+        $("#imgOrden").on("change", () => {
+            let formImgOrden = document.getElementById("imagenOrden");
+            let datosImagen = new FormData(formImgOrden);
+            fetch("../php/ordenesServicio/actualizarImagenes.php", {
+                    method: "POST",
+                    body: datosImagen,
+                })
+                .then(res => res.json())
+                .then(data => {
+                    validar(data);
+                })
+        });
+
+        $("#imagenCredencial").on("change", () => {
+            let formImgCredencial = document.getElementById("imagenCredencial");
+            let datosImagen = new FormData(formImgCredencial);
+            fetch("../php/ordenesServicio/actualizarImagenes.php", {
+                    method: "POST",
+                    body: datosImagen,
+                })
+                .then(res => res.json())
+                .then(data => {
+                    validar(data);
+                })
+        })
+
+        $("#imgComp").on("change", () => {
+            let formImgCom = document.getElementById("imagenCom");
+            let datosImagen = new FormData(formImgCom);
+            fetch("../php/ordenesServicio/actualizarImagenes.php", {
+                    method: "POST",
+                    body: datosImagen,
+                })
+                .then(res => res.json())
+                .then(data => {
+                    validar(data);
+                })
+
+        })
+    });
+</script>

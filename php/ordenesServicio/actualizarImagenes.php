@@ -32,10 +32,23 @@ function guardaImagen($nombre){
 
     if (move_uploaded_file($datosImg, $destino . $imgExt)) {
         if ($nombre == "orden") {
+            $query2 = "SELECT ImgOrden FROM ordenes WHERE Folio = '$folio'";
+            $result2 = mysqli_query($Conexion, $query2);
+            $borrarImagen = mysqli_fetch_array($result2);
+            unlink($destino.$borrarImagen["ImgOrden"]);
             $query = "UPDATE ordenes SET ImgOrden = '$imgExt' WHERE Folio = '$folio'";
+            
         } else if ($nombre == "credencial") {
+            $query2 = "SELECT ImgCredencial FROM ordenes WHERE Folio = '$folio'";
+            $result2 = mysqli_query($Conexion, $query2);
+            $borrarImagen = mysqli_fetch_array($result2);
+            unlink($destino.$borrarImagen["ImgCredencial"]);
             $query = "UPDATE ordenes SET ImgCredencial = '$imgExt' WHERE Folio = '$folio'";
         } else if ($nombre == "compromiso") {
+            $query2 = "SELECT ImgCompromiso FROM ordenes WHERE Folio = '$folio'";
+            $result2 = mysqli_query($Conexion, $query2);
+            $borrarImagen = mysqli_fetch_array($result2);
+            unlink($destino.$borrarImagen["ImgCompromiso"]);
             $query = "UPDATE ordenes SET ImgCompromiso = '$imgExt' WHERE Folio = '$folio'";
         }
         $result = mysqli_query($Conexion, $query);
