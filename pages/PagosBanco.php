@@ -565,7 +565,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-outline-success">Guradar</button>
+              <button type="submit" class="btn btn-outline-success">Guardar</button>
             </div>
               </form>
           </div>
