@@ -21,7 +21,7 @@ if($tipo == "-Selecciona-" && $instalacion == "-Selecciona-"){
 <div class="row">
     <div class="col-sm-12">
         <div class="card-box table-responsive">
-            <table id="ordenes" class="table table-striped">
+            <table id="ordenes" class="dataTable display cell-border compact table">
                 <thead class="thead-dark">
                     <tr>
                         <th>FOLIO</th>
@@ -36,7 +36,7 @@ if($tipo == "-Selecciona-" && $instalacion == "-Selecciona-"){
                     $infoOrden = $datosOrden["Folio"]."||".$datosOrden["Cliente"]."||".$datosOrden["FechaIns"]."||".$datosOrden["Tipo"]."||".$datosOrden["Instalacion"];
                     ?>
                 <tr>
-                    <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Folio"]?></td>
+                    <th scope="row" data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Folio"]?></th>
                     <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Cliente"]?></td>
                     <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["FechaIns"]?></td>
                     <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Tipo"]?></td>
@@ -78,7 +78,6 @@ $(document).ready(function() {
 			},   
 		},
         "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Todos"]],
-        scrollY: '85vh',
         scrollCollapse: true
 	});
 });

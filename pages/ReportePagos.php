@@ -205,7 +205,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <li class="nav-item">
-                <a href="../index.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-sitemap"></i>
                   <p>
                     Sistema
@@ -214,7 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="./routers.php" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Router</p>
                     </a>
@@ -357,7 +357,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-8">
+          <div class="col-sm-12">
             <h3 class="m-0">Reporte de ventas por cliente 
               <small>Desde el día <?=$fecha[2],"-",$fecha[1],"-",$fecha[0]?> al <?=$fechaActualFormato?></small></h3>
           </div><!-- /.col -->
