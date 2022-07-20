@@ -20,14 +20,15 @@ $result = $Conexion -> query($query);
 
                     </tr>
                 </thead>
-                <?php while($datosRouter = $result -> fetch_array(MYSQLI_BOTH)):?>
+                <?php while($datosRouter = $result -> fetch_array(MYSQLI_BOTH)):
+                    ?>
                 <tr>
-                    <th scope="row"><?=$datosRouter['id']?></th>
-                    <td><?=$datosRouter['Nombre']?></td>
-                    <td><?=$datosRouter['IP']?></td>
-                    <td><?=$datosRouter['PuertoAPI']?></td>
-                    <td><?=$datosRouter['Zonas']?></td>
-                    <td><?=$datosRouter['Tipo']?></td>
+                    <th scope="row" data-toggle="modal" data-target="#modalActualizarRouter"><?=$datosRouter['id']?></th>
+                    <td data-toggle="modal" data-target="#modalActualizarRouter" onclick="mostrarInfo('<?=$datosRouter['id']?>')"><?=$datosRouter['Nombre']?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarRouter" onclick="mostrarInfo('<?=$datosRouter['id']?>')"><?=$datosRouter['IP']?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarRouter" onclick="mostrarInfo('<?=$datosRouter['id']?>')"><?=$datosRouter['PuertoAPI']?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarRouter" onclick="mostrarInfo('<?=$datosRouter['id']?>')"><?=$datosRouter['Zonas']?></td>
+                    <td data-toggle="modal" data-target="#modalActualizarRouter" onclick="mostrarInfo('<?=$datosRouter['id']?>')"><?=$datosRouter['Tipo']?></td>
                     <td>
                         <button class="btn btn-block btn-outline-primary btn-xs" type="submit"><i class="fas fa-chart-bar"></i></button>
                     </td>

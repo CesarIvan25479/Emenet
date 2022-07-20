@@ -33,6 +33,35 @@ $textfin = date("Y-m-t");
   <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Paginar Tabla-->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <style>
+    .modal-body input:required {
+      border: 1px solid red;
+    }
+
+    .modal-body textarea:required {
+      border: 1px solid red;
+    }
+
+    .spinner {
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border-left-color: #09f;
+
+      animation: spin 1s ease infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -376,8 +405,6 @@ $textfin = date("Y-m-t");
                         <i class="fa fa-plus"></i> Agregar Router</button>
                     </div>
                   </div>
-
-
                 </div>
                 <div class="card-body">
                   <div id="tablaRouter">
@@ -410,13 +437,95 @@ $textfin = date("Y-m-t");
               </button>
             </div>
             <div class="modal-body">
+              <div class="form-group row">
+                <label for="nombreRouter" class="col-sm-2 col-form-label">Nombre:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" id="nombreRouter" name="nombreRouter">
+                  </div>
+                </div>
+              </div>
 
+              <div class="form-group row">
+                <label for="ipRouter" class="col-sm-2 col-form-label">Dir. IP:</label>
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" data-inputmask="'alias': 'ip'" data-mask name="ipRouter" id="ipRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="usuarioRouter" class="col-sm-2 col-form-label">Usuario:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" name="usuarioRouter" id="usuarioRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="passwordRouter" class="col-sm-2 col-form-label">Contra.:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                    </div>
+                    <input type="password" class="form-control form-control-sm" name="passwordRouter" id="passwordRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="puertoApi" class="col-sm-2 col-form-label">Puerto:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                    </div>
+                    <input type="number" class="form-control form-control-sm" name="puertoApi" id="puertoApi">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="tipoServicio" class="col-sm-2 col-form-label">Servicio:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-wifi"></i></span>
+                    </div>
+                    <select name="tipoServicio" id="tipoServicio" class="form-control form-control-sm">
+                      <option>INA</option>
+                      <option>IFO</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="zonas" class="col-sm-2 col-form-label">Zonas:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <textarea class="form-control" rows="2" placeholder="Ej. SM, TLALT, ALM" name="zonas" id="zonas"></textarea>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <div>
-                <button type="button" class="btn btn-default" onclick="reinicar()">Reiniciar</button>
-                <button type="submit" class="btn btn-outline-success">Guradar</button>
+                <button type="button" class="btn btn-outline-info" onclick="conexion()" id="btn-comprobar">Comprobar Conexión<div id="verificando"></div></button>
+                <button type="button" class="btn btn-outline-success" onclick="guardarRouter()">Guradar</button>
               </div>
             </div>
           </form>
@@ -426,6 +535,117 @@ $textfin = date("Y-m-t");
       <!-- /.modal-dialog -->
     </div>
 
+
+    <div class="modal fade" id="modalActualizarRouter">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="actualizarRouter" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h4 class="modal-title">Actualizar Información Router</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="anombreRouter" class="col-sm-2 col-form-label">Nombre:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" id="anombreRouter" name="anombreRouter">
+                    <input type="hidden" class="form-control form-control-sm" id="idRouter" name="idRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="aipRouter" class="col-sm-2 col-form-label">Dir. IP:</label>
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" data-inputmask="'alias': 'ip'" data-mask name="aipRouter" id="aipRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="ausuarioRouter" class="col-sm-2 col-form-label">Usuario:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" name="ausuarioRouter" id="ausuarioRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="apasswordRouter" class="col-sm-2 col-form-label">Contra.:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                    </div>
+                    <input type="password" class="form-control form-control-sm" name="apasswordRouter" id="apasswordRouter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="apuertoApi" class="col-sm-2 col-form-label">Puerto:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                    </div>
+                    <input type="number" class="form-control form-control-sm" name="apuertoApi" id="apuertoApi">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="atipoServicio" class="col-sm-2 col-form-label">Servicio:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-wifi"></i></span>
+                    </div>
+                    <select name="atipoServicio" id="atipoServicio" class="form-control form-control-sm">
+                      <option>INA</option>
+                      <option>IFO</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="zonas" class="col-sm-2 col-form-label">Zonas:</label>
+                <div class="col-sm-10">
+                  <div class="input-group mb-3">
+                    <textarea class="form-control" rows="2" placeholder="Ej. SM, TLALT, ALM" name="azonas" id="azonas"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <div>
+                <button type="button" class="btn btn-outline-info" onclick="aconexion()" id="abtn-comprobar">Comprobar Conexión</button>
+                <button type="button" class="btn btn-outline-danger" onclick="borrarRouter()">Borrar</button>
+                <button type="button" class="btn btn-outline-success" onclick="actualizarRouter()">Guradar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
 
 
     <div class="modal fade bs-example-modal-sm" id="IntFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -498,6 +718,10 @@ $textfin = date("Y-m-t");
   <!-- SweetAlert2 -->
   <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <!-- InputMask -->
+  <script src="../plugins/moment/moment.min.js"></script>
+  <script src="../plugins/inputmask/jquery.inputmask.min.js"></script>
+  <script src="../js/routers.js"></script>
   <script>
     $(document).ready(() => {
       $('#tablaRouter').load("./tablas/tablaRouters.php");
@@ -510,10 +734,9 @@ $textfin = date("Y-m-t");
       $('.select2bs4').select2({
         theme: 'bootstrap4'
       })
+
+      $('[data-mask]').inputmask()
     })
-    $(function() {
-      bsCustomFileInput.init();
-    });
   </script>
 </body>
 
