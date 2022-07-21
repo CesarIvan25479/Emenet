@@ -4,6 +4,12 @@ $folio  = $_POST["folio"];
 $query = "SELECT ImgCompromiso, ImgCredencial, ImgOrden, Cliente FROM ordenes WHERE Folio = '$folio'";
 $result = mysqli_query($Conexion, $query);
 $datosImagenes = mysqli_fetch_array($result);
+
+//Corte servicio
+include '../php/meses.php';
+$query = "SELECT id, Nombre FROM router";
+$result = mysqli_query($Conexion, $query);
+//************************** */
 ?>
 <!DOCTYPE html>
 <!--
@@ -229,12 +235,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <i class="right fas fa-angle-left"></i>
                   </a>
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Coyoltepec</p>
-                      </a>
-                    </li>
+                    <?php while ($router = mysqli_fetch_array($result)) : ?>
+                      <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="pasarIdRouter('<?= $router['id'] . '||' . $router['Nombre'] ?>')" data-toggle="modal" data-target="#mesCorte">
+                          <i class="far fa-dot-circle nav-icon"></i>
+                          <p><?= $router["Nombre"] ?></p>
+                        </a>
+                      </li>
+                    <?php endwhile; ?>
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -421,6 +429,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
     </div>
     <!-- Control Sidebar -->
+
+    <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
+      <div class="modal-dialog modal-sm" role="document">
+        <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="idRouterCorte" name="idRouter">
+              <select class="form-control form-control-sm" style="width: 100%;" name="mesCorte">
+                <option><?= $mes[0]; ?></option>
+                <option><?= $mes[12]; ?></option>
+                <option><?= $mes[13]; ?></option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Generar Corte</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
       <div class="p-3">
@@ -462,20 +497,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Ekko Lightbox -->
   <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
   <script src="../js/ordenesImagenes.js"></script>
+  <script src="../js/corte.js"></script>
   <script>
     $(document).ready(() => {
-      $("#documentosImg").load("../pages/tablas/documentosImg.php?folio=" + <?=$folio?>);
+      $("#documentosImg").load("../pages/tablas/documentosImg.php?folio=" + <?= $folio ?>);
     })
     $(function() {
       bsCustomFileInput.init();
     });
     $(function() {
-        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-            event.preventDefault();
-            $(this).ekkoLightbox({
-                alwaysShowClose: true
-            });
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
         });
+      });
     })
   </script>
 </body>

@@ -1,5 +1,14 @@
+<?php
+//Corte servicio
+include "../php/ConexionMySQL.php";
+include '../php/meses.php';
+$query = "SELECT id, Nombre FROM router";
+$result = mysqli_query($Conexion, $query);
+//************************** */
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -221,7 +230,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link active">
+                  <a href="./routers.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Router</p>
                   </a>
@@ -235,12 +244,14 @@
                     </p>
                   </a>
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Coyoltepec</p>
-                      </a>
-                    </li>
+                    <?php while ($router = mysqli_fetch_array($result)) : ?>
+                      <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="pasarIdRouter('<?= $router['id'] . '||' . $router['Nombre'] ?>')" data-toggle="modal" data-target="#mesCorte">
+                          <i class="far fa-dot-circle nav-icon"></i>
+                          <p><?= $router["Nombre"] ?></p>
+                        </a>
+                      </li>
+                    <?php endwhile; ?>
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -662,6 +673,32 @@
         </form>
       </div>
     </div>
+    <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
+      <div class="modal-dialog modal-sm" role="document">
+        <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="idRouterCorte" name="idRouter">
+              <select class="form-control form-control-sm" style="width: 100%;" name="mesCorte">
+                <option><?= $mes[0]; ?></option>
+                <option><?= $mes[12]; ?></option>
+                <option><?= $mes[13]; ?></option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Generar Corte</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
@@ -708,6 +745,7 @@
   <script src="../plugins/moment/moment.min.js"></script>
   <script src="../plugins/inputmask/jquery.inputmask.min.js"></script>
   <script src="../js/routers.js"></script>
+  <script src="../js/corte.js"></script>
   <script>
     $(document).ready(() => {
       $('#tablaRouter').load("./tablas/tablaRouters.php");

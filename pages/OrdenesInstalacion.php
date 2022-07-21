@@ -10,6 +10,13 @@ $resultadoClientes = sqlsrv_query($Conn, $consulta);
 
 $textinicio = date("Y-m-01");
 $textfin = date("Y-m-t");
+
+//Corte servicio
+include "../php/ConexionMySQL.php";
+include '../php/meses.php';
+$query = "SELECT id, Nombre FROM router";
+$result = mysqli_query($Conexion, $query);
+//************************** */
 ?>
 
 <!DOCTYPE html>
@@ -219,12 +226,14 @@ $textfin = date("Y-m-t");
                     <i class="right fas fa-angle-left"></i>
                   </a>
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Coyoltepec</p>
-                      </a>
-                    </li>
+                    <?php while ($router = mysqli_fetch_array($result)) : ?>
+                      <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="pasarIdRouter('<?= $router['id'] . '||' . $router['Nombre'] ?>')" data-toggle="modal" data-target="#mesCorte">
+                          <i class="far fa-dot-circle nav-icon"></i>
+                          <p><?= $router["Nombre"] ?></p>
+                        </a>
+                      </li>
+                    <?php endwhile; ?>
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -627,6 +636,33 @@ $textfin = date("Y-m-t");
     </div>
 
     <!-- Control Sidebar -->
+
+    <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
+      <div class="modal-dialog modal-sm" role="document">
+        <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="idRouterCorte" name="idRouter">
+              <select class="form-control form-control-sm" style="width: 100%;" name="mesCorte">
+                <option><?= $mes[0]; ?></option>
+                <option><?= $mes[12]; ?></option>
+                <option><?= $mes[13]; ?></option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Generar Corte</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
       <div class="p-3">
@@ -683,6 +719,7 @@ $textfin = date("Y-m-t");
       bsCustomFileInput.init();
     });
   </script>
+  <script src="../js/corte.js"></script>
 </body>
 
 </html>
