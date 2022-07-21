@@ -17,9 +17,9 @@ const conexion = () => {
         contentType: false,
         processData: false,
         success: (data) => {
-            if(data.estado == "si"){
+            if (data.estado == "si") {
                 verificando.innerHTML = `Conexión Exitosa <i class="fa fa-check"></i>`;
-            }else{
+            } else {
                 verificando.innerHTML = `Sin Conexión <i class="fa-solid fa-cloud-xmark"></i>`;
             }
         }
@@ -39,10 +39,10 @@ const aconexion = () => {
         processData: false,
         success: (data) => {
             console.log(data)
-            if(data.estado == "si"){
+            if (data.estado == "si") {
                 verificando.innerHTML = `Conexión Exitosa <i class="fa fa-check"></i>`;
                 console.log(data)
-            }else{
+            } else {
                 verificando.innerHTML = `Sin Conexión <i class="fa-solid fa-cloud-xmark"></i>`;
                 console.log(data)
             }
@@ -60,17 +60,17 @@ const guardarRouter = () => {
         contentType: false,
         processData: false,
         success: (data) => {
-            if(data.estado == "guardado"){
+            if (data.estado == "guardado") {
                 formRequired();
                 $('#modalAgregarRouter').modal('hide');
                 document.getElementById("agregarRouter").reset();
                 Toast.fire({
                     icon: 'success',
-                    title: `Información de router guardado correctamente`
+                    title: `Información de router ${data.info} guardado correctamente`
                 })
                 $('#tablaRouter').load("./tablas/tablaRouters.php");
                 document.getElementById("btn-comprobar").innerText = "Comprobar Conexión";
-            }else{
+            } else {
                 formRequired();
             }
         }
@@ -86,14 +86,14 @@ const formRequired = () => {
     $("#zonas").val() == "" ? $("#zonas").prop("required", true) : $("#zonas").prop("required", false);
 }
 
-const mostrarInfo = (datos) =>{
+const mostrarInfo = (datos) => {
     let info = "idRouter=" + datos;
     $.ajax({
         type: "POST",
         url: "../php/routers/mostrarInfo.php",
         dataType: "json",
         data: info,
-        success: (data) =>{
+        success: (data) => {
             $("#anombreRouter").val(data.info.Nombre);
             $("#idRouter").val(data.info.id);
             $("#aipRouter").val(data.info.IP);
@@ -106,10 +106,9 @@ const mostrarInfo = (datos) =>{
     })
 }
 
-const borrarRouter = () =>{
+const borrarRouter = () => {
     let formulario = document.getElementById("actualizarRouter");
     let datosRouter = new FormData(formulario);
-    alert("Alert")
     $.ajax({
         type: "POST",
         url: "../php/routers/borrarRouter.php",
@@ -117,9 +116,51 @@ const borrarRouter = () =>{
         data: datosRouter,
         contentType: false,
         processData: false,
-        success: (data) =>{
-            console.log(data)
+        success: (data) => {
+            if (data.estado == "error") {
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se pudo borrar Verifica la conexión`
+                })
+            } else {
+                $('#modalActualizarRouter').modal('hide');
+                document.getElementById("actualizarRouter").reset();
+                Toast.fire({
+                    icon: 'success',
+                    title: `Información de router ${data.info} borrada correctamente`
+                })
+                $('#tablaRouter').load("./tablas/tablaRouters.php");
+            }
         }
     })
 
+}
+
+const actualizarRouter = () => {
+    let formulario = document.getElementById("actualizarRouter");
+    let datosRouter = new FormData(formulario);
+    $.ajax({
+        type: "POST",
+        url: "../php/routers/actulizarRouter.php",
+        dataType: "json",
+        data: datosRouter,
+        contentType: false,
+        processData: false,
+        success: (data) => {
+            if (data.estado == "error") {
+                Toast.fire({
+                    icon: 'error',
+                    title: `No se pudo borrar Verifica la conexión`
+                })
+            }else{
+                $('#modalActualizarRouter').modal('hide');
+                document.getElementById("actualizarRouter").reset();
+                Toast.fire({
+                    icon: 'success',
+                    title: `Información de router ${data.info} actualizada correctamente`
+                })
+                $('#tablaRouter').load("./tablas/tablaRouters.php");
+            }
+        }
+    })
 }

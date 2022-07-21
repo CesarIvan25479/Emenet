@@ -554,7 +554,7 @@ $textfin = date("Y-m-t");
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
                     </div>
-                    <input type="text" class="form-control form-control-sm" id="anombreRouter" name="anombreRouter">
+                    <input type="text" class="form-control form-control-sm" id="anombreRouter" name="nombreRouter">
                     <input type="hidden" class="form-control form-control-sm" id="idRouter" name="idRouter">
                   </div>
                 </div>
@@ -567,7 +567,7 @@ $textfin = date("Y-m-t");
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-laptop"></i></span>
                     </div>
-                    <input type="text" class="form-control form-control-sm" data-inputmask="'alias': 'ip'" data-mask name="aipRouter" id="aipRouter">
+                    <input type="text" class="form-control form-control-sm" data-inputmask="'alias': 'ip'" data-mask name="ipRouter" id="aipRouter">
                   </div>
                 </div>
               </div>
@@ -579,7 +579,7 @@ $textfin = date("Y-m-t");
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input type="text" class="form-control form-control-sm" name="ausuarioRouter" id="ausuarioRouter">
+                    <input type="text" class="form-control form-control-sm" name="usuarioRouter" id="ausuarioRouter">
                   </div>
                 </div>
               </div>
@@ -591,7 +591,7 @@ $textfin = date("Y-m-t");
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-eye"></i></span>
                     </div>
-                    <input type="password" class="form-control form-control-sm" name="apasswordRouter" id="apasswordRouter">
+                    <input type="password" class="form-control form-control-sm" name="passwordRouter" id="apasswordRouter">
                   </div>
                 </div>
               </div>
@@ -603,7 +603,7 @@ $textfin = date("Y-m-t");
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
                     </div>
-                    <input type="number" class="form-control form-control-sm" name="apuertoApi" id="apuertoApi">
+                    <input type="number" class="form-control form-control-sm" name="puertoApi" id="apuertoApi">
                   </div>
                 </div>
               </div>
@@ -615,7 +615,7 @@ $textfin = date("Y-m-t");
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-wifi"></i></span>
                     </div>
-                    <select name="atipoServicio" id="atipoServicio" class="form-control form-control-sm">
+                    <select name="tipoServicio" id="atipoServicio" class="form-control form-control-sm">
                       <option>INA</option>
                       <option>IFO</option>
                     </select>
@@ -627,7 +627,7 @@ $textfin = date("Y-m-t");
                 <label for="zonas" class="col-sm-2 col-form-label">Zonas:</label>
                 <div class="col-sm-10">
                   <div class="input-group mb-3">
-                    <textarea class="form-control" rows="2" placeholder="Ej. SM, TLALT, ALM" name="azonas" id="azonas"></textarea>
+                    <textarea class="form-control" rows="2" placeholder="Ej. SM, TLALT, ALM" name="zonas" id="azonas"></textarea>
                   </div>
                 </div>
               </div>
@@ -637,7 +637,7 @@ $textfin = date("Y-m-t");
               <div>
                 <button type="button" class="btn btn-outline-info" onclick="aconexion()" id="abtn-comprobar">Comprobar Conexión</button>
                 <button type="button" class="btn btn-outline-danger" onclick="borrarRouter()">Borrar</button>
-                <button type="button" class="btn btn-outline-success" onclick="actualizarRouter()">Guradar</button>
+                <button type="button" class="btn btn-outline-warning" onclick="actualizarRouter()">Actualizar</button>
               </div>
             </div>
           </form>
