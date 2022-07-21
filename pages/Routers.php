@@ -1,19 +1,5 @@
-<?php
-set_time_limit(0);
-include '../php/ConexionSQL.php';
-$actual = date("Ymd");
-$anterior = date("Ymd", strtotime($actual . "- 3 month"));
-$consulta = "SELECT DISTINCT C.NOMBRE, C.CLIENTE FROM 
-clients C INNER JOIN ventas V ON C.CLIENTE=V.CLIENTE INNER JOIN partvta P ON V.VENTA=P.VENTA 
-WHERE V.F_EMISION BETWEEN '$anterior' AND '$actual'";
-$resultadoClientes = sqlsrv_query($Conn, $consulta);
-$textinicio = date("Y-m-01");
-$textfin = date("Y-m-t");
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

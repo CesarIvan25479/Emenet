@@ -38,13 +38,10 @@ const aconexion = () => {
         contentType: false,
         processData: false,
         success: (data) => {
-            console.log(data)
             if (data.estado == "si") {
                 verificando.innerHTML = `Conexión Exitosa <i class="fa fa-check"></i>`;
-                console.log(data)
             } else {
                 verificando.innerHTML = `Sin Conexión <i class="fa-solid fa-cloud-xmark"></i>`;
-                console.log(data)
             }
         }
     })

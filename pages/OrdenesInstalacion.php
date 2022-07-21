@@ -463,18 +463,18 @@ $textfin = date("Y-m-t");
               <div class="col-12 col-sm-12">
                 <div class="card card-primary card-outline card-outline-tabs">
                   <div class="card-header p-0 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab-agregar" role="tablist">
                       <li class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria- controls="custom-tabs-four-home" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
+                        <a class="nav-link active" id="custom-tabs-four-orden-tab" data-toggle="pill" href="#custom-tabs-four-orden" role="tab" aria- controls="custom-tabs-four-orden" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
+                        <a class="nav-link" id="custom-tabs-four-red-tab" data-toggle="pill" href="#custom-tabs-four-red" role="tab" aria-controls="custom-tabs-four-red" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
                       </li>
                     </ul>
                   </div>
                   <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-four-tabContent">
-                      <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                    <div class="tab-content" id="custom-tabs-four-tabContent-agregar">
+                      <div class="tab-pane fade show active" id="custom-tabs-four-orden" role="tabpanel" aria-labelledby="custom-tabs-four-orden-tab">
                         <div class="form-group">
                           <label for="folioOrden">Folio Orden:</label>
                           <input type="number" class="form-control form-control-sm" name="folioOrden" id="folioOrden" placeholder="">
@@ -527,7 +527,7 @@ $textfin = date("Y-m-t");
                           </div>
                         </div>
                       </div>
-                      <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                      <div class="tab-pane fade" id="custom-tabs-four-red" role="tabpanel" aria-labelledby="custom-tabs-four-red-tab">
 
                       </div>
                     </div>
@@ -564,18 +564,18 @@ $textfin = date("Y-m-t");
               <div class="col-12 col-sm-12">
                 <div class="card card-primary card-outline card-outline-tabs">
                   <div class="card-header p-0 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab-actualizar" role="tablist">
                       <li class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria- controls="custom-tabs-four-home" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
+                        <a class="nav-link active" id="custom-tabs-four-aorden-tab" data-toggle="pill" href="#custom-tabs-four-aorden" role="tab" aria- controls="custom-tabs-four-aorden" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
+                        <a class="nav-link" id="custom-tabs-four-ared-tab" data-toggle="pill" href="#custom-tabs-four-ared" role="tab" aria-controls="custom-tabs-four-ared" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
                       </li>
                     </ul>
                   </div>
                   <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-four-tabContent">
-                      <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                    <div class="tab-content" id="custom-tabs-four-tabContent-actualizar">
+                      <div class="tab-pane fade show active" id="custom-tabs-four-aorden" role="tabpanel" aria-labelledby="custom-tabs-four-aorden-tab">
                         <div class="form-group">
                           <label for="actuFolioOrden">Folio Orden:</label>
                           <input type="number" class="form-control form-control-sm" name="actuFolioOrden" id="actuFolioOrden" placeholder="" readonly>
@@ -603,7 +603,7 @@ $textfin = date("Y-m-t");
                           </select>
                         </div>
                       </div>
-                      <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                      <div class="tab-pane fade" id="custom-tabs-four-ared" role="tabpanel" aria-labelledby="custom-tabs-four-ared-tab">
 
                       </div>
                     </div>
