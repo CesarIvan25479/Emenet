@@ -38,10 +38,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">Reporte pagos</a>
+          <a href="./pages/Clientes.php" class="nav-link">Clientes</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="Clientes" class="nav-link">Administración</a>
+          <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="./pages/PagosBanco.php" class="nav-link">Pagos Banco</a>
         </li>
       </ul>
 
@@ -345,7 +348,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Starter Page</h1>
+              <h1 class="m-0">Estadisticas</h1>
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
