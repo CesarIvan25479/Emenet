@@ -54,7 +54,7 @@ $result = mysqli_query($Conexion, $query);
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/PagosBanco.php" class="nav-link">Clientes</a>
+          <a href="../pages/Clientes.php" class="nav-link">Clientes</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
