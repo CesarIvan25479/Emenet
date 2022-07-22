@@ -84,6 +84,7 @@ const formRequired = () => {
 }
 
 const mostrarInfo = (datos) => {
+    $("#abtn-comprobar").text("Comprobar Conexión");
     let info = "idRouter=" + datos;
     $.ajax({
         type: "POST",

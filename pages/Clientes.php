@@ -1,8 +1,23 @@
 <?php
+//Consulta mostrar Router Agregados
 include "../php/ConexionMySQL.php";
 include '../php/meses.php';
+include '../php/ConexionSQL.php';
 $query = "SELECT id, Nombre FROM router";
 $result = mysqli_query($Conexion, $query);
+//****************************
+
+//Consulta para mostrar zonas punto de venta
+$query = "SELECT ZONA, Descrip FROM ZONAS";
+$resultZonas = sqlsrv_query($Conn, $query);
+//************************************* */
+
+//Consulta para mostrar clasificacion punto de venta 
+$query = "SELECT Tipo, Descrip FROM tipos";
+$resultClasi = sqlsrv_query($Conn, $query);
+//*************************************** */
+
+
 ?>
 <!DOCTYPE html>
 <!--
@@ -22,23 +37,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
   <style>
     .scrollTablaClientes {
       overflow: scroll;
-      width: 101%;
+      width: 100%;
       max-height: 600px;
       height: auto;
     }
 
-    .scrollTablaClientes::-webkit-scrollbar {
-      width: 2px;
+    .spinner {
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      margin-left: 5px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border-left-color: #09f;
+      animation: spin 1s ease infinite;
     }
 
-    .scrollTablaClientes::-webkit-scrollbar-thumb {
-      background-color: gray;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -375,7 +405,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Filtrar: </h3>
+                  <div class="form-row align-items-center">
+                    <div class="col-sm-3 my-1">
+                      <h5>Filtrar: </h5>
+                    </div>
+                    <div class="col-sm-4 my-1">
+                      <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="filtZona" name="filtZona">
+                        <option></option>
+                        <?php while ($zona = sqlsrv_fetch_array($resultZonas)) : ?>
+                          <option value="<?= $zona['ZONA'] ?>"><?= $zona['Descrip'] ?></option>
+                        <?php endwhile; ?>
+                      </select>
+                    </div>
+                    <div class="col-sm-4 my-1">
+                      <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="filtClasi" name="filtClasi">
+                        <option></option>
+                        <?php while ($clasificacion = sqlsrv_fetch_array($resultClasi)) : ?>
+                          <option value="<?= $clasificacion['Tipo'] ?>"><?= $clasificacion['Descrip'] ?></option>
+                        <?php endwhile; ?>
+                      </select>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body">
                   <div class="input-group input-group-sm">
@@ -392,8 +442,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 </div>
                 <!-- /.card-body -->
-                <div class="card-footer">
-
+                <div class="card-footer" id="resultadoCliente">
+                  Numero de resultados
                 </div>
                 <!-- /.card-footer-->
               </div>
@@ -589,12 +639,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Select2 -->
+  <script src="../plugins/select2/js/select2.full.min.js"></script>
   <!-- SweetAlert2 -->
   <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
   <script src="../js/clientes.js"></script>
   <script src="../js/corte.js"></script>
+  <script>
+    $(function() {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+  </script>
 </body>
 
 </html>

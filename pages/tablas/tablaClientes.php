@@ -1,8 +1,26 @@
 <?php
 include '../../php/ConexionSQL.php';
 $cliente = $_GET['cliente'];
-$consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente'";
-$resultado = sqlsrv_query($Conn, $consulta);
+$zona = $_GET["zona"];
+$clasificacion = $_GET["clasi"];
+$contador = 0;
+
+if($zona == "" && $clasificacion == ""){
+    $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente'";
+    $resultado = sqlsrv_query($Conn, $consulta);
+}else if($zona != "" && $clasificacion == ""){
+    $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE (NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente') AND ZONA='$zona'";
+    $resultado = sqlsrv_query($Conn, $consulta);
+}else if($zona == "" && $clasificacion != ""){
+    $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE (NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente') AND TIPO='$clasificacion'";
+    $resultado = sqlsrv_query($Conn, $consulta);
+}else if($zona != "" && $clasificacion != ""){
+    $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE (NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente') AND TIPO='$clasificacion' AND ZONA='$zona'";
+    $resultado = sqlsrv_query($Conn, $consulta);
+}
+
+
+
 ?>
 
 <div class="row">
@@ -17,7 +35,9 @@ $resultado = sqlsrv_query($Conn, $consulta);
                     </tr>
                 </thead>
                 <tbody>
-                <?php while ($datos = sqlsrv_fetch_array($resultado)): ?>
+                <?php while ($datos = sqlsrv_fetch_array($resultado)): 
+                    $contador += 1;
+                    ?>
                     <tr>
                         <th scope="row" onclick="InfoCliente('<?=$datos['CLIENTE']?>')"><?=$datos['CLIENTE']?></th>
                         <td onclick="InfoCliente('<?=$datos['CLIENTE']?>')"><?=$datos['NOMBRE']?></td>
@@ -36,3 +56,6 @@ $resultado = sqlsrv_query($Conn, $consulta);
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("resultadoCliente").innerText = "Numero de resultados: <?=$contador?>";
+</script>
