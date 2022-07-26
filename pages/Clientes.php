@@ -51,6 +51,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
       height: auto;
     }
 
+    /* Works on Chrome, Edge, and Safari */
+    .scrollTablaClientes::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .scrollTablaClientes::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scrollTablaClientes::-webkit-scrollbar-thumb {
+      background-color: #c1c1c1;
+      border-radius: 20px;
+      border: 1px solid #c1c1c1;
+    }
+
     .spinner {
       border: 5px solid rgba(0, 0, 0, 0.1);
       margin-left: 5px;
