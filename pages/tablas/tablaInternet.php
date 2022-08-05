@@ -24,7 +24,7 @@ if($todosConceptos == "on"){
             C.CLIENTE=V.CLIENTE INNER JOIN
             partvta P ON V.VENTA=P.VENTA 
             WHERE C.CLIENTE='$cliente' AND V.F_EMISION BETWEEN '$FechaInicio' AND '$FechaActual' 
-            AND V.TIPO_DOC!='PE' order by V.F_EMISION  asc";
+            AND V.TIPO_DOC!='PE' AND cambioDeEstado!=1 order by V.F_EMISION asc";
             $reporteVentas = sqlsrv_query($Conn , $consulta);
 
 }else{
@@ -34,7 +34,7 @@ if($todosConceptos == "on"){
             C.CLIENTE=V.CLIENTE INNER JOIN
             partvta P ON V.VENTA=P.VENTA 
             WHERE C.CLIENTE='$cliente' AND V.F_EMISION BETWEEN '$FechaInicio' AND '$FechaActual' 
-            AND ARTICULO='RI' AND V.TIPO_DOC!='PE' order by V.F_EMISION  asc";
+            AND ARTICULO='RI' AND V.TIPO_DOC!='PE' AND cambioDeEstado !=1 order by V.F_EMISION asc";
             $reporteVentas = sqlsrv_query($Conn , $consulta);
 }
 
