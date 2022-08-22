@@ -4,7 +4,7 @@ $cliente = $_GET['cliente'];
 $zona = $_GET["zona"];
 $clasificacion = $_GET["clasi"];
 $contador = 0;
-
+$cliente = str_replace(" ", "%", $cliente);
 if($zona == "" && $clasificacion == ""){
     $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente'";
     $resultado = sqlsrv_query($Conn, $consulta);

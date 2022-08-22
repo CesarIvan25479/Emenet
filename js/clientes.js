@@ -48,6 +48,10 @@ function activar(datos) {
                         Activado plan ${data.plan}
                         Router ${data.nombreRouter} ${data.ipRputer}`
                     });
+                    estadoCliente.classList.remove("suspendido");
+                    estadoCliente.classList.add("activo");
+                    estadoCliente.innerText = "Activo"
+                    estadoCliente.style.display = "block";
                 } else {
                     Toast = Swal.mixin({
                         toast: true,
@@ -97,6 +101,10 @@ function desactivar(datos) {
                         icon: 'error',
                         title: `Cliente ${cliente} desactivado router ${router} plan 1K/1K`
                     })
+                    estadoCliente.classList.remove("activo");
+                    estadoCliente.classList.add("suspendido");
+                    estadoCliente.innerText = "Suspendido";
+                    estadoCliente.style.display = "block";
                 }
             }
         });
