@@ -4,6 +4,7 @@ document.getElementById("buscarCliente").addEventListener('keydown', () => {
         cargarTabla();
     }
 });
+const estadoCliente = document.getElementById("statusCliente");
 document.getElementById("btnBuscarCliente").addEventListener('click', () => {
     cargarTabla();
 });
@@ -123,6 +124,19 @@ function InfoCliente(datos) {
                 document.getElementById('precio').value = data.info.PRECIO;
                 document.getElementById('obsr').value = data.info.OBSERV;
                 document.getElementById("numero").value = data.info.NUMERO;
+                document.getElementById('IP').value = data.target.slice(0, -3);
+                document.getElementById("vinculoIP").href = "http://"+ data.target.slice(0, -3);
+                if(data.status == "1000/1000" || data.status == "Inactivo"){
+                    estadoCliente.classList.remove("activo");
+                    estadoCliente.classList.add("suspendido");
+                    estadoCliente.innerText = data.status != "Inactivo" ? "Suspendido" : "Inactivo";
+                    estadoCliente.style.display = "block";
+                }else{
+                    estadoCliente.classList.remove("suspendido");
+                    estadoCliente.classList.add("activo");
+                    estadoCliente.innerText = "Activo"
+                    estadoCliente.style.display = "block";
+                }
             } else {
                 console.log("No conectado")
             }

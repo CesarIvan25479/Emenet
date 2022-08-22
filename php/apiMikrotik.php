@@ -298,7 +298,7 @@ class routeros_api
             $STATUS = socket_get_status($this->socket);
             if ($LENGTH > 0)
                 $this->debug('>>> [' . $LENGTH . ', ' . $STATUS['unread_bytes'] . ']' . $_);
-            if ((!$this->connected && !$STATUS['unread_bytes']) || ($this->connected && !$STATUS['unread_bytes'] && $receiveddone))
+            if ((!$this->connected && !$STATUS['unread_bytes']) || ($this->connected && !$STATUS['unread_bytes'] && (isset($receiveddone) && $receiveddone)))
                 break;
         }
         if ($parse)

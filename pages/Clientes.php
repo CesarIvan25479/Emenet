@@ -76,7 +76,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
       border-left-color: #09f;
       animation: spin 1s ease infinite;
     }
-
+    .estado-cliente{
+      margin-left: 20px;
+      padding: 4px 4px;
+      color: white;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      display: none;
+    }
+    .activo{
+      background-color: #008b3b;
+    }
+    .suspendido{
+      background-color: #ff0f20;
+    }
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -475,7 +488,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Información Cliente</h3>
-
+                  <h3 class="card-title estado-cliente" id="statusCliente">Suspendido</h3>        
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                       <i class="fas fa-minus"></i>
@@ -486,13 +499,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div id="forminfo">
                     <form>
                       <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                           <label for="">Clave</label>
                           <input type="text" class="form-control form-control-sm" placeholder="CLIENTE" id="clave" name="clave" readonly>
                         </div>
-                        <div class="form-group col-md-9">
+                        <div class="form-group col-md-6">
                           <label for="">Nombre del cliente</label>
                           <input type="text" class="form-control form-control-sm" placeholder="NOMBRE" id="nombre" name="nombre" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="">IP</label>
+                          <a href="#" target="_blank" id="vinculoIP">
+                          <input style="cursor: pointer; font-weight: bold;"
+                          type="sumbit" class="form-control form-control-sm" placeholder="IP" id="IP" name="IP" readonly>
+                          </a>
+                          
                         </div>
                       </div>
                       <div class="form-row">
@@ -501,7 +522,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <input type="text" class="form-control form-control-sm" placeholder="ESTADO" id="estado" name="estado" readonly>
                         </div>
                         <div class="form-group col-md-3">
-                          <label for="">Código Postal</label>
+                          <label for="">C. Postal</label>
                           <input type="text" class="form-control form-control-sm" placeholder="C. POSTAL" id="cp" name="cp" readonly>
 
                         </div>
@@ -520,7 +541,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <input type="text" class="form-control form-control-sm" placeholder="CALLE" id="calle" name="calle" readonly>
                         </div>
                         <div class="form-group col-md-2">
-                          <label for="">N. Exterior</label>
+                          <label for="">Num.</label>
                           <input type="text" class="form-control form-control-sm" placeholder="NÚMERO EXTERIOR" id="numero" name="numero" readonly>
                         </div>
                       </div>
@@ -530,7 +551,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <input type="text" class="form-control form-control-sm" placeholder="TELÉFONO" id="telefono" name="telefono" readonly>
                         </div>
                         <div class="form-group col-md-2">
-                          <label for="">Clasificacíon</label>
+                          <label for="">Clas.</label>
                           <input type="text" class="form-control form-control-sm" placeholder="CLASIFICACIÓN" id="clasificacion" name="clasificacion" readonly>
                         </div>
                         <div class="form-group col-md-2">
