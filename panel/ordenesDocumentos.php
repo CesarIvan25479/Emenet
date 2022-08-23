@@ -63,13 +63,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/Clientes.php" class="nav-link">Clientes</a>
+          <a href="../panel/Clientes.php" class="nav-link">Clientes</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/PagosBanco.php" class="nav-link">Pagos Banco</a>
+          <a href="../panel/PagosBanco.php" class="nav-link">Pagos Banco</a>
         </li>
       </ul>
 
@@ -435,7 +435,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
-        <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+        <form name="mesDeCorte" action="../panel/corte.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
@@ -503,7 +503,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="../js/corte.js"></script>
   <script>
     $(document).ready(() => {
-      $("#documentosImg").load("../pages/tablas/documentosImg.php?folio=" + <?= $folio ?>);
+      $("#documentosImg").load("../panel/tablas/documentosImg.php?folio=" + <?= $folio ?>);
     })
     $(function() {
       bsCustomFileInput.init();

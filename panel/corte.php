@@ -71,13 +71,13 @@ $result = mysqli_query($Conexion, $query);
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../pages/Clientes.php" class="nav-link">Clientes</a>
+                    <a href="../panel/Clientes.php" class="nav-link">Clientes</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../pages/PagosBanco.php" class="nav-link">Pagos Banco</a>
+                    <a href="../panel/PagosBanco.php" class="nav-link">Pagos Banco</a>
                 </li>
             </ul>
 
@@ -453,7 +453,7 @@ $result = mysqli_query($Conexion, $query);
 
         <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
-                <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+                <form name="mesDeCorte" action="../panel/corte.php" method="POST">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
@@ -525,7 +525,7 @@ $result = mysqli_query($Conexion, $query);
             let id = "<?= $idRouter ?>";
             let mes = "<?= $mesCorte ?>";
             mesGet = mes.replace(" ", "%20");
-            $("#tablaCorte").load("../pages/tablas/tablaCorte.php?idRouter=" + id + "&mesCorte=" + mesGet)
+            $("#tablaCorte").load("../panel/tablas/tablaCorte.php?idRouter=" + id + "&mesCorte=" + mesGet)
             let cadena = "idRouter=" + id + "&mesCorte=" + mes;
             $.ajax({
                 type: "POST",

@@ -55,6 +55,7 @@ $todosReg = $_GET["todosreg"] ?? null;
 if($estado != "TODOS"){
     if(isset($_GET["nombre"])){
         $nombre = $_GET["nombre"];
+        $nombre = str_replace(" ", "%", $nombre);
         $todosReg == "off" ? $pagosEstado = registrosMesCliente($estado, $mes, $nombre, $Conexion) : $pagosEstado = registrosTodosCliente($estado, $nombre, $Conexion);
     }else{
         $todosReg == "off" ? $pagosEstado = registrosMes($estado, $mes, $Conexion) : $pagosEstado = registrosTodos($estado, $Conexion);
@@ -62,6 +63,7 @@ if($estado != "TODOS"){
 }else{
     if(isset($_GET["nombre"])){
         $nombre = $_GET["nombre"];
+        $nombre = str_replace(" ", "%", $nombre);
         $todosReg == "off" ? $pagosEstado = registrosMesClienteTodos($mes, $nombre, $Conexion) : $pagosEstado = registrosTodosClienteTodos($nombre, $Conexion);
     }else{
         $nombre = "";

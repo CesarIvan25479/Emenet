@@ -8,7 +8,7 @@ $datosImagenes = mysqli_fetch_array($result);
 <div class="row">
     <div class="col-sm-2">
         <a href="../imagenesOrden/orden/<?= $datosImagenes['ImgOrden'] ?>" data-toggle="lightbox" data-title="Orden" data-gallery="gallery">
-            <img src="../pages/asset/orden-procesada.png" class="img-fluid mb-2" alt="black sample" />
+            <img src="../panel/asset/orden-procesada.png" class="img-fluid mb-2" alt="black sample" />
         </a>
         <div class="input-group">
             <div class="custom-file">
@@ -24,11 +24,11 @@ $datosImagenes = mysqli_fetch_array($result);
     <div class="col-sm-2">
         <?php if ($datosImagenes['ImgCredencial'] != "" or $datosImagenes['ImgCredencial'] != null) : ?>
             <a href="../imagenesOrden/credencial/<?= $datosImagenes['ImgCredencial'] ?>" data-toggle="lightbox" data-title="Credencial" data-gallery="gallery">
-                <img src="../pages/asset/tarjeta-de-identificacion.png" class="img-fluid mb-2" alt="black sample" />
+                <img src="../panel/asset/tarjeta-de-identificacion.png" class="img-fluid mb-2" alt="black sample" />
             </a>
         <?php else : ?>
-            <a href="../pages/asset/tarjeta-de-identificacion.png" data-toggle="lightbox" data-title="Credencial" data-gallery="gallery">
-                <img src="../pages/asset/tarjeta-de-identificacion.png" class="img-fluid mb-2" alt="black sample" />
+            <a href="../panel/asset/tarjeta-de-identificacion.png" data-toggle="lightbox" data-title="Credencial" data-gallery="gallery">
+                <img src="../panel/asset/tarjeta-de-identificacion.png" class="img-fluid mb-2" alt="black sample" />
             </a>
         <?php endif; ?>
         <div class="input-group">
@@ -44,7 +44,7 @@ $datosImagenes = mysqli_fetch_array($result);
 
     <div class="col-sm-2">
         <a href="../imagenesOrden/compromiso/<?= $datosImagenes['ImgCompromiso'] ?>" data-toggle="lightbox" data-title="Compromiso" data-gallery="gallery">
-            <img src="../pages/asset/lista-de-verificacion.png" class="img-fluid mb-2" alt="black sample" />
+            <img src="../panel/asset/lista-de-verificacion.png" class="img-fluid mb-2" alt="black sample" />
         </a>
         <div class="input-group">
             <div class="custom-file">
@@ -73,7 +73,7 @@ $datosImagenes = mysqli_fetch_array($result);
                     title: `Información Guardada Correctamente
                 Folio Orden: ${data.folio}`
                 })
-                $("#documentosImg").load("../pages/tablas/documentosImg.php?folio=" + data.folio);
+                $("#documentosImg").load("../panel/tablas/documentosImg.php?folio=" + data.folio);
             } else if (data.estado == "tamano") {
                 Toast.fire({
                     icon: 'error',

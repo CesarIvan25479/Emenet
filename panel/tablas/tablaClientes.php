@@ -18,9 +18,6 @@ if($zona == "" && $clasificacion == ""){
     $consulta = "SELECT NOMBRE, CLIENTE, TIPO FROM clients WHERE (NOMBRE LIKE '%$cliente%' OR CLIENTE ='$cliente') AND TIPO='$clasificacion' AND ZONA='$zona'";
     $resultado = sqlsrv_query($Conn, $consulta);
 }
-
-
-
 ?>
 
 <div class="row">

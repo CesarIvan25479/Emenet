@@ -38,13 +38,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="./pages/Clientes.php" class="nav-link">Clientes</a>
+          <a href="./panel/Clientes.php" class="nav-link">Clientes</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="./pages/PagosBanco.php" class="nav-link">Pagos Banco</a>
+          <a href="./panel/PagosBanco.php" class="nav-link">Pagos Banco</a>
         </li>
       </ul>
 
@@ -131,7 +131,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./pages/Clientes.php" class="nav-link">
+                  <a href="./panel/Clientes.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Clientes</p>
                   </a>
@@ -160,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./pages/OrdenesInstalacion.php" class="nav-link">
+                  <a href="./panel/OrdenesInstalacion.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ordenes Instalación</p>
                   </a>
@@ -178,7 +178,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./pages/PagosBanco.php" class="nav-link">
+                  <a href="./panel/PagosBanco.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Pagos Banco</p>
                   </a>
@@ -202,7 +202,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./pages/routers.php" class="nav-link">
+                  <a href="./panel/routers.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Router</p>
                   </a>
@@ -372,7 +372,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <div class="modal fade bs-example-modal-sm" id="IntFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
-        <form name="PasarFecha" action="./pages/ReportePagos.php" method="POST">
+        <form name="PasarFecha" action="./panel/ReportePagos.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Fecha Inicio</h5>
@@ -401,7 +401,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
-        <form name="mesDeCorte" action="./pages/corte.php" method="POST">
+        <form name="mesDeCorte" action="./panel/corte.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>

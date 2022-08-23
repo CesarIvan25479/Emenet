@@ -17,7 +17,7 @@ agregarPago.addEventListener('submit',(e) =>{
     .then(data => {
         if(data.estado == "Agregado"){
             let mes = data.mes.replace(" ", "%20");
-            $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=PENDIENTE&mes=" + mes +"&todosreg=off");
+            $("#tablaPagosBanco").load("../panel/tablas/tablaPagosBanco.php?estado=PENDIENTE&mes=" + mes +"&todosreg=off");
             Toast.fire({
                 icon: 'success',
                 title: `Pago registrado
@@ -107,7 +107,7 @@ function mostrarTablaPagosBanco(){
     mes = mes.replace(" ", "%20");
     let todosReg = document.getElementById("todosRegistros").checked ? "on" : "off";
     console.log(todosReg)
-    $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg);
+    $("#tablaPagosBanco").load("../panel/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg);
 }
 
 function mostrarTablaPagosBancoCliente(){
@@ -117,7 +117,7 @@ function mostrarTablaPagosBancoCliente(){
     nombre = nombre.replaceAll(" ", "%20");
     mes = mes.replace(" ", "%20");
     let todosReg = document.getElementById("todosRegistros").checked ? "on" : "off";
-    $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg + "&nombre=" + nombre);
+    $("#tablaPagosBanco").load("../panel/tablas/tablaPagosBanco.php?estado=" + estado +"&mes=" + mes +"&todosreg="+ todosReg + "&nombre=" + nombre);
 }
 function pagoRegistrado(datos){
     $.ajax({

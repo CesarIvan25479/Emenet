@@ -42,7 +42,7 @@ if($tipo == "-Selecciona-" && $instalacion == "-Selecciona-"){
                     <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Tipo"]?></td>
                     <td data-toggle="modal" data-target="#modalActualizarOrden" onclick="mostrarDatosAct('<?=$infoOrden?>')"><?=$datosOrden["Instalacion"]?></td>
                     <td>
-                        <form action="../../../Emenet/pages/ordenesDocumentos.php" method="post">
+                        <form action="../../../Emenet/panel/ordenesDocumentos.php" method="post">
                             <input type="hidden" value="<?=$datosOrden["Folio"]?>" name="folio">
                             <button class="btn btn-block btn-outline-primary btn-xs" type="submit"><i class="fas fa-images"></i></button>
                         </form>

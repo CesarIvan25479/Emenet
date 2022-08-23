@@ -23,7 +23,7 @@ const cargarTabla = ()=>{
     let zona = document.getElementById("filtZona").value;
     let clasi = document.getElementById("filtClasi").value;
     nombre = nombre.replaceAll(" ", "%20");
-    $('#tablaClientes').load("../pages/tablas/tablaClientes.php?cliente=" + nombre + "&zona=" + zona + "&clasi=" + clasi);
+    $('#tablaClientes').load("../panel/tablas/tablaClientes.php?cliente=" + nombre + "&zona=" + zona + "&clasi=" + clasi);
 }
 
 function activar(datos) {
@@ -112,6 +112,8 @@ function desactivar(datos) {
 }
 function InfoCliente(datos) {
     cadena = 'cliente=' + datos;
+    const cargando = document.getElementById("cargando");
+    cargando.innerHTML = `<div id="verificando" class="spinner"></div>`;
     $.ajax({
         type: 'POST',
         url: '../php/infoCliente.php',
@@ -145,6 +147,7 @@ function InfoCliente(datos) {
                     estadoCliente.innerText = "Activo"
                     estadoCliente.style.display = "block";
                 }
+                cargando.innerHTML = "";
             } else {
                 console.log("No conectado")
             }

@@ -26,17 +26,17 @@ function mostrarReporte(){
         $('#tablaCamara').empty();
         if(data.todosConceptos == false){
             if(data.servicioCamara >= 1){
-                $("#tablaCamara").load(`../pages/tablas/tablaCamara.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&numCam=${data.servicioCamara}&todasFechas=${data.todasFechas}`);
+                $("#tablaCamara").load(`../panel/tablas/tablaCamara.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&numCam=${data.servicioCamara}&todasFechas=${data.todasFechas}`);
             }
 
             if(data.servicioTelefono >= 1){
-                $("#tablaTelefono").load(`../pages/tablas/tablaTelefono.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&numTel=${data.servicioTelefono}&todasFechas=${data.todasFechas}`);
+                $("#tablaTelefono").load(`../panel/tablas/tablaTelefono.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&numTel=${data.servicioTelefono}&todasFechas=${data.todasFechas}`);
             }
 
             if(data.estado === 'mostrar' ){
-                $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
+                $('#tablaInternet').load(`../panel/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
             }else if(data.estado == "mostrarActivar"){
-                $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
+                $('#tablaInternet').load(`../panel/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}`);
                 if(data.estadoReporte == "adeudo"){
                     Toast = Swal.mixin({
                         toast: true,
@@ -76,7 +76,7 @@ function mostrarReporte(){
                 }
             }
         }else{
-            $('#tablaInternet').load(`../pages/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}&todasConceptos=${data.todosConceptos}`);
+            $('#tablaInternet').load(`../panel/tablas/tablaInternet.php?cliente=${data.cliente}&fechaInicio=${data.fechaInicio}&todasFechas=${data.todasFechas}&todasConceptos=${data.todosConceptos}`);
         }
     })
 }

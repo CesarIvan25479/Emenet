@@ -1,15 +1,19 @@
 <?php
-set_time_limit(0);
+$_POST["FechaRep"] ? $FechaReporte = $_POST["FechaRep"] : header("location:../index.php");
+$fecha = explode("-", $FechaReporte);
+
+$FechaAnt = str_replace('-', '', $FechaReporte);
 include '../php/ConexionSQL.php';
-$actual = date("Ymd");
-$anterior = date("Ymd", strtotime($actual . "- 3 month"));
+date_default_timezone_set('America/Mexico_City');
+$fechaActualFormato = date('d-m-Y');
+$FechaActual = date('Ymd');
+
+
 $consulta = "SELECT DISTINCT C.NOMBRE, C.CLIENTE FROM 
 clients C INNER JOIN ventas V ON C.CLIENTE=V.CLIENTE INNER JOIN partvta P ON V.VENTA=P.VENTA 
-WHERE V.F_EMISION BETWEEN '$anterior' AND '$actual'";
-$resultadoClientes = sqlsrv_query($Conn, $consulta);
+WHERE V.F_EMISION BETWEEN '$FechaAnt' AND '$FechaActual'";
 
-$textinicio = date("Y-m-01");
-$textfin = date("Y-m-t");
+$resultado = sqlsrv_query($Conn, $consulta);
 
 //Corte servicio
 include "../php/ConexionMySQL.php";
@@ -17,30 +21,32 @@ include '../php/meses.php';
 $query = "SELECT id, Nombre FROM router";
 $result = mysqli_query($Conexion, $query);
 //************************** */
-?>
 
+?>
 <!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ordenes Instalación</title>
+  <title>Reporte Ventas</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-  <link rel="icon" href="../dist/img/Logosinfondo.svg">
   <!-- Select2 -->
   <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <!-- Paginar Tabla-->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="icon" href="../dist/img/Logosinfondo.svg">
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -54,13 +60,13 @@ $result = mysqli_query($Conexion, $query);
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/Clientes.php" class="nav-link">Clientes</a>
+          <a href="../panel/Clientes.php" class="nav-link">Clientes</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/PagosBanco.php" class="nav-link">Pagos Banco</a>
+          <a href="../panel/PagosBanco.php" class="nav-link">Pagos Banco</a>
         </li>
       </ul>
 
@@ -169,13 +175,13 @@ $result = mysqli_query($Conexion, $query);
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">
+                  <a href="#" class="nav-link active" data-toggle="modal" data-target="#IntFecha">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Reporte Ventas</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./OrdenesInstalacion.php" class="nav-link active">
+                  <a href="./OrdenesInstalacion.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ordenes Instalación</p>
                   </a>
@@ -362,8 +368,10 @@ $result = mysqli_query($Conexion, $query);
       <div class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0">Ordenes de Instalación</h1>
+            <div class="col-sm-12">
+              <h3 class="m-0">Reporte de ventas por cliente
+                <small>Desde el día <?= $fecha[2], "-", $fecha[1], "-", $fecha[0] ?> al <?= $fechaActualFormato ?></small>
+              </h3>
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -378,52 +386,59 @@ $result = mysqli_query($Conexion, $query);
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
-                  <div class="form-row align-items-center">
-                    <div class="col-sm-2 my-1">
-                      <label class="col-form-label" for="fechaInicio">Fecha Incio:</label>
-                      <input type="date" class="form-control form-control-sm" name="fechaInicio" id="fechaInicio" value="<?= $textinicio ?>">
+                  <form id="ActulizarReporte" method="post">
+                    <div class="form-row align-items-center">
+                      <div class="col-sm-3 my-1" id="oprime">
+                        <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="cliente" name="cliente">
+                          <option></option>
+                          <?php while ($clientes = sqlsrv_fetch_array($resultado)) : ?>
+                            <option value="<?= $clientes['CLIENTE'] ?>"><?= $clientes['NOMBRE'] ?></option>
+                          <?php endwhile; ?>
+                        </select>
+                      </div>
+
+                      <div class="col-sm-3 my-1">
+                        <input class="form-control form-control-sm" type="date" id="FechaIn" name="fechaReporte" value="<?php echo $FechaReporte ?>">
+                      </div>
+
+                      <div class="col-sm-2 my-1">
+                        <select name="opcion" class="form-control form-control-sm" id="opcion">
+                          <option>Mostrar</option>
+                          <option>Mostrar y Activar</option>
+                        </select>
+                      </div>
+                      <div class="col-auto my-1">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="todasFechas" id="todasFechas">
+                          <label class="form-check-label" for="todasFechas">
+                            Todas
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-auto my-1">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="todosConceptos" id="todosConceptos">
+                          <label class="form-check-label" for="todosConceptos">
+                            Todas las ventas
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-sm-2 my-1">
-                      <label class="col-form-label" for="fechaFin">Fecha Fin:</label>
-                      <input type="date" class="form-control form-control-sm" name="fechaFin" id="fechaFin" value="<?= $textfin ?>">
-                    </div>
-                    <div class="col-sm-2 my-1">
-                      <label class="col-form-label" for="filtrotipo">Tipo:</label>
-                      <select name="filtrotipo" class="form-control form-control-sm" id="filtrotipo">
-                        <option>-Selecciona-</option>
-                        <option>Inalámbrico</option>
-                        <option>Fibra óptica</option>
-                      </select>
-                    </div>
-                    <div class="col-sm-2 my-1">
-                      <label class="col-form-label" for="filtroins">Instalación:</label>
-                      <select name="filtroins" class="form-control form-control-sm" id="filtroins">
-                        <option>-Selecciona-</option>
-                        <option>Nueva</option>
-                        <option>Cambio</option>
-                      </select>
-                    </div>
-                    <div class="col-sm-2 my-1">
-                      <label class="col-form-label" for="filtroins"></label>
-                      <button type="button" class="btn btn-block btn-outline-success btn-xs" style="margin-top:12px" data-toggle="modal" data-target="#modalAgregarOrden">
-                        <i class="fa fa-plus"></i> Agregar Orden</button>
-                    </div>
-                  </div>
+                  </form>
                 </div>
                 <div class="card-body">
-                  <div id="tablaOrdenes">
-
-                  </div>
-
+                  <div id="tablaInternet"></div>
+                  <div id="tablaCamara"></div>
+                  <div id="tablaTelefono"></div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
+
                 </div>
                 <!-- /.card-footer-->
               </div>
               <!-- /.card -->
             </div>
-
           </div>
           <!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -448,9 +463,6 @@ $result = mysqli_query($Conexion, $query);
               $fechaAnterior = date("Y-m-d", strtotime($FechaActual . "- 5 month"));
               ?>
               <input class="form-control" type="date" name="FechaRep" value="<?php echo $fechaAnterior; ?>">
-              <div class="mt-3" id='respuesta1'>
-                <!--Muestra Cliente-->
-              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -460,189 +472,9 @@ $result = mysqli_query($Conexion, $query);
         </form>
       </div>
     </div>
-
-    <div class="modal fade" id="modalAgregarOrden">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="agregarOrden" enctype="multipart/form-data">
-            <div class="modal-header">
-              <h4 class="modal-title">Información Orden</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="col-12 col-sm-12">
-                <div class="card card-primary card-outline card-outline-tabs">
-                  <div class="card-header p-0 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab-agregar" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-four-orden-tab" data-toggle="pill" href="#custom-tabs-four-orden" role="tab" aria- controls="custom-tabs-four-orden" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-red-tab" data-toggle="pill" href="#custom-tabs-four-red" role="tab" aria-controls="custom-tabs-four-red" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-four-tabContent-agregar">
-                      <div class="tab-pane fade show active" id="custom-tabs-four-orden" role="tabpanel" aria-labelledby="custom-tabs-four-orden-tab">
-                        <div class="form-group">
-                          <label for="folioOrden">Folio Orden:</label>
-                          <input type="number" class="form-control form-control-sm" name="folioOrden" id="folioOrden" placeholder="">
-                        </div>
-                        <div class="form-group">
-                          <label for="nombre">Nombre Cliente:</label>
-                          <select class="form-control form-control-sm select2" style="width: 100%;" id="nombre" name="nombre">
-                            <?php while ($clientes = sqlsrv_fetch_array($resultadoClientes)) : ?>
-                              <option value="<?= $clientes['NOMBRE'] ?>"><?= $clientes['NOMBRE'] ?></option>
-                            <?php endwhile; ?>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="fechaInst">Fecha de instalación:</label>
-                          <input type="date" class="form-control form-control-sm" name="fechaInst" id="fechaInst" placeholder="">
-                        </div>
-                        <div class="form-group">
-                          <label for="TipoServicio">Tipo de servicio:</label>
-                          <select class="form-control form-control-sm" style="width: 100%;" id="tipoServicio" name="tipoServicio">
-                            <option>Inalámbrico</option>
-                            <option>Fibra óptica</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="tipoIns">Instalación:</label>
-                          <select class="form-control form-control-sm " style="width: 100%;" id="tipoIns" name="tipoIns">
-                            <option>Nueva</option>
-                            <option>Cambio</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="folioOrden">Imagenes</label>
-                          <div class="input-group">
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="imgOrden" name="imgOrden">
-                              <label class="custom-file-label" for="imgOrden">Imagen Orden</label>
-                            </div>
-                          </div>
-                          <div class="input-group">
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="imgCredencial" name="imgCredencial">
-                              <label class="custom-file-label" for="imgCredencial">Imagen Credencial</label>
-                            </div>
-                          </div>
-                          <div class="input-group">
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="imgComp" name="imgComp">
-                              <label class="custom-file-label" for="imgComp">Imagen Compromiso </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="tab-pane fade" id="custom-tabs-four-red" role="tabpanel" aria-labelledby="custom-tabs-four-red-tab">
-
-                      </div>
-                    </div>
-                  </div>
-                  <!-- /.card -->
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <div>
-                <button type="button" class="btn btn-default" onclick="reinicar()">Reiniciar</button>
-                <button type="submit" class="btn btn-outline-success">Guradar</button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal fade" id="modalActualizarOrden">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="actualizarOrden" enctype="multipart/form-data">
-            <div class="modal-header">
-              <h4 class="modal-title">Actualizar Orden</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="col-12 col-sm-12">
-                <div class="card card-primary card-outline card-outline-tabs">
-                  <div class="card-header p-0 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab-actualizar" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-four-aorden-tab" data-toggle="pill" href="#custom-tabs-four-aorden" role="tab" aria- controls="custom-tabs-four-aorden" aria-selected="true"><i class="fa fa-info-circle contrast"></i> Datos Orden</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-ared-tab" data-toggle="pill" href="#custom-tabs-four-ared" role="tab" aria-controls="custom-tabs-four-ared" aria-selected="false"><i class="fa fa-wifi contrast"></i> Datos Red</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-four-tabContent-actualizar">
-                      <div class="tab-pane fade show active" id="custom-tabs-four-aorden" role="tabpanel" aria-labelledby="custom-tabs-four-aorden-tab">
-                        <div class="form-group">
-                          <label for="actuFolioOrden">Folio Orden:</label>
-                          <input type="number" class="form-control form-control-sm" name="actuFolioOrden" id="actuFolioOrden" placeholder="" readonly>
-                        </div>
-                        <div class="form-group">
-                          <label for="actuNombre">Nombre Cliente:</label>
-                          <input type="text" class="form-control form-control-sm" name="actuNombre" id="actuNombre" placeholder="">
-                        </div>
-                        <div class="form-group">
-                          <label for="actuFechaInst">Fecha de instalación:</label>
-                          <input type="date" class="form-control form-control-sm" name="actuFechaInst" id="actuFechaInst" placeholder="">
-                        </div>
-                        <div class="form-group">
-                          <label for="actuTipoServicio">Tipo de servicio:</label>
-                          <select class="form-control form-control-sm" style="width: 100%;" id="actuTipoServicio" name="actuTipoServicio">
-                            <option>Inalámbrico</option>
-                            <option>Fibra óptica</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="actuTipoIns">Instalación:</label>
-                          <select class="form-control form-control-sm " style="width: 100%;" id="actuTipoIns" name="actuTipoIns">
-                            <option>Nueva</option>
-                            <option>Cambio</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="tab-pane fade" id="custom-tabs-four-ared" role="tabpanel" aria-labelledby="custom-tabs-four-ared-tab">
-
-                      </div>
-                    </div>
-                  </div>
-                  <!-- /.card -->
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <div>
-                <button type="button" class="btn btn-outline-danger" onclick="borrar()">Borrar</button>
-                <button type="button" class="btn btn-outline-warning" onclick="actualizar()">Actualizar</button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-
-    <!-- Control Sidebar -->
-
     <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
-        <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+        <form name="mesDeCorte" action="../panel/corte.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
@@ -666,6 +498,7 @@ $result = mysqli_query($Conexion, $query);
         </form>
       </div>
     </div>
+    <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
       <div class="p-3">
@@ -695,19 +528,18 @@ $result = mysqli_query($Conexion, $query);
   <!-- REQUIRED SCRIPTS -->
 
   <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Select2 -->
   <script src="../plugins/select2/js/select2.full.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.min.js"></script>
-  <!-- bs-custom-file-input -->
-  <script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
   <!-- SweetAlert2 -->
   <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-  <script src="../js/ordenesServicio.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../dist/js/adminlte.min.js"></script>
+  <!-- Page specific script -->
+  <script src="../js/reportesPagos.js"></script>
+  <script src="../js/corte.js"></script>
   <script>
     $(function() {
       //Initialize Select2 Elements
@@ -718,11 +550,7 @@ $result = mysqli_query($Conexion, $query);
         theme: 'bootstrap4'
       })
     })
-    $(function() {
-      bsCustomFileInput.init();
-    });
   </script>
-  <script src="../js/corte.js"></script>
 </body>
 
 </html>

@@ -22,7 +22,7 @@ agregarOrden.addEventListener('submit', (e) => {
                 title: `Información Guardada Correctamente
                 Folio Orden: ${data.folio}`
             })
-            $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
+            $("#tablaOrdenes").load("../panel/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
             $('#modalAgregarOrden').modal('hide');
             reinicar();
         }else if(data.estado == "tipoarchvio"){
@@ -62,7 +62,7 @@ function mostrarTabla(){
     let tipo = $("#filtrotipo").val();
     let instalacion  = $("#filtroins").val();
     tipo = tipo.replace(" ", "%20");
-    $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin + "&tipo=" + tipo + "&instalacion=" + instalacion);
+    $("#tablaOrdenes").load("../panel/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin + "&tipo=" + tipo + "&instalacion=" + instalacion);
 }
 $(document).ready(()=>{
     mostrarTabla();
@@ -96,7 +96,7 @@ const actualizar = () =>{
                 title: `Información Actualizada correctamente
                 Folio Orden: ${data.folio}`
             })
-            $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
+            $("#tablaOrdenes").load("../paneñ/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
             $('#modalActualizarOrden').modal('hide');
         }else{
             Toast.fire({
@@ -124,7 +124,7 @@ const borrar = () =>{
                 title: `Orden eliminada correctamente
                 Folio Orden: ${data.folio}`
             })
-            $("#tablaOrdenes").load("../pages/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
+            $("#tablaOrdenes").load("../panel/tablas/tablaOrdenes.php?fechaInicio=" + fechInicio + "&fechaFin=" + fechaFin);
             $('#modalActualizarOrden').modal('hide');
         }else{
             console.log("no se pudo borrar")

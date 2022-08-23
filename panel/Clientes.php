@@ -1,20 +1,24 @@
 <?php
-set_time_limit(0);
-include '../php/ConexionSQL.php';
-include '../php/meses.php';
-date_default_timezone_set('America/Mexico_City');
-$fecha = date('Y-m-d');
-$consulta = "SELECT NOMBRE, CLIENTE FROM clients";
-$resultadoClientes = sqlsrv_query($Conn, $consulta);
-
-//Corte servicio
+//Consulta mostrar Router Agregados
 include "../php/ConexionMySQL.php";
+include '../php/meses.php';
+include '../php/ConexionSQL.php';
 $query = "SELECT id, Nombre FROM router";
 $result = mysqli_query($Conexion, $query);
-//************************** */
+//****************************
+
+//Consulta para mostrar zonas punto de venta
+$query = "SELECT ZONA, Descrip FROM ZONAS";
+$resultZonas = sqlsrv_query($Conn, $query);
+//************************************* */
+
+//Consulta para mostrar clasificacion punto de venta 
+$query = "SELECT Tipo, Descrip FROM tipos";
+$resultClasi = sqlsrv_query($Conn, $query);
+//*************************************** */
+
+
 ?>
-
-
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -25,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pagos Banco</title>
+  <title>Clientes</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -33,23 +37,67 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="icon" href="../dist/img/Logosinfondo.svg">
   <style>
-    .scrollTablas {
-      max-height: 600px;
+    .scrollTablaClientes {
       overflow: scroll;
-      background-color: transparent;
+      width: 100%;
+      max-height: 600px;
+      height: auto;
     }
 
-    .scrollTablas::-webkit-scrollbar {
+    /* Works on Chrome, Edge, and Safari */
+    .scrollTablaClientes::-webkit-scrollbar {
       width: 8px;
-      /* Tamaño del scroll en vertical */
       height: 8px;
-      /* Tamaño del scroll en horizontal */
+    }
+
+    .scrollTablaClientes::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scrollTablaClientes::-webkit-scrollbar-thumb {
+      background-color: #c1c1c1;
+      border-radius: 20px;
+      border: 1px solid #c1c1c1;
+    }
+
+    .spinner {
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      margin-left: 10px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border-left-color: #f41b35;
+      animation: spin 1s ease infinite;
+    }
+    .estado-cliente{
+      margin-left: 20px;
+      padding: 4px 4px;
+      color: white;
+      font-size: 0.8rem;
+      border-radius: 5px;
       display: none;
-      /* Ocultar scroll */
+    }
+    .activo{
+      background-color: #008b3b;
+    }
+    .suspendido{
+      background-color: #ff0f20;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -65,13 +113,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/Clientes.php" class="nav-link">Clientes</a>
+          <a href="../panel/Clientes.php" class="nav-link">Clientes</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link" data-toggle="modal" data-target="#IntFecha">Reporte Ventas</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../pages/PagosBanco.php" class="nav-link">Pagos Banco</a>
+          <a href="../panel/PagosBanco.php" class="nav-link">Pagos Banco</a>
         </li>
       </ul>
 
@@ -147,7 +195,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </ul>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item menu-open">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-solid fa-users"></i>
                 <p>
@@ -157,7 +205,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./Clientes.php" class="nav-link">
+                  <a href="./Clientes.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Clientes</p>
                   </a>
@@ -194,7 +242,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </ul>
             </li>
 
-            <li class="nav-item menu-open">
+            <li class="nav-item">
               <a href="../index.html" class="nav-link">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>
@@ -204,7 +252,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./PagosBanco.php" class="nav-link active">
+                  <a href="./PagosBanco.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Pagos Banco</p>
                   </a>
@@ -374,7 +422,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Lista de pagos por Banco</h1>
+              <h1 class="m-0">Clientes Punto de Venta</h1>
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -385,73 +433,149 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12 col-sm-12">
+            <div class="col-md-5 col-sm-12">
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
                   <div class="form-row align-items-center">
                     <div class="col-sm-3 my-1">
-                      <select class="form-control form-control-sm" style="width: 100%;" id="mosEsatado">
-                        <option>PENDIENTE</option>
-                        <option>REGISTRADOS</option>
-                        <option>FINALIZADO</option>
-                        <option>TODOS</option>
+                      <h5>Filtrar: </h5>
+                    </div>
+                    <div class="col-sm-4 my-1">
+                      <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="filtZona" name="filtZona">
+                        <option></option>
+                        <?php while ($zona = sqlsrv_fetch_array($resultZonas)) : ?>
+                          <option value="<?= $zona['ZONA'] ?>"><?= $zona['Descrip'] ?></option>
+                        <?php endwhile; ?>
                       </select>
                     </div>
-                    <div class="col-sm-3 my-1">
-                      <select class="form-control form-control-sm" style="width: 100%;" id="mosMes">
-                        <option><?= $mes[0]; ?></option>
-                        <option><?= $mes[1]; ?></option>
-                        <option><?= $mes[2]; ?></option>
-                        <option><?= $mes[3]; ?></option>
-                        <option><?= $mes[4]; ?></option>
-                        <option><?= $mes[5]; ?></option>
-                        <option><?= $mes[6]; ?></option>
-                        <option><?= $mes[7]; ?></option>
-                        <option><?= $mes[8]; ?></option>
-                        <option><?= $mes[9]; ?></option>
-                        <option><?= $mes[10]; ?></option>
-                        <option><?= $mes[11]; ?></option>
-                        <option><?= $mes[12]; ?></option>
-                        <option><?= $mes[13]; ?></option>
-                        <option>OTRO</option>
+                    <div class="col-sm-4 my-1">
+                      <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="filtClasi" name="filtClasi">
+                        <option></option>
+                        <?php while ($clasificacion = sqlsrv_fetch_array($resultClasi)) : ?>
+                          <option value="<?= $clasificacion['Tipo'] ?>"><?= $clasificacion['Descrip'] ?></option>
+                        <?php endwhile; ?>
                       </select>
-                    </div>
-                    <div class="col-auto my-1">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="todosRegistros" id="todosRegistros">
-                        <label class="form-check-label" for="todosRegistros">
-                          Todos los registros
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-2 my-1">
-
-                      <button type="button" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#modalAgregarPago">
-                        <i class="fa fa-plus"></i> Agregar Pago</button>
                     </div>
                   </div>
                 </div>
                 <div class="card-body">
-                  <div class="form-row align-items-center">
-                    <div class="col-sm-5 my-1">
-                      <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                          <button type="button" class="btn btn-danger" id="btnBuscarClientePago" onclick="mostrarTablaPagosBancoCliente()">Buscar <i class="fas fa-caret-square-down"></i></button>
-                        </div>
-                        <!-- /btn-group -->
-                        <input type="text" class="form-control" id="buscarClientePago" placeholder="Presiona flecha abajo o da clic en el boton buscar">
-                      </div>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-danger" id="btnBuscarCliente">Buscar <i class="fas fa-caret-square-down"></i></button>
                     </div>
+                    <!-- /btn-group -->
+                    <input type="text" class="form-control" id="buscarCliente" placeholder="Presiona flecha abajo o da clic en el boton buscar">
+                  </div>
+                  <br>
+                  <div id="tablaClientes" class="scrollTablaClientes">
+
                   </div>
 
-                  <div id="tablaPagosBanco" class="scrollTablas">
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer" id="resultadoCliente">
+                  Numero de resultados
+                </div>
+                <!-- /.card-footer-->
+              </div>
+              <!-- /.card -->
+            </div>
 
+
+            <div class="col-md-7 col-sm-12">
+              <!-- Default box -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Información Cliente</h3>
+                  <h3 class="card-title estado-cliente" id="statusCliente">Suspendido</h3>   
+                  <h3 class="card-title" id="cargando"></h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="forminfo">
+                    <form>
+                      <div class="form-row">
+                        <div class="form-group col-md-2">
+                          <label for="">Clave</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="CLIENTE" id="clave" name="clave" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="">Nombre del cliente</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="NOMBRE" id="nombre" name="nombre" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="">IP</label>
+                          <a href="#" target="_blank" id="vinculoIP">
+                          <input style="cursor: pointer; font-weight: bold;"
+                          type="sumbit" class="form-control form-control-sm" placeholder="IP" id="IP" name="IP" readonly>
+                          </a>
+                          
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label for="">Estado</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="ESTADO" id="estado" name="estado" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="">C. Postal</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="C. POSTAL" id="cp" name="cp" readonly>
+
+                        </div>
+                        <div class="form-group col-md-5">
+                          <label for="">Población</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="POBLACIÓN" id="poblacion" name="poblacion" readonly>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="">Colonia</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="COLONIA" id="colonia" name="colonia" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="">Calle</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="CALLE" id="calle" name="calle" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="">Num.</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="NÚMERO EXTERIOR" id="numero" name="numero" readonly>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-8">
+                          <label for="">Teléfono</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="TELÉFONO" id="telefono" name="telefono" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="">Clas.</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="CLASIFICACIÓN" id="clasificacion" name="clasificacion" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="">Zona</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="ZONA" id="zon" name="zon" readonly>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-2">
+                          <label for="">L. Precio</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="PRECIO" id="precio" name="precio" readonly>
+                        </div>
+                        <div class="form-group col-md-10">
+                          <label for="">Observaciones</label>
+                          <textarea name='observaciones' rows="4" style="min-width: 100%;background-color:#e9ecef;" readonly id="obsr"></textarea>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
                 <!-- /.card-body -->
-                <div class="card-footer" id="text-resultados">
-
+                <div class="card-footer">
+                  <div id="menActivar"></div>
                 </div>
                 <!-- /.card-footer-->
               </div>
@@ -481,7 +605,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               $FechaActual = date("Y-m-01");
               $fechaAnterior = date("Y-m-d", strtotime($FechaActual . "- 5 month"));
               ?>
-              <input class="form-control" type="date" name="FechaRep" value="<?= $fechaAnterior ?>">
+              <input class="form-control" type="date" name="FechaRep" value="<?php echo $fechaAnterior; ?>">
               <div class="mt-3" id='respuesta1'>
                 <!--Muestra Cliente-->
               </div>
@@ -494,196 +618,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </form>
       </div>
     </div>
-
-
-    <div class="modal fade" id="modalAgregarPago">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="agregarPago">
-            <div class="modal-header">
-              <h4 class="modal-title">Información pago</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-3">
-                    <label class="col-form-label" for="nombre">Cliente:</label>
-                    <input list="listaClientes" class="form-control form-control-sm" name="liCliente" id="liCliente">
-                    <datalist id="listaClientes">
-                      <?php while ($listaClientes = sqlsrv_fetch_array($resultadoClientes)) : ?>
-                        <option value="<?= $listaClientes["CLIENTE"] ?>"><?= $listaClientes["NOMBRE"] ?></option>
-                      <?php endwhile; ?>
-                    </datalist>
-                  </div>
-                  <div class="col-9">
-                    <label class="col-form-label" for="nombre"><i class="fas fas fa-user"></i> Nombre:</label>
-                    <input type="text" class="form-control form-control-sm" name="nombre" id="nombre" readonly>
-                    <input type="hidden" class="form-control form-control-sm" name="telefono" id="telefono" readonly>
-                    <input type="hidden" class="form-control form-control-sm" name="poblacion" id="poblacion" readonly>
-                  </div>
-                </div>
-
-              </div>
-              <div class="form-group">
-                <label class="col-form-label" for="numerooperacion"><i class="fas fa-key"></i> Numero de operación:</label>
-                <input class="form-control form-control-sm" type="text" placeholder="" id="numeroOperacion" name="numeroOperacion" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
-              </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-6">
-                    <label class="col-form-label" for="mesPago"><i class="fas fa-calendar"></i> Mes:</label>
-                    <select class="form-control form-control-sm" id="mesPago" name="mesPago">
-                      <option id="mes"><?= $mes[0] ?></option>
-                      <option><?= $mes[1] ?></option>
-                      <option><?= $mes[2] ?></option>
-                      <option><?= $mes[3] ?></option>
-                      <option><?= $mes[4] ?></option>
-                      <option><?= $mes[5] ?></option>
-                      <option><?= $mes[6] ?></option>
-                      <option><?= $mes[7] ?></option>
-                      <option><?= $mes[8] ?></option>
-                      <option><?= $mes[9] ?></option>
-                      <option><?= $mes[10] ?></option>
-                      <option><?= $mes[11] ?></option>
-                      <option><?= $mes[12] ?></option>
-                      <option><?= $mes[13] ?></option>
-                      <option>OTRO</option>
-                    </select>
-                  </div>
-                  <div class="col-6">
-                    <label class="col-form-label" for="pago"><i class="fas fa-dollar-sign"></i> Pago:</label>
-                    <input type="number" class="form-control form-control-sm" placeholder="$0.00" name="pago" id="pago" required>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-6">
-                    <label class="col-form-label" for="formaPago"><i class="fas fa-comment-dollar"></i> Forma de pago:</label>
-                    <select class="form-control form-control-sm" id="formaPago" name="formaPago">
-                      <option id="dep">Deposito</option>
-                      <option id="tran">Transferencia</option>
-                      <option id="efe">Efectivo Almoloya</option>
-                    </select>
-                  </div>
-                  <div class="col-6">
-                    <label class="col-form-label" for="fechaDeposito"><i class="fas fa-calendar-day"></i> Fecha deposito:</label>
-                    <input type="date" class="form-control form-control-sm" name="fechaDeposito" id="fechaDeposito" value="<?= $fecha ?>">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-form-label" for="observacion"><i class="fas fa-eye"></i> Observaciones:</label>
-                <textarea class="form-control" rows="2" placeholder="..." name="observacion" id="observacion"></textarea>
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-outline-success">Guardar</button>
-            </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-    <div class="modal fade" id="modalActualizarPago">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Información pago</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-12">
-                  <label class="col-form-label" for="nombre"><i class="fas fas fa-user"></i> Nombre:</label>
-                  <input type="text" class="form-control form-control-sm" name="Anombre" id="Anombre" readonly>
-                  <input type="hidden" class="form-control form-control-sm" name="Aid" id="Aid" readonly>
-                </div>
-              </div>
-
-            </div>
-            <div class="form-group">
-              <label class="col-form-label" for="numerooperacion"><i class="fas fa-key"></i> Numero de operación:</label>
-              <input class="form-control form-control-sm" type="text" placeholder="" id="AnumeroOperacion" name="AnumeroOperacion" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-6">
-                  <label class="col-form-label" for="mesPago"><i class="fas fa-calendar"></i> Mes:</label>
-                  <select class="form-control form-control-sm" id="AmesPago" name="AmesPago">
-                    <option id="mes"><?= $mes[0] ?></option>
-                    <option><?= $mes[1] ?></option>
-                    <option><?= $mes[2] ?></option>
-                    <option><?= $mes[3] ?></option>
-                    <option><?= $mes[4] ?></option>
-                    <option><?= $mes[5] ?></option>
-                    <option><?= $mes[6] ?></option>
-                    <option><?= $mes[7] ?></option>
-                    <option><?= $mes[8] ?></option>
-                    <option><?= $mes[9] ?></option>
-                    <option><?= $mes[10] ?></option>
-                    <option><?= $mes[11] ?></option>
-                    <option><?= $mes[12] ?></option>
-                    <option><?= $mes[13] ?></option>
-                    <option>OTRO</option>
-                  </select>
-                </div>
-                <div class="col-6">
-                  <label class="col-form-label" for="pago"><i class="fas fa-dollar-sign"></i> Pago:</label>
-                  <input type="number" class="form-control form-control-sm" placeholder="$0.00" name="Apago" id="Apago" required>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-6">
-                  <label class="col-form-label" for="formaPago"><i class="fas fa-comment-dollar"></i> Forma de pago:</label>
-                  <select class="form-control form-control-sm" id="AformaPago" name="AformaPago">
-                    <option id="dep">Deposito</option>
-                    <option id="tran">Transferencia</option>
-                    <option id="efe">Efectivo Almoloya</option>
-                  </select>
-                </div>
-                <div class="col-6">
-                  <label class="col-form-label" for="fechaDeposito"><i class="fas fa-calendar-day"></i> Fecha deposito:</label>
-                  <input type="date" class="form-control form-control-sm" name="AfechaDeposito" id="AfechaDeposito" value="<?= $fecha ?>">
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-form-label" for="observacion"><i class="fas fa-eye"></i> Observaciones:</label>
-              <textarea class="form-control" rows="2" placeholder="..." name="Aobservacion" id="Aobservacion"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <div>
-              <button type="button" onclick="borrarPago()" class="btn btn-outline-danger">Borrar</button>
-              <button type="button" onclick="actualizarPago()" class="btn btn-outline-warning">Actualizar</button>
-            </div>
-
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-
     <div class="modal fade bs-example-modal-sm" id="mesCorte" tabindex="-1" role="dialog" aria-labelledby="SeleccionaMes" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
-        <form name="mesDeCorte" action="../pages/corte.php" method="POST">
+        <form name="mesDeCorte" action="../panel/corte.php" method="POST">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="tituloModal">Selecciona el mes de corte</h5>
@@ -740,19 +677,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.min.js"></script>
+  <!-- Select2 -->
+  <script src="../plugins/select2/js/select2.full.min.js"></script>
   <!-- SweetAlert2 -->
   <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
-  <script src="../js/pagosBanco.js"></script>
-  <script>
-    $(document).ready(() => {
-      let mes = "<?= $mes[0] ?>";
-      mes = mes.replace(" ", "%20");
-      $("#tablaPagosBanco").load("../pages/tablas/tablaPagosBanco.php?estado=PENDIENTE&mes=" + mes + "&todosreg=off");
-    });
-  </script>
+  <!-- AdminLTE App -->
+  <script src="../dist/js/adminlte.min.js"></script>
+  <script src="../js/clientes.js"></script>
   <script src="../js/corte.js"></script>
+  <script>
+    $(function() {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+  </script>
 </body>
 
 </html>
