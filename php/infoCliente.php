@@ -4,7 +4,7 @@ include './ConexionSQLC.php';
 require_once "./ConexionMySQL.php";
 require_once "./apiMikrotik.php";
 
-$cliente = $_POST['cliente'] ?? $_GET['cliente'];
+$cliente = $_POST['cliente'];
 $data = array();
 
 
@@ -36,18 +36,20 @@ if ($informacion["TIPO"] != "BAJA") {
 
     $API = new routeros_api();
     $API->debug = false;
-    $name = "OSCAR CHAVEZ YA\D1EZ";
     if ($API->connect($ipRouteros, $Username, $Pass, $api_puerto)) {
         $API->write("/queue/simple/print", false);
         $API->write("?name=".$SinFormato["NOMBRE"], true);
         $READ = $API->read(false);
         $ARRAY = $API->parse_response($READ);
+        if($tipo == "IFO" && isset($ARRAY[0]['target'])){
+            $API->write("/ip/dhcp-server/lease/print",false);
+            $API->write("?address=".substr($ARRAY[0]['target'], 0, -3), true);
+            $READ = $API->read(false);
+            $ARRAY2 = $API->parse_response($READ);
+        }
     }
 }
-
-
-
-
+$data["estadoDHCP"] = $ARRAY2[0]["status"] ?? "NO";
 $data['estado'] = "si";
 $data['info']  = $informacion;
 $data["target"] = $ARRAY[0]["target"] ?? "No se encontro IP";

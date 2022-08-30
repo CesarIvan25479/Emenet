@@ -4,21 +4,21 @@ document.getElementById("buscarCliente").addEventListener('keydown', () => {
         cargarTabla();
     }
 });
-const estadoCliente = document.getElementById("statusCliente");
+
 document.getElementById("btnBuscarCliente").addEventListener('click', () => {
     cargarTabla();
 });
 
 $(document).ready(() => {
-    $("#filtClasi").on("change", ()=>{
+    $("#filtClasi").on("change", () => {
         cargarTabla();
     })
-    $("#filtZona").on("change", ()=>{
+    $("#filtZona").on("change", () => {
         cargarTabla();
     })
 })
 
-const cargarTabla = ()=>{
+const cargarTabla = () => {
     let nombre = document.getElementById("buscarCliente").value;
     let zona = document.getElementById("filtZona").value;
     let clasi = document.getElementById("filtClasi").value;
@@ -110,6 +110,40 @@ function desactivar(datos) {
         });
     }
 }
+
+function statusDHCP(data) {
+    if (data.estadoDHCP == "NO") {
+        estadoDHCP.style.display = "none";
+    } else {
+        if (data.estadoDHCP == "bound") {
+            estadoDHCP.classList.remove("suspendido");
+            estadoDHCP.classList.add("activo");
+            estadoDHCP.innerText = data.estadoDHCP;
+            estadoDHCP.style.display = "block";
+        } else {
+
+            estadoDHCP.classList.remove("activo");
+            estadoDHCP.classList.add("suspendido");
+            estadoDHCP.innerText = data.estadoDHCP;
+            estadoDHCP.style.display = "block";
+        }
+
+    }
+}
+function statusQUEUE (data){
+    const estadoCliente = document.getElementById("statusCliente");
+    if (data.status == "1000/1000" || data.status == "Inactivo") {
+        estadoCliente.classList.remove("activo");
+        estadoCliente.classList.add("suspendido");
+        estadoCliente.innerText = data.status != "Inactivo" ? "Suspendido" : "Inactivo";
+        estadoCliente.style.display = "block";
+    } else {
+        estadoCliente.classList.remove("suspendido");
+        estadoCliente.classList.add("activo");
+        estadoCliente.innerText = "Activo"
+        estadoCliente.style.display = "block";
+    }
+}
 function InfoCliente(datos) {
     cadena = 'cliente=' + datos;
     const cargando = document.getElementById("cargando");
@@ -135,18 +169,13 @@ function InfoCliente(datos) {
                 document.getElementById('obsr').value = data.info.OBSERV;
                 document.getElementById("numero").value = data.info.NUMERO;
                 document.getElementById('IP').value = data.target.slice(0, -3);
-                document.getElementById("vinculoIP").href = "http://"+ data.target.slice(0, -3);
-                if(data.status == "1000/1000" || data.status == "Inactivo"){
-                    estadoCliente.classList.remove("activo");
-                    estadoCliente.classList.add("suspendido");
-                    estadoCliente.innerText = data.status != "Inactivo" ? "Suspendido" : "Inactivo";
-                    estadoCliente.style.display = "block";
-                }else{
-                    estadoCliente.classList.remove("suspendido");
-                    estadoCliente.classList.add("activo");
-                    estadoCliente.innerText = "Activo"
-                    estadoCliente.style.display = "block";
-                }
+                document.getElementById("vinculoIP").href = "http://" + data.target.slice(0, -3);
+                
+                //Verifica el estatus del QUEUE
+                statusQUEUE(data);
+                //Verifica el estatus del DHCP leases
+                statusDHCP(data);
+
                 cargando.innerHTML = "";
             } else {
                 console.log("No conectado")
