@@ -112,6 +112,7 @@ function desactivar(datos) {
 }
 
 function statusDHCP(data) {
+    const estadoDHCP = document.getElementById("statusDHCP");
     if (data.estadoDHCP == "NO") {
         estadoDHCP.style.display = "none";
     } else {
