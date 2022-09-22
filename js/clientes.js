@@ -18,6 +18,8 @@ $(document).ready(() => {
     })
 })
 
+const estadoCliente = document.getElementById("statusCliente");
+
 const cargarTabla = () => {
     let nombre = document.getElementById("buscarCliente").value;
     let zona = document.getElementById("filtZona").value;
@@ -132,7 +134,6 @@ function statusDHCP(data) {
     }
 }
 function statusQUEUE (data){
-    const estadoCliente = document.getElementById("statusCliente");
     if (data.status == "1000/1000" || data.status == "Inactivo") {
         estadoCliente.classList.remove("activo");
         estadoCliente.classList.add("suspendido");
