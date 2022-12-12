@@ -1,35 +1,18 @@
 <?php
-//Consulta mostrar Router Agregados
+//Corte servicio
 include "../php/ConexionMySQL.php";
 include '../php/meses.php';
-include '../php/ConexionSQL.php';
 $query = "SELECT id, Nombre FROM router";
 $result = mysqli_query($Conexion, $query);
-//****************************
-
-//Consulta para mostrar zonas punto de venta
-$query = "SELECT ZONA, Descrip FROM ZONAS";
-$resultZonas = sqlsrv_query($Conn, $query);
-//************************************* */
-
-//Consulta para mostrar clasificacion punto de venta 
-$query = "SELECT Tipo, Descrip FROM tipos";
-$resultClasi = sqlsrv_query($Conn, $query);
-//*************************************** */
-
-
+//************************** */
 ?>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clientes</title>
+  <title>Equipos OLT</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -37,59 +20,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="icon" href="../dist/img/Logosinfondo.svg">
   <!-- Select2 -->
   <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <link rel="icon" href="../dist/img/Logosinfondo.svg">
+  <!-- Paginar Tabla-->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
   <style>
-    .scrollTablaClientes {
-      overflow: scroll;
-      width: 100%;
-      max-height: 600px;
-      height: auto;
+    .modal-body input:required {
+      border: 1px solid red;
     }
 
-    /* Works on Chrome, Edge, and Safari */
-    .scrollTablaClientes::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    .scrollTablaClientes::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .scrollTablaClientes::-webkit-scrollbar-thumb {
-      background-color: #c1c1c1;
-      border-radius: 20px;
-      border: 1px solid #c1c1c1;
+    .modal-body textarea:required {
+      border: 1px solid red;
     }
 
     .spinner {
       border: 5px solid rgba(0, 0, 0, 0.1);
-      margin-left: 10px;
-      width: 25px;
-      height: 25px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
-      border-left-color: #f41b35;
+      border-left-color: #09f;
+
       animation: spin 1s ease infinite;
     }
-    .estado-cliente{
-      margin-left: 20px;
-      padding: 4px 4px;
-      color: white;
-      font-size: 0.8rem;
-      border-radius: 5px;
-      display: none;
-    }
-    .activo{
-      background-color: #008b3b;
-    }
-    .suspendido{
-      background-color: #ff0f20;
-    }
+
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -195,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </ul>
             </li>
 
-            <li class="nav-item menu-open">
+            <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-solid fa-users"></i>
                 <p>
@@ -205,7 +162,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./Clientes.php" class="nav-link active">
+                  <a href="./Clientes.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Clientes</p>
                   </a>
@@ -234,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./OrdenesInstalacion.php" class="nav-link">
+                  <a href="./OrdenesInstalacion.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ordenes Instalación</p>
                   </a>
@@ -266,8 +223,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </ul>
             </li>
 
-            <li class="nav-item">
-              <a href="#" class="nav-link">
+            <li class="nav-item menu-open">
+              <a href="../index.html" class="nav-link">
                 <i class="nav-icon fas fa-sitemap"></i>
                 <p>
                   Sistema
@@ -276,7 +233,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./routers.php" class="nav-link">
+                  <a href="./routers.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Router</p>
                   </a>
@@ -284,8 +241,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item">
                   <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Corte</p>
-                    <i class="right fas fa-angle-left"></i>
+                    <p>
+                      Corte
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
                   </a>
                   <ul class="nav nav-treeview">
                     <?php while ($router = mysqli_fetch_array($result)) : ?>
@@ -359,15 +318,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./equiposOLT.php" class="nav-link">
+                  <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>OLT´s</p>
+                    <p>Proximamente...</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./adjuntar.php" class="nav-link">
+                  <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Adjuntar Servidios</p>
+                    <p>Proximamente...</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -422,7 +381,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Clientes Punto de Venta</h1>
+              <h1 class="m-0">Lista de equipos</h1>
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -433,150 +392,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-5 col-sm-12">
+            <div class="col-md-12 col-sm-12">
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
                   <div class="form-row align-items-center">
-                    <div class="col-sm-3 my-1">
-                      <h5>Filtrar: </h5>
-                    </div>
-                    <div class="col-sm-4 my-1">
-                      <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="filtZona" name="filtZona">
-                        <option></option>
-                        <?php while ($zona = sqlsrv_fetch_array($resultZonas)) : ?>
-                          <option value="<?= $zona['ZONA'] ?>"><?= $zona['Descrip'] ?></option>
-                        <?php endwhile; ?>
-                      </select>
-                    </div>
-                    <div class="col-sm-4 my-1">
-                      <select class="form-control form-control-sm select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="filtClasi" name="filtClasi">
-                        <option></option>
-                        <?php while ($clasificacion = sqlsrv_fetch_array($resultClasi)) : ?>
-                          <option value="<?= $clasificacion['Tipo'] ?>"><?= $clasificacion['Descrip'] ?></option>
-                        <?php endwhile; ?>
-                      </select>
+                    <div class="col-sm-2 my-1">
+                      <button type="button" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#modalAgregarOlt">
+                        <i class="fa fa-plus"></i> Agregar OLT</button>
                     </div>
                   </div>
                 </div>
                 <div class="card-body">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <button type="button" class="btn btn-danger" id="btnBuscarCliente">Buscar <i class="fas fa-caret-square-down"></i></button>
-                    </div>
-                    <!-- /btn-group -->
-                    <input type="text" class="form-control" id="buscarCliente" placeholder="Presiona flecha abajo o da clic en el boton buscar">
-                  </div>
-                  <br>
-                  <div id="tablaClientes" class="scrollTablaClientes">
+                  <div id="contTablaOlt">
 
-                  </div>
-
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer" id="resultadoCliente">
-                  Numero de resultados
-                </div>
-                <!-- /.card-footer-->
-              </div>
-              <!-- /.card -->
-            </div>
-
-
-            <div class="col-md-7 col-sm-12">
-              <!-- Default box -->
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Información Cliente</h3>
-                  <h3 class="card-title estado-cliente" id="statusCliente">Suspendido</h3>
-                  <h3 class="card-title estado-cliente" id="statusDHCP">Bound</h3>      
-                  <h3 class="card-title" id="cargando"></h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div id="forminfo">
-                    <form>
-                      <div class="form-row">
-                        <div class="form-group col-md-2">
-                          <label for="">Clave</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="CLIENTE" id="clave" name="clave" readonly>
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label for="">Nombre del cliente</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="NOMBRE" id="nombre" name="nombre" readonly>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label for="">IP</label>
-                          <a href="#" target="_blank" id="vinculoIP">
-                          <input style="cursor: pointer; font-weight: bold;"
-                          type="sumbit" class="form-control form-control-sm" placeholder="IP" id="IP" name="IP" readonly>
-                          </a>
-                          
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-md-4">
-                          <label for="">Estado</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="ESTADO" id="estado" name="estado" readonly>
-                        </div>
-                        <div class="form-group col-md-3">
-                          <label for="">C. Postal</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="C. POSTAL" id="cp" name="cp" readonly>
-
-                        </div>
-                        <div class="form-group col-md-5">
-                          <label for="">Población</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="POBLACIÓN" id="poblacion" name="poblacion" readonly>
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label for="">Colonia</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="COLONIA" id="colonia" name="colonia" readonly>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label for="">Calle</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="CALLE" id="calle" name="calle" readonly>
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="">Num.</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="NÚMERO EXTERIOR" id="numero" name="numero" readonly>
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-md-8">
-                          <label for="">Teléfono</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="TELÉFONO" id="telefono" name="telefono" readonly>
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="">Clas.</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="CLASIFICACIÓN" id="clasificacion" name="clasificacion" readonly>
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="">Zona</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="ZONA" id="zon" name="zon" readonly>
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-md-2">
-                          <label for="">L. Precio</label>
-                          <input type="text" class="form-control form-control-sm" placeholder="PRECIO" id="precio" name="precio" readonly>
-                        </div>
-                        <div class="form-group col-md-10">
-                          <label for="">Observaciones</label>
-                          <textarea name='observaciones' rows="4" style="min-width: 100%;background-color:#e9ecef;" readonly id="obsr"></textarea>
-                        </div>
-                      </div>
-                    </form>
                   </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <div id="menActivar"></div>
                 </div>
                 <!-- /.card-footer-->
               </div>
@@ -590,6 +423,180 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <div class="modal fade" id="modalAgregarOlt">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="agregarOlt" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h4 class="modal-title">Información OLT</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="nombreolt" class="col-sm-3 col-form-label">Nombre: </label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm"
+                    id="nombreolt" name="nombreolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="servidorolt" class="col-sm-3 col-form-label">Servidor:</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" data-inputmask="'alias': 'ip'" data-mask name="servidorolt" id="servidorolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="usuarioolt" class="col-sm-3 col-form-label">Usuario:</label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" name="usuarioolt" id="usuarioolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="passwordolt" class="col-sm-3 col-form-label">Contraseña:</label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                    </div>
+                    <input type="password" class="form-control form-control-sm" name="passwordolt" id="passwordolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="puertoTelnet" class="col-sm-3 col-form-label">Puerto Telnet: </label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                    </div>
+                    <input type="number" class="form-control form-control-sm" name="puertoTelnet" id="puertoTelnet">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <div>
+                <button type="button" class="btn btn-outline-info" onclick="conexion()" id="btn-comprobar">Comprobar Conexión<div id="verificando"></div></button>
+                <button type="button" class="btn btn-outline-success" onclick="agregarOLT()">Guradar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="modalActualizarOlt">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="actualizarOlt" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h4 class="modal-title">Información OLT</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="anombreolt" class="col-sm-3 col-form-label">Nombre: </label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
+                    </div>
+                    <input type="hidden" class="form-control form-control-sm"
+                    id="aidolt" name="idolt">
+                    <input type="text" class="form-control form-control-sm"
+                    id="anombreolt" name="nombreolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="aservidorolt" class="col-sm-3 col-form-label">Servidor:</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" data-inputmask="'alias': 'ip'" data-mask name="servidorolt" 
+                    id="aservidorolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="ausuarioolt" class="col-sm-3 col-form-label">Usuario:</label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" name="usuarioolt" id="ausuarioolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="apasswordolt" class="col-sm-3 col-form-label">Contraseña:</label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-eye"></i></span>
+                    </div>
+                    <input type="password" class="form-control form-control-sm" name="passwordolt" id="apasswordolt">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="apuertoTelnet" class="col-sm-3 col-form-label">Puerto Telnet: </label>
+                <div class="col-sm-9">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                    </div>
+                    <input type="number" class="form-control form-control-sm" name="puertoTelnet" id="apuertoTelnet">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <div>
+                <button type="button" class="btn btn-outline-info" onclick="aconexion()" id="abtn-comprobar">Comprobar Conexión</button>
+                <button type="button" class="btn btn-outline-danger" onclick="borrarOLT()">Borrar</button>
+                <button type="button" class="btn btn-outline-warning" onclick="actualizarOLT()">Actualizar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
 
     <div class="modal fade bs-example-modal-sm" id="IntFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
@@ -680,13 +687,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Select2 -->
   <script src="../plugins/select2/js/select2.full.min.js"></script>
-  <!-- SweetAlert2 -->
-  <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
-  <script src="../js/clientes.js"></script>
+  <!-- bs-custom-file-input -->
+  <script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <!-- InputMask -->
+  <script src="../plugins/moment/moment.min.js"></script>
+  <script src="../plugins/inputmask/jquery.inputmask.min.js"></script>
+  <script src="../js/olt.js"></script>
   <script src="../js/corte.js"></script>
   <script>
+    $(document).ready(() => {
+      $('#contTablaOlt').load("./tablas/tablaOlts.php");
+    });
     $(function() {
       //Initialize Select2 Elements
       $('.select2').select2()
@@ -695,6 +711,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $('.select2bs4').select2({
         theme: 'bootstrap4'
       })
+
+      $('[data-mask]').inputmask()
     })
   </script>
 </body>

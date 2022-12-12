@@ -13,6 +13,29 @@ $MesActual = str_replace('.','',$MesActual);
 $MesActual = strtoupper($MesActual);
 //*********************** ************************************
 
+
+$planFibra = [
+    'IFO' => [
+        "PLAN15" => '15M/15M',
+        'PLAN25' => '25M/25M',
+        'PLAN35' => '35M/35M',
+        'PLAN50' => '50M/50M',
+        'PLAN100' => '100M/100M',
+        'PLAN200' => '200M/200M'
+    ],
+    'INA' => [
+        "PLAN6" => '3M/6M',
+        'PLAN9' => '5M/9M',
+        'PLAN12' => '6M/12M',
+        'PLAN15' => '6M/15M',
+        'PLAN1015' => '10M/15M',
+        'PLAN20' => '10M/20M',
+        'PLAN30' => '15M/30M',
+        'PLAN50' => '25M/50M',
+        'PLAN10' => '5M/10M',
+    ]
+];
+
 //Consulta para sacar plan de internet y servicios por cliente 
 $consulta = "SELECT  OBSERV, DATOS =
 CASE CHARINDEX ('(', OBSERV)
@@ -70,7 +93,7 @@ if($opcion == "Mostrar y Activar"){
                 $ARRAY = $API->comm("/queue/simple/disable",  
                 array("numbers"=>$datosActivar['NOMBRE']));
                 $ARRAY = $API->comm("/queue/simple/set",  
-                array("numbers"=>$datosActivar['NOMBRE'],"max-limit" =>$planInternet[0]));
+                array("numbers"=>$datosActivar['NOMBRE'],"max-limit" =>$planFibra[$datosActivar['TIPO']][$planInternet[0]]));
                 $data['estadoReporte'] = "corriente";
             }else{
                 $data['estadoReporte'] = "sinconexion";
@@ -82,7 +105,7 @@ if($opcion == "Mostrar y Activar"){
                 $API->write("/system/ident/getall",true);
                 $READ = $API->read(false);
                 $ARRAY = $API->comm("/queue/simple/set",  
-                array("numbers"=>$datosActivar['NOMBRE'],"max-limit" =>$planInternet[0]));
+                array("numbers"=>$datosActivar['NOMBRE'],"max-limit" =>$planFibra[$datosActivar['TIPO']][$planInternet[0]]));
                 $data['estadoReporte'] = "corriente";
             }else{
                 $data['estadoReporte'] = "sinconexion";
@@ -91,7 +114,7 @@ if($opcion == "Mostrar y Activar"){
         
         $data['nombreRouter'] = $datosRouter['Nombre'];
         $data['ipRouter'] = $datosRouter['IP'];
-        $data['plan'] = $planInternet[0];
+        $data['plan'] = $planFibra[$datosActivar['TIPO']][$planInternet[0]];
         $data['estado'] = "mostrarActivar";
     }else{
         $data['estadoReporte'] = "adeudo";
