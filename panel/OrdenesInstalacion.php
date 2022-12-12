@@ -489,11 +489,12 @@ $result = mysqli_query($Conexion, $query);
                       <div class="tab-pane fade show active" id="custom-tabs-four-orden" role="tabpanel" aria-labelledby="custom-tabs-four-orden-tab">
                         <div class="form-group">
                           <label for="folioOrden">Folio Orden:</label>
-                          <input type="number" class="form-control form-control-sm" name="folioOrden" id="folioOrden" placeholder="">
+                          <input type="number" class="form-control form-control-sm" required name="folioOrden" id="folioOrden" placeholder="">
                         </div>
                         <div class="form-group">
                           <label for="nombre">Nombre Cliente:</label>
-                          <select class="form-control form-control-sm select2" style="width: 100%;" id="nombre" name="nombre">
+                          <select class="form-control form-control-sm select2" style="width: 100%;"  required id="nombre" name="nombre">
+                              <option value=""></option>
                             <?php while ($clientes = sqlsrv_fetch_array($resultadoClientes)) : ?>
                               <option value="<?= $clientes['NOMBRE'] ?>"><?= $clientes['NOMBRE'] ?></option>
                             <?php endwhile; ?>
@@ -501,7 +502,7 @@ $result = mysqli_query($Conexion, $query);
                         </div>
                         <div class="form-group">
                           <label for="fechaInst">Fecha de instalación:</label>
-                          <input type="date" class="form-control form-control-sm" name="fechaInst" id="fechaInst" placeholder="">
+                          <input type="date" class="form-control form-control-sm" required name="fechaInst" id="fechaInst" placeholder="">
                         </div>
                         <div class="form-group">
                           <label for="TipoServicio">Tipo de servicio:</label>
